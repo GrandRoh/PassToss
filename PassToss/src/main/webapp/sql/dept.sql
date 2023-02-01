@@ -24,7 +24,7 @@ create table comment_dept(
 	id					varchar2(30) 	references member(id),
 	content				varchar2(200),
 	comment_date		DATE default sysdate,
-	comment_board_num	number		references board_dept(board_re_ref)on delete cascade,	--comm 테이블이 참조하는 보드 글 번호
+	comment_board_num	number		references board_dept(board_num)on delete cascade,	--comm 테이블이 참조하는 보드 글 번호
 	comment_re_lev		number(1)	check(comment_re_lev in (0,1,2)), --원문이면 0 답글이면 1 답글 2개까지
 	comment_re_seq		number, -- 원문이면 0, 1레벨이면 시퀀스 +1
 	comment_re_ref 		number 	--원문은 자신 글번호, 답글이면 원문 글번호
