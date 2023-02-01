@@ -6,6 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-  1. 처음으로 만든 파일
+  1. 처음으로 만든 파일2
 </body>
 </html>
