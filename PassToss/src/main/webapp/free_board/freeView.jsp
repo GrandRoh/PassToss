@@ -107,10 +107,15 @@
 	  	 			</li>
 	  	 		</c:if>
 	  	 		<c:if test="${page > 1}">
-	  	 			<li class="page-item">
-	  	 			  <a href="FreeList.bof?page=${page-1}" 
-	  	 			     class="page-link">이전 &nbsp;</a> 
-	  	 			</li>
+	  	 			<c:url var="prev" value="FreeList.bof">
+	  	 	  		<c:param name="search_field" value="${search_field}" />
+	  	 	  		<c:param name="search_word" value="${search_word}" />
+	  	 	  		<c:param name="page" 	value="${page-1}" />
+	  	 	  	</c:url>
+	  	 		<li class="page-item">
+	  	 		  <a href="${prev}"
+	  	 		     class="page-link">&nbsp;다음</a>
+	  	 		</li>
 	  	 		</c:if>
 	  	 	
 	  	 		<c:forEach var="a" begin="${startpage}" end="${endpage}">
@@ -119,12 +124,17 @@
 	  	 	  			<a class="page-link">${a}</a>
 	  	 	  		</li>
 	  	 	 	 </c:if>
-	  	 	 	 <c:if test="${a != page}">
+	  	 	 		 <c:if test="${a != page}">
+	  	 	  			<c:url var="go" value="memberList.net">
+	  	 	  			<c:param name="search_field" value="${search_field}" />
+	  	 	  			<c:param name="search_word" value="${search_word}" />
+	  	 	  			<c:param name="page" 	value="${a}" />
+	  	 	  		</c:url>
 	  	 	  		<li class="page-item">
-	  	 	  			<a href="FreeList.bof?page=${a}"
-	  	 	  			   class="page-link">${a}</a>
+	  	 	  			<a href="${go}"
+	  	 	  		  	 class="page-link">${a}</a>
 	  	 	  		</li>
-	  	 	  	</c:if>
+	  	 	  		</c:if>
 	  	 		</c:forEach>
 	  	 	
 	  	 		<c:if test="${page >= maxpage}">
@@ -133,10 +143,15 @@
 	  	 			</li>
 	  	 		</c:if>
 	  	 		<c:if test="${page < maxpage}">
-	  	 			<li class="page-item">
-	  	 		 	 <a href="FreeList.bof?page=${page+1}"
-	  	 		  	   class="page-link">&nbsp;다음</a>
-	  	 			</li>
+	  	 			<c:url var="next" value="FreeList.bof">
+	  	 	  		<c:param name="search_field" value="${search_field}" />
+	  	 	  		<c:param name="search_word" value="${search_word}" />
+	  	 	  		<c:param name="page" 	value="${page+1}" />
+	  	 	  	</c:url>
+	  	 		<li class="page-item">
+	  	 		  <a href="${next}"
+	  	 		     class="page-link">&nbsp;다음</a>
+	  	 		</li>
 	  	 		</c:if>
 	  		 </ul>
 	 	 </div>

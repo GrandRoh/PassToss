@@ -12,8 +12,11 @@ public class BoardFreeListAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		ActionForward forward = new ActionForward();
+		forward.setRedirect(false); 
+		forward.setPath("board/freeView.jsp"); 
+		return forward;
 		
-		return null;
 	}
 
 }
