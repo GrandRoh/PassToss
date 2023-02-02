@@ -21,11 +21,11 @@ public class Business_status_Action extends HttpServlet {
     private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
     	String RequestURI = request.getRequestURI();
-    	System.out.println("RequestURI = " + RequestURI);
+    	//System.out.println("RequestURI = " + RequestURI);
     	
 
     	String contextPath = request.getContextPath();
-    	System.out.println("contextPath = " + contextPath);
+    	//System.out.println("contextPath = " + contextPath);
 
     	String command = RequestURI.substring(contextPath.length());
     	System.out.println("command = " + command);
@@ -36,14 +36,18 @@ public class Business_status_Action extends HttpServlet {
     	
     	
     	switch(command) {
-    	case "/Business_status.bs":
-    		action = new Business_Status_list();
-    		break;
-    		
-    	
-    	
-    		
-    		
+	    	case "/Business_status.bs":
+	    		action = new Business_Status_list();
+	    		break;
+	    		
+	    	case "/BusinessAddAction.bs":
+	    		action = new BusinessAddAction();
+	    		break;
+	    		
+	    	case "/BusinessDeleteAction.bs":
+	    		action = new BusinessDeleteAction();
+	    		break;
+
     		
     		
     	}
