@@ -19,6 +19,8 @@ create table member(
 
 alter table member add profileImg varchar2(50)		-- 프로필사진 경로
 
+alter table  member modify authority default 0; -- 회원가입 시 기본값 0(준회원)
+
 select * from member;
 
 insert into dept
