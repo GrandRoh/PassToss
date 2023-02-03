@@ -6,9 +6,6 @@
 <title>ADMIN - 회원가입 목록</title>
 
 <style>
-table {
-	margin-left: 200px;
-}
 </style>
 </head>
 <body>
