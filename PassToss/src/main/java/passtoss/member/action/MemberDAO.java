@@ -80,7 +80,8 @@ public class MemberDAO {
 			String sql = "select * "
 						+ "from (select m.*, rownum r "
 						+ "		 from (select * from member "
-						+ "		 	   where authority = 0) m "
+						+ "		 	   where authority = 0 "
+						+ "			   order by joindate desc) m "	//가장 최근에 가입한 순으로 정렬
 						+ "		 where rownum <= ? "
 						+ "		) "
 						+ "where r between ? and ?";
@@ -205,7 +206,7 @@ public class MemberDAO {
 			
 			pstmt.setInt(2, endrow);
 			pstmt.setInt(3, startrow);
-			pstmt.setInt(4, endrow);			
+			pstmt.setInt(4, endrow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Member m = new Member();
@@ -218,7 +219,7 @@ public class MemberDAO {
 				m.setPhone(rs.getString("phone"));
 				m.setAddress(rs.getString("address"));
 				m.setAuthority(rs.getInt("authority"));
-				m.setProfileImg(rs.getString("profifleImg"));
+				m.setProfileImg(rs.getString("profileImg"));
 				list.add(m);
 			}
 		} catch (Exception se) {

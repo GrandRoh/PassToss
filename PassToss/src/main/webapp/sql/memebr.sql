@@ -21,39 +21,39 @@ alter table member add profileImg varchar2(50)		-- 프로필사진 경로
 
 alter table  member modify authority default 0; -- 회원가입 시 기본값 0(준회원)
 
--- alter table member add joindate date default sysdate; -- 가입날짜
+alter table member add joindate date default sysdate; -- 가입날짜
 
 select * from member;
 
 delete member
 
 insert into member
-values('admin','1234','염재영','960103-1234567',0,'duawodud66@naver.com','010-6233-0272','경기도 고양시 일산서구',2,'');
+values('admin','1234','염재영','960103-1234567',0,'duawodud66@naver.com','010-6233-0272','경기도 고양시 일산서구',2,'',sysdate);
 
 insert into member
-values('a1234','1234','a','960101-1234567',10,'a1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('a1234','1234','a','960101-1234567',10,'a1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('b1234','1234','b','960102-1489212',20,'b1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('b1234','1234','b','960102-1489212',20,'b1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('c1234','1234','c','960103-1234567',30,'c1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('c1234','1234','c','960103-1234567',30,'c1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('d1234','1234','d','960104-1234567',40,'d1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('d1234','1234','d','960104-1234567',40,'d1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('e1234','1234','e','960105-1234567',10,'e1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('e1234','1234','e','960105-1234567',10,'e1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('f1234','1234','f','960106-1234567',20,'f1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('f1234','1234','f','960106-1234567',20,'f1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('g1234','1234','g','960107-1234567',30,'g1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('g1234','1234','g','960107-1234567',30,'g1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('h1234','1234','h','960108-1234567',40,'h1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('h1234','1234','h','960108-1234567',40,'h1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('i1234','1234','i','960109-1234567',10,'i1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('i1234','1234','i','960109-1234567',10,'i1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('j1234','1234','j','960110-1234567',20,'j1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('j1234','1234','j','960110-1234567',20,'j1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('k1234','1234','k','960111-1234567',30,'k1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('k1234','1234','k','960111-1234567',30,'k1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
-values('l1234','1234','l','960112-1234567',40,'l1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'');
+values('l1234','1234','l','960112-1234567',40,'l1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 
 
 
@@ -79,3 +79,12 @@ values(40, '4팀');
 
 
 select * from dept
+
+select * 
+from (select m.*, rownum r 
+	from (select * from member 
+			where authority = 0
+			order by joindate desc) m
+	where rownum <= 10
+	)
+where r between 1 and 10
