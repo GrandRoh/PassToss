@@ -1,4 +1,4 @@
-drop table board_dept;
+drop table board_dept cascade constraints purge;
 
 create table board_dept(
 BOARD_NUM		NUMBER(5) 		primary key,
@@ -29,3 +29,11 @@ create table comment_dept(
 	comment_re_seq		number, -- 원문이면 0, 1레벨이면 시퀀스 +1
 	comment_re_ref 		number 	--원문은 자신 글번호, 답글이면 원문 글번호
 	);
+
+create sequence dcom_seq; -- 댓글 
+drop sequence dcom_seq;
+
+create sequence Dboard_seq; -- 게시판 
+drop sequence Dboard_seq;
+
+

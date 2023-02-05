@@ -14,8 +14,14 @@ public class DeptBoard {
 	private String board_date;
 	private int board_notice;
 	private int board_deptno;
+	private int cnt;
 	
-	
+	public int getCnt() {
+		return cnt;
+	}
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
 	public int getBoard_num() {
 		return board_num;
 	}
@@ -74,7 +80,7 @@ public class DeptBoard {
 		return board_date;
 	}
 	public void setBoard_date(String board_date) {
-		this.board_date = board_date;
+		this.board_date = board_date.substring(0,10);
 	}
 	public int getBoard_notice() {
 		return board_notice;
