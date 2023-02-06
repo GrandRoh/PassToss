@@ -20,7 +20,7 @@ public class Calendar extends HttpServlet {
 
  	
  	if(command.equals("calendar")) {
- 		response.sendRedirect("../Cal/calendar.html");
+ 		response.sendRedirect("Cal/calendar.jsp");
  	}
 }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
