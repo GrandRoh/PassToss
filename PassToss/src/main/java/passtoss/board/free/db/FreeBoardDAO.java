@@ -574,7 +574,7 @@ public class FreeBoardDAO {
 					   + " BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, "
 					   + " BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT, "
 					   + " BOARD_DATE, BOARD_NOTICE) "
-					   + " values(fboard_seq.nextval, ?, ? "
+					   + " values(fboard_seq.nextval, ?, ?, "
 					   + " 		  ?, ?, fboard_seq.nextval, "
 					   + "		  ?, ?, ?, sysdate, ?)";
 			
@@ -589,7 +589,7 @@ public class FreeBoardDAO {
 			pstmt.setInt(8, board.getBoard_notice());
 			
 			result = pstmt.executeUpdate();
-			
+			System.out.println("name : " + board.getBoard_name());
 			if(result == 1) {
 				System.out.println("데이터 삽입이 모두 완료되었습니다.");
 			}
@@ -620,5 +620,75 @@ public class FreeBoardDAO {
 			}
 		}
 		return result;
+	}
+
+	public FreeBoard getDetail(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		FreeBoard board = null; 
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			String sql = "select * from board_free where board_num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				board = new FreeBoard();
+				
+				board.setBoard_num(rs.getInt("board_num"));
+				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_subject(rs.getString("board_subject"));
+				board.setBoard_content(rs.getString("board_content"));
+				board.setBoard_file(rs.getString("board_file"));
+				board.setBoard_re_ref(rs.getInt("board_re_ref"));
+				board.setBoard_re_lev(rs.getInt("board_re_lev"));
+				board.setBoard_re_seq(rs.getInt("board_re_seq"));
+				board.setBoard_readcount(rs.getInt("board_readcount"));
+				board.setBoard_date(rs.getString("board_date"));
+				board.setBoard_notice(rs.getInt("board_botice"));
+			}
+			
+		}catch (Exception ex) {
+			System.out.println("getDetail() 에러: " + ex);
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return board;
 	}
 }

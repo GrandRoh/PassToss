@@ -41,6 +41,10 @@ public class FreeBoardFrontController extends HttpServlet {
 			case "/BoardFreeAdd.bof":
 				action = new BoardFreeAddAction();
 				break;
+				
+			case "/FreeDetailAction.bof":
+				action = new BoardFreeDetailAction();
+				break;
 		
 		}
 		forward = action.execute(request, response);
