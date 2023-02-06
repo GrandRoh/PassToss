@@ -1,0 +1,49 @@
+.container {
+	padding: 10px;
+	background: #fff;
+	margin: 10px;
+	display: inline-block;
+	vertical-align: top;
+	width: 60%;
+}
+
+.title, .count, .authorize {
+	display: inline-block;
+}
+
+.title {
+	font-size: 30px;
+	margin-left: 10px;
+}
+
+.authorize {
+	float: right;
+	margin-bottom: 0;
+}
+
+input[type=image] {
+	width: 30px;
+	height: 30px;
+}
+
+body {
+	background: #e2e2e2;
+}
+
+select {
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	outline: none;
+}
+
+.input-group {
+	margin-bottom: 2em;
+}
+
+h1 {
+	text-align: center;
+}

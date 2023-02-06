@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import passtoss.member.db.Member;
+import passtoss.member.db.MemberDAO;
 
 public class JoinListAction implements Action {
 

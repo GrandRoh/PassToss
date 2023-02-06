@@ -11,6 +11,7 @@ public class Member {
 	private String address;
 	private int authority;
 	private String profileImg;
+	private String joindate;
 
 	public String getId() {
 		return id;
@@ -90,6 +91,14 @@ public class Member {
 
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
+	}
+
+	public String getJoindate() {
+		return joindate;
+	}
+
+	public void setJoindate(String joindate) {
+		this.joindate = joindate;
 	}
 
 }

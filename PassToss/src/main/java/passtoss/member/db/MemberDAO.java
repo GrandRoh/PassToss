@@ -1,4 +1,4 @@
-package passtoss.member.action;
+package passtoss.member.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import passtoss.member.db.Member;
+import com.google.gson.JsonObject;
 
 public class MemberDAO {
 
@@ -35,7 +35,9 @@ public class MemberDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select count(*) from member where authority = 0";			
+			String sql = "select count(*) from member "
+						+ "where authority = 0 "
+						+ "order by joindate desc";			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -53,14 +55,12 @@ public class MemberDAO {
 				}
 			if (pstmt != null)
 				try {
-
 					pstmt.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			if (conn != null)
 				try {
-
 					conn.close();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -107,6 +107,7 @@ public class MemberDAO {
 				m.setAddress(rs.getString("address"));
 				m.setAuthority(rs.getInt("authority"));
 				m.setProfileImg(rs.getString("profileImg"));
+				m.setJoindate(rs.getString("joindate"));
 				list.add(m);
 			}
 		} catch (Exception se) {
@@ -121,14 +122,12 @@ public class MemberDAO {
 				}
 			if (pstmt != null)
 				try {
-
 					pstmt.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			if (conn != null)
 				try {
-
 					conn.close();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -146,7 +145,8 @@ public class MemberDAO {
 			conn = ds.getConnection();
 			String sql = "select count(*) from member "
 					   + "where authority = 0 "
-					   + "and " + field + " like ?";
+					   + "and " + field + " like ? "
+					   + "order by joindate desc";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + value + "%");
@@ -193,7 +193,7 @@ public class MemberDAO {
 						+ "		 from (select * from member "
 						+ "		 	   where authority = 0"
 						+ "			   and " + field + " like ? "
-						+ "				) m "
+						+ "			   order by joindate desc) m "
 						+ "		 where rownum <= ? "
 						+ "		) "
 						+ "where r between ? and ?";
@@ -220,6 +220,7 @@ public class MemberDAO {
 				m.setAddress(rs.getString("address"));
 				m.setAuthority(rs.getInt("authority"));
 				m.setProfileImg(rs.getString("profileImg"));
+				m.setJoindate(rs.getString("joindate"));
 				list.add(m);
 			}
 		} catch (Exception se) {
@@ -234,20 +235,123 @@ public class MemberDAO {
 				}
 			if (pstmt != null)
 				try {
-
 					pstmt.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			if (conn != null)
 				try {
-
 					conn.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 		return list;
+	}
+
+	public int authorize(String[] id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		int count = 0;
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			System.out.println("id.length="+id.length);
+			for (int i = 0; i < id.length; i++) {
+				String sql = "update member " 
+							+ "set authority = 1 "
+							+ "where id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, id[i]);
+				result = pstmt.executeUpdate();
+				pstmt.close();
+				
+				if (result == 1)
+					count++;
+				if (i == id.length-1) {
+					if (count != id.length) {
+						conn.rollback();
+						System.out.println("가입승인 중 문제가 발생했습니다.");
+					} else {
+						conn.commit();
+						System.out.println("commit 됨");
+					}
+				}
+				
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("authorize() 에러: " + se);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return count;
+	}
+
+	public JsonObject member_info(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		JsonObject obj=null;
+		try {
+			conn = ds.getConnection();
+
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				obj=new JsonObject();
+				obj.addProperty("id", id);
+				obj.addProperty("password", rs.getString("password"));
+				obj.addProperty("name", rs.getString("name"));
+				obj.addProperty("jumin", rs.getString("jumin"));
+				obj.addProperty("deptno", rs.getString("deptno"));
+				obj.addProperty("email", rs.getString("email"));
+				obj.addProperty("phone", rs.getString("phone"));
+				obj.addProperty("address", rs.getString("address"));
+				obj.addProperty("authority", rs.getString("authority"));
+				obj.addProperty("profileImg", rs.getString("profileImg"));
+				obj.addProperty("joindate", rs.getString("joindate"));
+			}
+
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("member_info() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return obj;
 	}
 
 }

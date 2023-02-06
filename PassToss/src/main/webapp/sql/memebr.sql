@@ -25,11 +25,14 @@ alter table member add joindate date default sysdate; -- 가입날짜
 
 select * from member;
 
+update member
+set authority = 0
+where authority = 1
+
 delete member
 
 insert into member
 values('admin','1234','염재영','960103-1234567',0,'duawodud66@naver.com','010-6233-0272','경기도 고양시 일산서구',2,'',sysdate);
-
 insert into member
 values('a1234','1234','a','960101-1234567',10,'a1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 insert into member
@@ -56,7 +59,7 @@ insert into member
 values('l1234','1234','l','960112-1234567',40,'l1234@naver.com','010-6233-0272','경기도 고양시 일산서구',0,'',sysdate);
 
 
-
+insert into member
 
 
 delete dept
@@ -77,14 +80,4 @@ insert into dept
 values(40, '4팀');
 
 
-
 select * from dept
-
-select * 
-from (select m.*, rownum r 
-	from (select * from member 
-			where authority = 0
-			order by joindate desc) m
-	where rownum <= 10
-	)
-where r between 1 and 10
