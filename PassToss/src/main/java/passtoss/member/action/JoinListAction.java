@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import passtoss.member.db.Member;
+import passtoss.member.db.MemberDAO;
 
 public class JoinListAction implements Action {
 
@@ -39,7 +40,6 @@ public class JoinListAction implements Action {
 			listcount = dao.getListCount(search_field[index], search_word);
 			list = dao.getMemberList(search_field[index], search_word, page, limit);
 		}
-		
 		int maxpage = (listcount + limit - 1) / limit;
 		System.out.println("총 페이지 수 = " + maxpage);
 		
