@@ -15,14 +15,25 @@
 </script>
 <style>
 	*{margin:0;padding:0}
-	body{background:#e2e2e2}
- 	.container{padding:10px; background:#fff; margin:10px auto; min-width:1000px}
+	body{background:#e2e2e2;min-width:1400px}
+ 	.container{padding:10px;background:#fff;margin:10px;display:inline-block;vertical-align:top}
+    .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
  	
  	table caption {
 		caption-side: top;
 		text-align: center
 	}
+	
+	select.form-control {
+ 		width : auto;
+ 		margin-bottom : 2em;
+ 		display : inline-block	
+ 	}
+ 	
+ 	.gray{
+ 		color: gray;
+ 	}
 	
 	.rows{
  		text-align : left;
@@ -31,6 +42,7 @@
 </head>
 <body>
 	<div class='container box_radius15'>
+	<input type="hidden" id="loginid" value="${id}" name="loginid">
 	  <form action="FreeList.bof" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
@@ -54,6 +66,7 @@
 		  		</tr>
 		  		<tr>
 		  			<td>번호</td>
+		  			<td>말머리</td>
 		  			<td>제목</td>
 		  			<td>작성자</td>
 		  			<td>등록일</td>
@@ -62,11 +75,51 @@
 		    </thead>
 		    <tbody>
 		     <c:set var="num" value="${listcount- (page-1)*limit}"/>
+		     <c:forEach var="b" items="${noticelist}">
+	   		 	<tr>
+	   		 	  <td> <%-- 번호 --%>
+	   		 	    <c:out value="${num}"/>
+	   		 	    <c:set var="num" value="${num-1}"/>
+	   		 	  </td>
+	   		 	  <td> 
+	   		 	    <c:out value="[공지사항]"/>
+	   		 	  </td>
+	   		 	  <td> <%-- 제목 --%>
+	   		 	    <div>
+	   		      	<c:if test="${b.board_re_lev != 0}"> <%-- 답글인 경우 --%>
+	   		      	<c:forEach var="a" begin="0" end="${b.board_re_lev*2}" step="1">
+	   		      	 &nbsp;
+	   		      	</c:forEach>
+	   		      	<img src='image/reply.png'>
+	   		      	</c:if>
+	   		      
+	   		      	<c:if test="${b.board_re_lev == 0}"> <%-- 원문인 경우 --%>
+	   		          &nbsp;
+	   		      	</c:if>
+	   		        
+	   		      	<a href="FreeDetailAction.bo?num=${b.board_num}">
+	   		      	<c:if test="${b.board_subject.length() >= 20}">
+	   		      	  <c:out value="${b.board_subject.substring(0,20)}..."/>
+	   		      	</c:if>
+	   		      	<c:if test="${b.board_subject.length() < 20}">
+	   		      	   <c:out value="${b.board_subject}"/>
+	   		      	</c:if>
+	   		        </a>[${b.cnt}]
+	   		    	</div>
+	   		   	 </td>
+	   		   	 <td><div>${b.board_name}</div></td>
+	   		   	 <td><div>${b.board_date}</div></td>
+	   		   	 <td><div>${b.board_readcount}</div></td>
+	   		 	</tr>
+	   		 </c:forEach>
 	   		 <c:forEach var="b" items="${boardlist}">
 	   		 	<tr>
 	   		 	  <td> <%-- 번호 --%>
 	   		 	    <c:out value="${num}"/>
 	   		 	    <c:set var="num" value="${num-1}"/>
+	   		 	  </td>
+	   		 	  <td> 
+	   		 	    <c:out value="[게시글]"/>
 	   		 	  </td>
 	   		 	  <td> <%-- 제목 --%>
 	   		 	    <div>
@@ -99,6 +152,16 @@
 		    </tbody>
 		  </table>
 		  
+		 <div class="rows">
+	  		<span>줄보기</span>
+	  		<select class="form-control" id="lineviewcount">
+	  			<option value="5">5</option>
+	  			<option value="10" selected>10</option>
+	  			<option value="15">15</option>
+	  			<option value="20">20</option>
+	  		</select>
+	  	 </div>
+		  
 		  <div class="center-block">
 	  	 	<ul class="pagination justify-content-center">
 	  	 		<c:if test="${page <= 1}">
@@ -114,7 +177,7 @@
 	  	 	  	</c:url>
 	  	 		<li class="page-item">
 	  	 		  <a href="${prev}"
-	  	 		     class="page-link">&nbsp;다음</a>
+	  	 		     class="page-link">&nbsp;이전</a>
 	  	 		</li>
 	  	 		</c:if>
 	  	 	
@@ -125,7 +188,7 @@
 	  	 	  		</li>
 	  	 	 	 </c:if>
 	  	 	 		 <c:if test="${a != page}">
-	  	 	  			<c:url var="go" value="memberList.net">
+	  	 	  			<c:url var="go" value="FreeList.bof">
 	  	 	  			<c:param name="search_field" value="${search_field}" />
 	  	 	  			<c:param name="search_word" value="${search_word}" />
 	  	 	  			<c:param name="page" 	value="${a}" />
@@ -155,27 +218,19 @@
 	  	 		</c:if>
 	  		 </ul>
 	 	 </div>
-		  
-		  <div class="rows">
-	  		<span>줄보기</span>
-	  		<select class="form-control" id="lineviewcount">
-	  			<option value="5">5</option>
-	  			<option value="10" selected>10</option>
-	  			<option value="15">15</option>
-	  			<option value="20">20</option>
-	  		</select>
-	  	 </div>
-		  
 		</c:if>
 		
 		<button type="button" class="btn btn-info float-right">글 쓰 기</button>
+		
+		<c:if test="${listcount == 0 && empty search_word}" >
+			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
+		</c:if>
+  		<c:if test="${listcount == 0 && !empty search_word}">
+  			<h1 style ="text-align:center">검색 결과가 없습니다.</h1>
+  		</c:if>
+		
 	</div>
 	
-	<c:if test="${listcount == 0 && empty search_word}" >
-		<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
-	</c:if>
-  	<c:if test="${listcount == 0 && !empty search_word}">
-  		<h1 style ="text-align:center">검색 결과가 없습니다.</h1>
-  	</c:if>
+	
 </body>
 </html>
