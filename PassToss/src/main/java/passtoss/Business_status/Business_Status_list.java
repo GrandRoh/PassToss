@@ -20,6 +20,20 @@ public class Business_Status_list implements Action{
 		List<Business_status_Bean> memolist = new ArrayList<Business_status_Bean>();
 		Business_status_DAO dao = new Business_status_DAO();
 		
+	
+		List<Business_status_Bean> statuscount = new ArrayList<Business_status_Bean>();
+		List<Business_status_Bean> prioritycount = new ArrayList<Business_status_Bean>();
+		
+		//속성별 group by
+		statuscount = dao.getCountAttribute("status");
+	
+		prioritycount = dao.getCountAttribute("priority");
+	
+		request.setAttribute("statuscount", statuscount);
+		request.setAttribute("prioritycount", prioritycount);
+
+
+		
 		memolist = dao.getMemoList();
 		int listcount = dao.getListCount();
 		

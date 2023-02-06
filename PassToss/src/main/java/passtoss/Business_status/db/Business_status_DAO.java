@@ -234,4 +234,58 @@ public class Business_status_DAO {
 		}
 		return result;
 	}
+
+
+	public List<Business_status_Bean> getCountAttribute(String Attribute) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+		List<Business_status_Bean> list =  new ArrayList<Business_status_Bean>();
+ 		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select NVL(count(*),0) as count from business_status "
+					+ "group by  "+ Attribute + " order by " + Attribute  ;
+			pstmt = conn.prepareStatement(sql.toString());
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				Business_status_Bean b = new Business_status_Bean();
+				b.setCount(rs.getInt(1));
+				list.add(b);
+				
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return list;
+	}
 }
