@@ -2,43 +2,40 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
-<title>ADMIN - 회원가입 목록</title>
-<link rel="stylesheet" href="css/joinList.css" type="text/css">
+<meta charset="UTF-8">
+<title>ADMIN - 게시물 관리</title>
 <script src="js/jquery-3.6.3.js"></script>
-<script src="js/joinList.js"></script>
 </head>
 <body>
 	<jsp:include page="../AdminPage/leftMenu.jsp" />
 	<div class='container box_radius15'>
-		<form action="AdminJoinList.net" method="post">
+		<form action="AdminBoardList.net" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
 					<option value="0" selected>id</option>
-					<option value="1">이름</option>
-					<option value="2">부서번호</option>
-				</select> 
-				<input name="search_word" type="text" class="form-control"
+					<option value="1">제목</option>
+				</select> <input name="search_word" type="text" class="form-control"
 					placeholder="검색어를 입력하세요" value="${search_word}">
 				<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
 			</div>
 		</form>
 
-		<form action="AdminAccess.net" method="post" id="authorize">
-			<div class="title">회원가입 명단</div>
-			<div class="count">| 회원가입 인원 : ${listcount}</div>
-			<div class="authorize">
-				<input type="image" src="image/authorize.png" title="가입승인">
+		<form action="AdminBoardDelete.net" method="post" id="board">
+			<div class="title">전체 게시물</div>
+			<div class="count">| 작성된 게시물 수 : ${listcount}</div>
+			<div class="board">
+				<input type="image" src="image/delete.png" title="삭제">
 			</div>
 			<c:if test="${listcount > 0}">
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="selectAll"></input></th>
 							<th>번호</th>
-							<th>id</th>
-							<th>이름</th>
-							<th>부서번호</th>
-							<th>가입일자</th>
+							<th>제목</th>
+							<th>글쓴이</th>
+							<th>작성일자</th>
+							<th>조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,9 +44,9 @@
 							<tr>
 								<td><input type="checkbox" name="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
-										value="${num - 1}" /></td>
-								<td><button type="button" data-bs-toggle="modal" data-id="${m.id}"
-										data-bs-target="#idInfo">${m.id}</button></td>
+										value="${num + 1}" /></td>
+								<td><button type="button" data-bs-toggle="modal"
+										data-id="${m.id}" data-bs-target="#idInfo">${m.id}</button></td>
 								<td>${m.name}</td>
 								<td>${m.deptno}</td>
 								<td>${m.joindate}</td>
@@ -65,8 +62,8 @@
 							</li>
 						</c:if>
 						<c:if test="${page > 1}">
-							<li class="page-item">
-							<a href="AdminJoinList.net?page${page-1}&search_field=${search_field}&search_word=${search_word}"
+							<li class="page-item"><a
+								href="AdminJoinList.net?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
 								class="page-link">이전</a>&nbsp;</li>
 						</c:if>
 
@@ -104,7 +101,7 @@
 		</form>
 
 		<c:if test="${listcount == 0 && empty search_word}">
-			<h1>회원이 없습니다.</h1>
+			<h1>작성된 게시물이 없습니다.</h1>
 		</c:if>
 
 		<c:if test="${listcount == 0 && !empty search_word}">
@@ -122,9 +119,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
-					내용
-				</div>
+				<div class="modal-body">내용</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
@@ -132,7 +127,4 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		
-	</script>
 </body>

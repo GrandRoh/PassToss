@@ -94,7 +94,7 @@ public class Member {
 	}
 
 	public String getJoindate() {
-		return joindate;
+		return joindate.substring(0, 10);
 	}
 
 	public void setJoindate(String joindate) {

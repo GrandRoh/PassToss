@@ -3,9 +3,7 @@
 <link rel="stylesheet" href="css/leftMenu.css" type="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-<script src="js/jquery-3.6.3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 	$(function() {
 		$(".dropdown-btn").each(function() {
@@ -21,8 +19,9 @@
 		관리자페이지 <i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="joinList.net">회원가입명단</a> <a href="memberList.net">회원정보</a> <a
-			href="boardManage.net">게시물관리</a>
+		<a href="AdminJoinList.net">회원가입명단</a> 
+		<a href="AdminMemberList.net">회원관리</a> 
+		<a href="AdminboardManage.net">게시물관리</a>
 	</div>
 	<a href="#contact">사내게시판</a>
 	<button class="dropdown-btn">
