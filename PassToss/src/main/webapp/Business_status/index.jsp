@@ -7,18 +7,16 @@
 <head>
 
 
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
 
 <meta charset="UTF-8">
 <title>업무 현황</title>
 <style>
 *{margin:0;padding:0}
 	
-	body{background:#e2e2e2}
-	.container{padding:10px;background:#fff;margin:10px auto;min-width:1000px}
+	body{background:#e2e2e2;min-width:1400px}
+	.container{padding:10px;background:#fff;margin:10px;display:inline-block;vertical-align:top}
+	.sidenav{display:inline-block}
+	
 	.container >div {vertical-align:top}
 	.box_radius15 , .memo_inner_box li{border-radius:5px}
 	
@@ -62,15 +60,20 @@
 	
 	.status_bottom_graph_info div{display:inline-block;vertical-align:top}
 	
+	
+	
 </style>
 </head>
 <body>
+
 	<div class='container box_radius15'>
+	
+		
 		<div class='status_left_box'>
 			
 			<div class='memo_wrap box_radius15'>
 				<div class='memo_inner_box box_radius15'>
-					<p>할것</p>
+					<p>할 것</p>
 					<ul>
 						<li>클라이언트 미팅</li>
 						<li>클라이언트 미팅</li>
@@ -85,7 +88,7 @@
 				</div>
 				
 				<div class='memo_inner_box box_radius15'>
-					<p>할것</p>
+					<p>작업중</p>
 					<ul>
 						<li>클라이언트 미팅</li>
 						<li>클라이언트 미팅</li>
@@ -94,7 +97,7 @@
 				</div>
 				
 				<div class='memo_inner_box box_radius15'>
-					<p>할것</p>
+					<p>완료</p>
 					<ul>
 						<li>클라이언트 미팅</li>
 						<li>클라이언트 미팅</li>
@@ -265,20 +268,43 @@
 </body>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChartCircle);
+   
+  
+	   let cnt_a0 = 0;
+	   let cnt_a1 = 0;
+	   let cnt_a2 = 0;
+	   <c:forEach var="s" items="${statuscount}" varStatus="cnt">
+				 cnt_a<c:out value="${cnt.index}"/> = <c:out value="${s.count}"/>;
+		</c:forEach>
+   
+		if(cnt_a0 == 0 && cnt_a1 == 0 && cnt_a2 == 0 )	{
+			$("#donutchart").text("등록된 업무가 없습니다");
+			console.log("없음");
+		}else{
+		      google.charts.load("current", {packages:["corechart"]});
+		      google.charts.setOnLoadCallback(drawChartCircle);
+		}
+     
+
+    	
+		
+		
       function drawChartCircle() {
+    	 
         var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['완료',     15],
-          ['진행중',      2],
-          ['정체',  4]
+        	
+        	
+          ['Task', 'Working_status'],
+          ['완료',     cnt_a2],
+          ['진행중',      cnt_a1],
+          ['대기',  cnt_a0]
 
         ]);
 
         var circle_options = {
       	  chartArea:{left:30,top:0,width:'100%',height:'75%'},
           pieHole: 0.4,
+          colors: ['rgb(51, 102, 204)', 'rgb(255, 153, 0)', 'rgb(220, 57, 18)', ]
         };
 
         var circle = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -325,6 +351,11 @@
 	    	    $("#day  > option[value="+day+"]").attr("selected", "true"); 
 	    	    
     	  })
+    	  
+    
+    	  	
+    	  
+    	  
       })
      
     </script>

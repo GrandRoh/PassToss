@@ -9,8 +9,14 @@ public class Business_status_Bean {
 	private String limit_date;
 	private int status;
 	private int priority;
+	private int count = 0;
 	
-	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getPriority() {
 		return priority;
 	}
