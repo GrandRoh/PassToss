@@ -96,6 +96,7 @@
             float:left;
      
         }
+        
         #container_memo{
          width: 65%;
             margin:auto;
