@@ -36,10 +36,8 @@
 			<a href="AdminMemberList.net">회원관리</a> 
 			<a href="AdminboardManage.net">게시물관리</a>
 		</div>
-	</c:if>
-	
-	
-	<a href="#contact">사내게시판</a>
+	</c:if>	
+	<a href="FreeList.bof">사내게시판</a>
 	<button class="dropdown-btn">
 		부서게시판 <i class="fa fa-caret-down"></i>
 	</button>

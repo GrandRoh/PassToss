@@ -27,7 +27,7 @@ public class BoardFreeListAction implements Action{
 		List<FreeBoard> boardlist = new ArrayList<FreeBoard>();
 		
 		int page = 1;
-		int limit = 10;
+		int limit = 7;
 		
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));

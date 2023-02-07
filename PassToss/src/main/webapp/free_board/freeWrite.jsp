@@ -13,7 +13,7 @@
 	body{background:#e2e2e2;min-width:1400px}
  	.container{padding:10px; background:#fff;
  				margin:10px; display:inline-block; vertical-align:top;
- 				 min-width:1140px}
+ 				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
  	
