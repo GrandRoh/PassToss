@@ -1,177 +1,158 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8' />
+<jsp:include page="../AdminPage/leftMenu.jsp"/>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>calendar</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- bootstrap 4 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- fullcalendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
 <style>
-html, body {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
-}
+*{margin:0;padding:0}
+	
+ 	.container{padding:10px; background:#fff;
+ 				margin:10px; display:inline-block; vertical-align:top;
+ 				 width:80%}
+    .sidenav{display:inline-block}
+ 	.box_radius15{border-radius:5px}
+ 	
+ 	
 
-/*
-#external-events {
-	position: fixed;
-	z-index: 2;
-	top: 20px;
-	left: 20px;
-	width: 150px;
-	padding: 0 10px;
-	border: 1px solid #ccc;
-	background: #eee;
-}
-*/
-.demo-topbar+#external-events { /* will get stripped out */
-	top: 60px;
-}
-
-#external-events .fc-event {
-	cursor: move;
-	margin: 3px 0;
-}
-
-#calendar-container {
-	position: relative;
-	z-index: 1;
-	margin-left: 200px;
-}
-
-#calendar {
-	max-width: 1100px;
-	margin: 20px auto;
-}
 </style>
 
-<link href='css/main.css' rel='stylesheet' />
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src='css/main.js'></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script>
-	var calendar = null;
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'UTC',
+                initialView: 'dayGridMonth', 
+                events:[ 
+                    {
+                        title:'일정',
+                        start:'2023-02-26 00:00:00',
+                        end:'2023-02-27 24:00:00' 
+               
+                    }
+                ], headerToolbar: {
+                    center: 'addEventButton' // headerToolbar에 버튼을 추가
+                }, customButtons: {
+                    addEventButton: { // 추가한 버튼 설정
+                        text : "일정 추가",  // 버튼 내용
+                        click : function(){ // 버튼 클릭 시 이벤트 추가
+                            $("#calendarModal").modal("show"); // modal 나타내기
 
-	document
-			.addEventListener(
-					'DOMContentLoaded',
-					function() {
-						var Calendar = FullCalendar.Calendar;
-						var Draggable = FullCalendar.Draggable;
+                            $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+                                var content = $("#calendar_content").val();
+                                var start_date = $("#calendar_start_date").val();
+                                var end_date = $("#calendar_end_date").val();
+                                
+                                //내용 입력 여부 확인
+                                if(content == null || content == ""){
+                                    alert("내용을 입력하세요.");
+                                }else if(start_date == "" || end_date ==""){
+                                    alert("날짜를 입력하세요.");
+                                }else if(new Date(end_date)- new Date(start_date) < 0){ // date 타입으로 변경 후 확인
+                                    alert("종료일이 시작일보다 먼저입니다.");
+                                }else{ // 정상적인 입력 시
+                                    var obj = {
+                                        "title" : content,
+                                        "start" : start_date,
+                                        "end" : end_date
+                                    }//전송할 객체 생성
 
-						var containerEl = document
-								.getElementById('external-events');
-						var calendarEl = document.getElementById('calendar');
-						var checkbox = document.getElementById('drop-remove');
+                                    console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                                }
+                            });
+                        }
+                    }
+                },
+                googleCalendarApiKey : 'AIzaSyA8JVAhT01G1Vb2txKh2-LglzZsBWqysYM',
+				events : {
+					googleCalendarId : '56c8c3c8bccfa4795cb41ba5a290c820017621355e466bdfa87002c3d5ccd0bf@group.calendar.google.com'
 
-						new Draggable(containerEl, {
-							itemSelector : '.fc-event',
-							eventData : function(eventEl) {
-								return {
-									title : eventEl.innerText
-								};
-							}
-						});
+				},
+                editable: true, // false로 변경 시 draggable 작동 x 
+                displayEventTime: false // 시간 표시 x
+            });
+            calendar.render();
+        });
+    </script>
+    <style>
+        #calendarBox{
+            width: 80%;
+            float:left;
+     
+        }
+        #container_memo{
+         width: 65%;
+            margin:auto;
+            text-align:center
+        }
 
-						calendar = new Calendar(
-								calendarEl,
-								{ //캘린더 객체를 생성할 때 헤더툴바 옵션
-									headerToolbar : {
-										left : 'prev,next today',
-										center : 'addEventButton',
-										right : 'dayGridMonth,timeGridWeek,timeGridDay'
-									},
-									customButtons : {
-										addEventButton : {
-											text : '일정 등록',
-											click : function() {
-												var dateStr = prompt('(YYYY-MM-DD) 형식으로 날짜를 입력하세요');
-												var date = new Date(dateStr
-														+ 'T00:00:00'); 
-
-												if (!isNaN(date.valueOf())) { 
-													calendar
-															.addEvent({
-																title : 'dynamic event',
-																start : date,
-																allDay : true
-															});
-													alert('일정이 등록되었습니다.');
-												} else {
-													alert('Invalid date.');
-												}
-
-											}
-										}
-
-									},
-									editable : true, //수정가능여부 false 드래그드롭후 수정 불가
-									droppable : true, // 
-									drop : function(info) {
-										if (checkbox.checked) {
-											info.draggedEl.parentNode
-													.removeChild(info.draggedEl);
-										}
-									},
-									googleCalendarApiKey : 'AIzaSyA8JVAhT01G1Vb2txKh2-LglzZsBWqysYM',
-									events : {
-										googleCalendarId : '56c8c3c8bccfa4795cb41ba5a290c820017621355e466bdfa87002c3d5ccd0bf@group.calendar.google.com'
-
-									}
-								//	locale: "ko" //한글 출력 옵션 추가시 주석 제거
-
-								})
-
-						calendar.render();
-					});
-	
-	
-</script>
-
+    </style>
 </head>
+
 <body>
-
-
-
-	<div id='external-events'
-		style="float: left; width: 20%; padding-right: 30px; padding-left: 20px; margin-top: 100px">
-		<p>
-			<strong>Draggable Events</strong>
-		</p>
-
-		<div
-			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: red">Meeting</div>
-		</div>
-		<div
-			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: blue">Conference</div>
-		</div>
-		<div
-			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: green">Marketing</div>
-		</div>
-		<div
-			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: black">Call</div>
-		</div>
-		<div
-			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main'>Zoom</div>
-		</div>
-
-		<p>
-			<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove
-				after drop</label>
-		</p>
-	</div>
-
+<div class='container box_radius15'>
     <div id="calendarBox">
         <div id="calendar"></div>
     </div>
+    
+    <br>
+
+</div>
+<div class="container_memo" id="container_memo">
+
+
+	<form id="insert_form">
+	 <fieldset >
+	 	<legend> 일정 메모 </legend>
+	 		<table class="table">
+	 			<tr>
+	 				<th><label>작성자</label></th>
+	 				<td><input type="text" name="name" class="form-control" id="memoWriter" required></td>
+	 			</tr>
+	 			<tr>
+	 				<th><label>부서명</label></th>
+	 				<td><input type="text" name="price" class="form-control" id="memoDname" required></td>
+	 			</tr>
+	 			<tr>
+	 				<th><label>내용</label></th>
+	 				<td><input type="text" name="maker" class="form-control" id="memoContent" required></td>
+	 			</tr>
+	 			<tr>
+				<td colspan=2>
+					<button type="submit" class="btn btn-primary btn-block" >추가</button>
+	 			</td>
+	 			</tr>
+	 		</table>
+	 </fieldset>
+	
+	</form>
+
+	</div>
+	
+
+    
+    
+    
+    
 
     <!-- modal 추가 -->
+
     <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -184,6 +165,7 @@ html, body {
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <form action="/Calendar" name="eventAdd" type="post">
                         <label for="taskId" class="col-form-label">일정 내용</label>
                         <input type="text" class="form-control" id="calendar_content" name="calendar_content">
                         <label for="taskId" class="col-form-label">시작 날짜</label>
@@ -196,12 +178,16 @@ html, body {
                     <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         id="sprintSettingModalClose">취소</button>
+                         </form>
                 </div>
     
             </div>
         </div>
     </div>
+   
+   
+   </div>
+   
 </body>
-
 
 </html>
