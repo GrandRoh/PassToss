@@ -24,9 +24,8 @@ public class BoardFreeAddAction implements Action{
 		FreeBoardDAO fdao = new FreeBoardDAO();
 		FreeBoard fboard = new FreeBoard(); 
 		
-		//HttpSession session = request.getSession();
-		//String id = (String)session.getAttribute("id");
-		String id = "admin"; // 나중에 로그인만들고 연결하면 세션으로 바꾸기
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		
 		String realFolder="";
 		
