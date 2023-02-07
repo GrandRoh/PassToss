@@ -176,7 +176,7 @@
 	  			<option value="15">15</option>
 	  			<option value="20">20</option>
 	  		</select>
-	  		<button id="button" type="button" class="btn btn-info float-right">글 쓰 기</button>
+	  		
 	  	 </div>
 		  
 		  <div class="center-block">
@@ -237,7 +237,7 @@
 	 	 </div>
 		</c:if>
 		
-		
+		<button id="button" type="button" class="btn btn-info float-right">글 쓰 기</button>
 		
 		<c:if test="${listcount == 0 && empty search_word}" >
 			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
