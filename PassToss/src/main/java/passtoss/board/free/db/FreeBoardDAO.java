@@ -654,10 +654,11 @@ public class FreeBoardDAO {
 				board.setBoard_re_seq(rs.getInt("board_re_seq"));
 				board.setBoard_readcount(rs.getInt("board_readcount"));
 				board.setBoard_date(rs.getString("board_date"));
-				board.setBoard_notice(rs.getInt("board_botice"));
+				board.setBoard_notice(rs.getInt("board_notice"));
 			}
 			
 		}catch (Exception ex) {
+			ex.printStackTrace();
 			System.out.println("getDetail() 에러: " + ex);
 		}finally{
 			
