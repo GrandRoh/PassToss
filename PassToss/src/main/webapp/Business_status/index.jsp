@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ taglib prefix ="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
 <head>
 
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
 
-<meta charset="UTF-8">
 <title>업무 현황</title>
 <style>
 *{margin:0;padding:0}
@@ -23,7 +27,7 @@
 	.status_left_box{width:63%;padding:1%;display:inline-block}
 	.status_right_box{width:33%;padding:1%;display:inline-block}
 	
-	.memo_wrap{background:#2a2d5b;padding: 20px 10px;text-align:center}
+	.memo_wrap{background:#2a2d5b;padding: 20px 10px;text-align:center;min-height:400px}
 	
 	.memo_inner_box{width:30%;display:inline-block;margin-right:5px;padding:5px;vertical-align:top}
 	.memo_inner_box:nth-child(1){background:#587def}
@@ -60,7 +64,11 @@
 	
 	.status_bottom_graph_info div{display:inline-block;vertical-align:top}
 	
-	
+	#all_status_graph_wrap{width: 349px;
+   						 height: 204px;
+					    padding: 30px 57px 31px 30px;
+					    background: url(./image/empty_battery.png) no-repeat;}
+	#all_status_graph>div{float:left;height:145px}
 	
 </style>
 </head>
@@ -75,33 +83,33 @@
 				<div class='memo_inner_box box_radius15'>
 					<p>할 것</p>
 					<ul>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
+						<c:forEach var="m" items="${memolist }">
+							<c:if  test = "${m.status == 1}">
+								<li>${m.memo_content }</li>
+							 </c:if>
+						</c:forEach>
 					</ul>
 				</div>
 				
 				<div class='memo_inner_box box_radius15'>
 					<p>작업중</p>
 					<ul>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
+						<c:forEach var="m" items="${memolist }">
+							<c:if  test = "${m.status == 2}">
+								<li>${m.memo_content }</li>
+							 </c:if>
+						</c:forEach>
 					</ul>
 				</div>
 				
 				<div class='memo_inner_box box_radius15'>
 					<p>완료</p>
 					<ul>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
-						<li>클라이언트 미팅</li>
+						<c:forEach var="m" items="${memolist }">
+							<c:if  test = "${m.status == 3}">
+								<li>${m.memo_content }</li>
+							 </c:if>
+						</c:forEach>
 					</ul>
 				</div>
 			
@@ -119,11 +127,11 @@
 					</colgroup>
 				
 					<tr>
-						<th>오늘</th>
+						<th>업무내용</th>
 						<th>사람</th>
 						<th>우선순위</th>
 						<th>상태</th>
-						<th>시간</th>
+						<th>기한</th>
 						<th><a href ='#1' id='business_add_btn'  data-toggle="modal"
                            data-target="#business_add"><img src="image/plus_btn.png" alt="추가" style='width:70%'></a></th>
 					</tr>
@@ -156,9 +164,11 @@
 							       <c:if  test = "${m.status == 3}">
 							           <td class='status_color3 color_fff'>완료</td>
 							       </c:if>
-							 
-							    
-								<td>5시간</td>
+				
+							    <c:set var="datevalue" value="${m.limit_date }"/>
+								<td>${fn:substring(datevalue,0,10)}</td>
+								
+								
 								<td><a href="javascript:status_delete(${m.memo_seq })"><img src="image/remove.png" alt="추가" style='width:70%'></a></td>
 							</tr>
 						</c:forEach>
@@ -239,15 +249,17 @@
 			<div class='status_top_graph_wrap center'>
 				<h2>전체 업무 현황</h2>
 				
-				<div>
-					<div id="barchart_values" style="width: 500px; height: 100px;"></div>
+				<div id="all_status_graph_wrap">
+					<div id='all_status_graph'>
+					
+					</div>
 				</div>
-				
 				<div class='status_top_graph_info graph_info_div'>
 					<p><span></span>완료</p>
 					<p><span></span>진행</p>
 					<p><span></span>대기</p>
 				</div>
+				
 			</div>
 			
 			
@@ -321,6 +333,25 @@
     	  
       }
       
+      function draw_stackedbar(a,b,c){
+    	  if(a == 0 && b == 0 && c == 0 ){
+    		  $("#all_status_graph").html("등록된 업무가 없습니다")
+    	  }else{
+    		  let sum = a + b + c;
+    		  a = a/sum * 100;
+    		  b = b/sum * 100;
+    		  c = c/sum * 100;
+    		  console.log(a +' '+ b +' '+ c)
+    		  
+    		  $("#all_status_graph").append("<div style='background:red;width:"+ a +"%'></div>");
+    		  $("#all_status_graph").append("<div style='background:orange;width:"+ b +"%'></div>");
+    		  $("#all_status_graph").append("<div style='background:green;width:"+ c +"%'></div>");
+    		  
+    	  }
+      }
+      
+      
+      
       
       $(function(){
       
@@ -353,7 +384,10 @@
     	  })
     	  
     
-    	  	
+    	  
+    	  
+    		
+    	  	draw_stackedbar(cnt_a0,cnt_a1,cnt_a2);
     	  
     	  
       })
