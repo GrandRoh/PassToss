@@ -26,6 +26,8 @@ alter table  member modify authority default 0; -- 회원가입 시 기본값 0(
 
 alter table member add joindate date default sysdate; -- 가입날짜
 
+alter table member add POST number; -- 우편번호
+
 select * from member;
 
 update member

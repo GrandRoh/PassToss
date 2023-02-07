@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import passtoss.member.db.Member;
 import passtoss.member.db.MemberDAO;
 
-public class AdminJoinListAction implements Action {
+public class AdminMemberListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -28,21 +28,28 @@ public class AdminJoinListAction implements Action {
 
 		int listcount = 0;
 		int index = -1;
-		String search_word = "";
 
+		String[] category = { "준회원", "정회원" };
+		int authority = 0;
+		if (request.getParameter("authority") != null) {
+			authority = Integer.parseInt(request.getParameter("authority"));
+		}
+
+		String search_word = "";
 		if (request.getParameter("search_word") == null || request.getParameter("search_word").equals("")) {
-			listcount = dao.getListCount();
-			list = dao.getMemberList(page, limit);
+			listcount = dao.getListCount(authority);
+			list = dao.getMemberList(page, limit, authority);
 		} else {// 검색
 			index = Integer.parseInt(request.getParameter("search_field"));
 			String[] search_field = new String[] { "id", "name", "deptno" };
 			search_word = request.getParameter("search_word");
-			listcount = dao.getListCount(search_field[index], search_word);
-			list = dao.getMemberList(search_field[index], search_word, page, limit);
+			listcount = dao.getListCount(search_field[index], search_word, authority);
+			list = dao.getMemberList(search_field[index], search_word, page, limit, authority);
 		}
+
 		int maxpage = (listcount + limit - 1) / limit;
 		System.out.println("총 페이지 수 = " + maxpage);
-		
+
 		int startpage = ((page - 1) / 10) * 10 + 1;
 		int endpage = startpage + 10 - 1;
 		System.out.println("현재 페이지에 보여줄 마지막 페이지 수=" + endpage);
@@ -51,19 +58,18 @@ public class AdminJoinListAction implements Action {
 		if (endpage > maxpage)
 			endpage = maxpage;
 
+		request.setAttribute("authority", authority);
 		request.setAttribute("page", page);
 		request.setAttribute("limit", limit);
-		request.setAttribute("maxpage", maxpage);		
-		request.setAttribute("startpage", startpage);		
+		request.setAttribute("maxpage", maxpage);
+		request.setAttribute("startpage", startpage);
 		request.setAttribute("endpage", endpage);
-
 		request.setAttribute("listcount", listcount);
 		request.setAttribute("joinlist", list);
 		request.setAttribute("search_field", index);
-		System.out.println(index);
 		request.setAttribute("search_word", search_word);
+		request.setAttribute("category", category[authority]);
 
-		
 		forward.setPath("AdminPage/joinList.jsp");
 		forward.setRedirect(false);
 		return forward;

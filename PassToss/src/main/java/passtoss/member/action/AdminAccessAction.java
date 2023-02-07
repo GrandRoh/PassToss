@@ -17,6 +17,11 @@ public class AdminAccessAction implements Action {
 		MemberDAO dao = new MemberDAO();
 		String[] id = request.getParameterValues("select");
 
+		int authority = 0;
+		if (request.getParameter("authority") != null) {
+			authority = Integer.parseInt(request.getParameter("authority"));
+		}
+		
 		int result = dao.authorize(id);
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
