@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div>
-		<p><img src="${pageContext.request.contextPath}/image/error.png" width=100px>  </p>
+		<p><img src="${pageContext.request.contextPath}/image/error2.png" width=100px>  </p>
 		<p>죄송합니다. <br>
 			${message }
 		 </p>

@@ -5,10 +5,13 @@
 <title>사내게시판</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <script src = "js/list.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <script>
 	$(function(){
-		$("button").click(function(){
+		$("#button").click(function(){
 			location.href="FreeWrite.bof";
 		})
 	});
@@ -16,7 +19,9 @@
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px;background:#fff;margin:10px;display:inline-block;vertical-align:top}
+ 	.container{padding:10px; background:#fff;
+ 				margin:10px; display:inline-block; vertical-align:top;
+ 				min-width:800px}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
  	
@@ -38,11 +43,22 @@
 	.rows{
  		text-align : left;
  	}
+ 	
+ 	.rows button{
+ 		text-align :right;
+ 		/* margin-left : 730px; */
+ 	}
+ 	
+ 	#lineviewcount{
+ 		width : 50px;
+ 	}
+ 	
 </style>
 </head>
 <body>
 	<div class='container box_radius15'>
 	<input type="hidden" id="loginid" value="${id}" name="loginid">
+	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	  <form action="FreeList.bof" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
@@ -50,9 +66,9 @@
 					<option value="1">제목</option>
 					<option value="2">작성자</option>
 				</select>
-					<input name="search_word" type="text" class="form-control"
+					<input id="word" name="search_word" type="text" class="form-control"
 						   placeholder="검색어를 입력하세요" value="${search_word}">
-					<button type="submit">검색</button>
+					<button type="submit" id="search">검색</button>
 			</div>
 		</form>
 		
@@ -97,7 +113,7 @@
 	   		          &nbsp;
 	   		      	</c:if>
 	   		        
-	   		      	<a href="FreeDetailAction.bo?num=${b.board_num}">
+	   		      	<a href="FreeDetailAction.bof?num=${b.board_num}">
 	   		      	<c:if test="${b.board_subject.length() >= 20}">
 	   		      	  <c:out value="${b.board_subject.substring(0,20)}..."/>
 	   		      	</c:if>
@@ -134,7 +150,7 @@
 	   		          &nbsp;
 	   		      	</c:if>
 	   		        
-	   		      	<a href="FreeDetailAction.bo?num=${b.board_num}">
+	   		      	<a href="FreeDetailAction.bof?num=${b.board_num}">
 	   		      	<c:if test="${b.board_subject.length() >= 20}">
 	   		      	  <c:out value="${b.board_subject.substring(0,20)}..."/>
 	   		      	</c:if>
@@ -160,6 +176,7 @@
 	  			<option value="15">15</option>
 	  			<option value="20">20</option>
 	  		</select>
+	  		<button id="button" type="button" class="btn btn-info float-right">글 쓰 기</button>
 	  	 </div>
 		  
 		  <div class="center-block">
@@ -220,7 +237,7 @@
 	 	 </div>
 		</c:if>
 		
-		<button type="button" class="btn btn-info float-right">글 쓰 기</button>
+		
 		
 		<c:if test="${listcount == 0 && empty search_word}" >
 			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
@@ -230,7 +247,5 @@
   		</c:if>
 		
 	</div>
-	
-	
 </body>
 </html>

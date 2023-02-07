@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -23,9 +24,9 @@ public class BoardFreeAddAction implements Action{
 		FreeBoardDAO fdao = new FreeBoardDAO();
 		FreeBoard fboard = new FreeBoard(); 
 		
-		// 세션에서 아이디 값을 가져와야하나?
-		// HttpSession session = request.getSession();
-		// String id = session.getId();
+		//HttpSession session = request.getSession();
+		//String id = (String)session.getAttribute("id");
+		String id = "admin"; // 나중에 로그인만들고 연결하면 세션으로 바꾸기
 		
 		String realFolder="";
 		
@@ -50,6 +51,7 @@ public class BoardFreeAddAction implements Action{
 			fboard.setBoard_notice(Integer.parseInt(multi.getParameter("board_notice")));
 			fboard.setBoard_subject(multi.getParameter("board_subject"));
 			fboard.setBoard_content(multi.getParameter("board_content"));
+			fboard.setBoard_name(id);
 			
 			String filename = multi.getFilesystemName("board_file");
 			fboard.setBoard_file(filename);
