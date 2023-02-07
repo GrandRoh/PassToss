@@ -29,7 +29,6 @@
 			관리자페이지 <i class="fa fa-caret-down"></i>
 		</button>
 		<div class="dropdown-container">
-			<a href="AdminJoinList.net">회원가입명단</a> 
 			<a href="AdminMemberList.net">회원관리</a> 
 			<a href="AdminboardManage.net">게시물관리</a>
 		</div>
@@ -39,7 +38,8 @@
 		부서게시판 <i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="#">게시물</a> <a href="#">캘린더</a>
+		<a href="#">게시물</a> 
+		<a href="calendar">캘린더</a>
 	</div>
 	<button class="dropdown-btn">
 		마이페이지 <i class="fa fa-caret-down"></i>
