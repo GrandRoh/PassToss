@@ -4,7 +4,7 @@
 	margin: 10px;
 	display: inline-block;
 	vertical-align: top;
-	width: 60%;
+	min-width: 1140;
 }
 
 .title, .count, .authorize {
@@ -28,6 +28,7 @@ input[type=image] {
 
 body {
 	background: #e2e2e2;
+	min-width: 1400;
 }
 
 select {
