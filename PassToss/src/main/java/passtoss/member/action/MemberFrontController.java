@@ -29,18 +29,30 @@ public class MemberFrontController extends HttpServlet {
 		Action action = null;
 
 		switch (command) {
-			case "/AdminJoinList.net":
-				action = new AdminJoinListAction();
+			case "/AdminMemberList.net":
+				action = new AdminMemberListAction();
 				break;
 			case "/AdminAccess.net":
 				action = new AdminAccessAction();
 				break;				
-			case "/LoingAction.net":
+			case "/LoginAction.net":
 	            action = new LoginAction();
 	            break;
 			case "/loginProcess.net":
 	             action = new LoginProcessAction();
 	             break;
+			case "/joinProcess.net":
+	             action = new JoinProcessAction();
+	             break;
+			case "/join.net":
+	             action = new JoinAction();
+	             break;
+	             
+			case "/idcheck.net":
+	             action = new MemberIdCheckAction();
+	             break;
+	             
+	             
 			case "/AdminMemberInfo.net":
 				action = new AdminMemberInfoAction();
 				break;

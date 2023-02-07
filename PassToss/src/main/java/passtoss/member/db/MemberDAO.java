@@ -26,7 +26,7 @@ public class MemberDAO {
 		}
 	}
 
-	public int getListCount() {
+	public int getListCount(int authority) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -36,9 +36,10 @@ public class MemberDAO {
 			conn = ds.getConnection();
 
 			String sql = "select count(*) from member "
-						+ "where authority = 0 "
+						+ "where authority = ? "
 						+ "order by joindate desc";			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, authority);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				listcount = rs.getInt(1);
@@ -69,7 +70,7 @@ public class MemberDAO {
 		return listcount;
 	}
 
-	public List<Member> getMemberList(int page, int limit) {// 회원가입 정보 조회
+	public List<Member> getMemberList(int page, int limit, int authority) {// 회원가입 정보 조회
 		List<Member> list = new ArrayList<Member>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -80,7 +81,7 @@ public class MemberDAO {
 			String sql = "select * "
 						+ "from (select m.*, rownum r "
 						+ "		 from (select * from member "
-						+ "		 	   where authority = 0 "
+						+ "		 	   where authority = ? "
 						+ "			   order by joindate desc) m "	//가장 최근에 가입한 순으로 정렬
 						+ "		 where rownum <= ? "
 						+ "		) "
@@ -91,9 +92,10 @@ public class MemberDAO {
 			int startrow = (page - 1) * limit + 1;
 			int endrow = startrow + limit - 1;
 			
-			pstmt.setInt(1, endrow);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, endrow);			
+			pstmt.setInt(1, authority);
+			pstmt.setInt(2, endrow);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, endrow);			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Member m = new Member();
@@ -136,7 +138,7 @@ public class MemberDAO {
 		return list;
 	}
 
-	public int getListCount(String field, String value) {
+	public int getListCount(String field, String value, int authority) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -144,12 +146,13 @@ public class MemberDAO {
 		try {
 			conn = ds.getConnection();
 			String sql = "select count(*) from member "
-					   + "where authority = 0 "
+					   + "where authority = ? "
 					   + "and " + field + " like ? "
 					   + "order by joindate desc";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + value + "%");
+			pstmt.setInt(1, authority);
+			pstmt.setString(2, "%" + value + "%");
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -180,7 +183,7 @@ public class MemberDAO {
 		return listcount;
 	}
 
-	public List<Member> getMemberList(String field, String value, int page, int limit) {
+	public List<Member> getMemberList(String field, String value, int page, int limit, int authority) {
 		List<Member> list = new ArrayList<Member>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -191,7 +194,7 @@ public class MemberDAO {
 			String sql = "select * "
 						+ "from (select m.*, rownum r "
 						+ "		 from (select * from member "
-						+ "		 	   where authority = 0"
+						+ "		 	   where authority = ?"
 						+ "			   and " + field + " like ? "
 						+ "			   order by joindate desc) m "
 						+ "		 where rownum <= ? "
@@ -199,14 +202,15 @@ public class MemberDAO {
 						+ "where r between ? and ?";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + value + "%");
+			pstmt.setInt(1, authority);
+			pstmt.setString(2, "%" + value + "%");
 			
 			int startrow = (page - 1) * limit + 1;
 			int endrow = startrow + limit - 1;
 			
-			pstmt.setInt(2, endrow);
-			pstmt.setInt(3, startrow);
-			pstmt.setInt(4, endrow);
+			pstmt.setInt(3, endrow);
+			pstmt.setInt(4, startrow);
+			pstmt.setInt(5, endrow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Member m = new Member();
@@ -352,6 +356,166 @@ public class MemberDAO {
 				}
 		}
 		return obj;
+	}
+
+	public int isId(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+
+		int result = -1; // DB에 해당 id가 없습니다
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				result = 0 ; // DB에 해당 id가 있습니다
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return result;
+	}
+
+	public int insert(Member m) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "insert into member (id,password,name,jumin,deptno,email,phone,address,AUTHORITY,post)"
+					+ " values ( ? , ?, ?, ? ,? ,?,?,?,?,?) ";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, m.getId());
+			pstmt.setString(2, m.getPassword());
+			pstmt.setString(3, m.getName());
+			pstmt.setString(4, m.getJumin());
+			pstmt.setInt(5, m.getDeptno());
+			pstmt.setString(6, m.getEmail());
+			pstmt.setString(7, m.getPhone());
+			pstmt.setString(8, m.getAddress());
+			pstmt.setInt(9, 0);
+			pstmt.setInt(10, m.getPost());
+	
+			result = pstmt.executeUpdate();
+			
+			
+		}catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			result = -1;
+			System.out.println("아이디 중복 에러입니다" + e);
+		
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+
+			
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return result;
+	}
+
+	public int isId(String id, String pass) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int result = -1; 
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs= pstmt.executeQuery();
+			
+				
+			if (rs.next()) {
+				if(rs.getString(2).equals(pass)) {
+					result = 1 ; 
+				}else {
+					result = 0 ; 
+				}
+
+				
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return result;
+
 	}
 
 }

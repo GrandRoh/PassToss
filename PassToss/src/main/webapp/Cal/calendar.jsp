@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="../AdminPage/leftMenu.jsp"/>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>calendar</title>
@@ -19,7 +20,18 @@
     <!-- fullcalendar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+<style>
+*{margin:0;padding:0}
+	
+ 	.container{padding:10px; background:#fff;
+ 				margin:10px; display:inline-block; vertical-align:top;
+ 				 width:80%}
+    .sidenav{display:inline-block}
+ 	.box_radius15{border-radius:5px}
+ 	
+ 	
 
+</style>
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
@@ -80,19 +92,67 @@
     </script>
     <style>
         #calendarBox{
-            width: 70%;
-            padding-left: 15%;
+            width: 80%;
+            float:left;
+     
+        }
+        #container_memo{
+         width: 65%;
+            margin:auto;
+            text-align:center
         }
 
     </style>
 </head>
 
 <body>
+<div class='container box_radius15'>
     <div id="calendarBox">
         <div id="calendar"></div>
     </div>
+    
+    <br>
+
+</div>
+<div class="container_memo" id="container_memo">
+
+
+	<form id="insert_form">
+	 <fieldset >
+	 	<legend> 일정 메모 </legend>
+	 		<table class="table">
+	 			<tr>
+	 				<th><label>작성자</label></th>
+	 				<td><input type="text" name="name" class="form-control" id="memoWriter" required></td>
+	 			</tr>
+	 			<tr>
+	 				<th><label>부서명</label></th>
+	 				<td><input type="text" name="price" class="form-control" id="memoDname" required></td>
+	 			</tr>
+	 			<tr>
+	 				<th><label>내용</label></th>
+	 				<td><input type="text" name="maker" class="form-control" id="memoContent" required></td>
+	 			</tr>
+	 			<tr>
+				<td colspan=2>
+					<button type="submit" class="btn btn-primary btn-block" >추가</button>
+	 			</td>
+	 			</tr>
+	 		</table>
+	 </fieldset>
+	
+	</form>
+
+	</div>
+	
+
+    
+    
+    
+    
 
     <!-- modal 추가 -->
+
     <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -105,6 +165,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <form action="/Calendar" name="eventAdd" type="post">
                         <label for="taskId" class="col-form-label">일정 내용</label>
                         <input type="text" class="form-control" id="calendar_content" name="calendar_content">
                         <label for="taskId" class="col-form-label">시작 날짜</label>
@@ -117,11 +178,16 @@
                     <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         id="sprintSettingModalClose">취소</button>
+                         </form>
                 </div>
     
             </div>
         </div>
     </div>
+   
+   
+   </div>
+   
 </body>
 
 </html>
