@@ -10,7 +10,17 @@ public class Business_status_Bean {
 	private int status;
 	private int priority;
 	private int count = 0;
+	private long diffMin = 0;
+
 	
+
+	
+	public long getDiffMin() {
+		return diffMin;
+	}
+	public void setDiffMin(long diffMin) {
+		this.diffMin = diffMin;
+	}
 	public int getCount() {
 		return count;
 	}
@@ -59,6 +69,7 @@ public class Business_status_Bean {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
 	
 	
 
