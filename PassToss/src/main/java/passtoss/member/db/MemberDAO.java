@@ -325,7 +325,7 @@ public class MemberDAO {
 				obj.addProperty("address", rs.getString("address"));
 				obj.addProperty("authority", rs.getString("authority"));
 				obj.addProperty("profileImg", rs.getString("profileImg"));
-				obj.addProperty("joindate", rs.getString("joindate"));
+				obj.addProperty("joindate", rs.getString("joindate").substring(0, 10));
 			}
 
 		} catch (Exception se) {

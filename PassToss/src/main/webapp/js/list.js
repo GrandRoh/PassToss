@@ -9,18 +9,18 @@ function go(page){
 
 $(function(){
 	
-	let selectedValue = '${search_field}'
+	let selectedValue = $("#search_field").val()
 		if(selectedValue != '-1')
 			$("#viewcount").val(selectedValue);
 		else
-			selectedValue = 0;
+			selectedValue = 0; // 선택된게 없으면 자동으로 검색어선택 하도록 
 			
 	const message = ["검색어", "제목", "작성자"]
 	$("input").attr("placeholder", message[selectedValue] + " 입력하세요.")
 	
-	$("button").click(function(){
+	$("#search").click(function(){
 		
-		if($("input").val() == ''){
+		if($("#word").val() == ''){
 			alert("검색어를 입력하세요");
 			$("input").focus();
 			return false;

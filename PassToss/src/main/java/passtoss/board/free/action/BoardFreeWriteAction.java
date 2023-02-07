@@ -15,7 +15,6 @@ public class BoardFreeWriteAction implements Action{
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);		
 		forward.setPath("/free_board/freeWrite.jsp");
-		return null;
+		return forward;
 	}
-
 }

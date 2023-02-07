@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import passtoss.member.db.MemberDAO;
 
-public class AuthorizeAction implements Action {
+public class AdminAccessAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -23,7 +23,7 @@ public class AuthorizeAction implements Action {
 		out.println("<script>");
 		if (result == id.length) {
 			out.println("alert('" + result + "명의 가입이 승인되었습니다.');");
-			out.println("location.href='joinList.net'");
+			out.println("location.href='AdminJoinList.net'");
 		} else {
 			out.println("alert('가입승인에 실패했습니다.');");
 			out.println("history.back();");
