@@ -34,20 +34,19 @@ public class MemberFrontController extends HttpServlet {
 				break;
 			case "/AdminAccess.net":
 				action = new AdminAccessAction();
-				break;
+				break;				
+			case "/LoingAction.net":
+	            action = new LoginAction();
+	            break;
+			case "/loginProcess.net":
+	             action = new LoginProcessAction();
+	             break;
 			case "/AdminMemberInfo.net":
 				action = new AdminMemberInfoAction();
 				break;
 			case "/AdminBoardList.net":
 				action = new AdminBoardListAction();
 				break;
-			//case "/LoinAction.net":
-	        //    action = new LoinAction();
-	        //    break;
-			//case "/loginProcess.net":
-	        //     action = new LoginProcessAction();
-	        //     break;
-			
 		}
 		forward = action.execute(request, response);
 

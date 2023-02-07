@@ -154,6 +154,7 @@ public class Business_status_DAO {
 				Business_status_Bean bsb = new Business_status_Bean();
 				bsb.setMemo_seq(rs.getInt("memo_seq"));
 				bsb.setMemo_content(rs.getString("memo_content"));
+				bsb.setBoard_date(rs.getString("board_date"));
 				bsb.setLimit_date(rs.getString("limit_date"));
 				bsb.setStatus(rs.getInt("status"));
 				bsb.setPriority(rs.getInt("Priority"));
