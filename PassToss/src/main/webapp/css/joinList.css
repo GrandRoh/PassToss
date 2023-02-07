@@ -7,18 +7,13 @@
 	min-width: 1140;
 }
 
-.title, .count, .authorize {
+.title, .count{
 	display: inline-block;
 }
 
 .title {
 	font-size: 30px;
 	margin-left: 10px;
-}
-
-.authorize {
-	float: right;
-	margin-bottom: 0;
 }
 
 input[type=image] {
