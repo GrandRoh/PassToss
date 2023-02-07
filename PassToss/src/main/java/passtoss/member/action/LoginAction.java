@@ -24,7 +24,7 @@ public class LoginAction implements Action {
 		
 		request.setAttribute("id", id);
 		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);// 주수 변경없이 jsp 페이지 내용 보여줍니다
+		forward.setRedirect(false);
 		forward.setPath("member/loginForm.jsp");
 				return forward;
 				

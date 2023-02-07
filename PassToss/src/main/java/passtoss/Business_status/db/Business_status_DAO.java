@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Context;
@@ -156,6 +158,19 @@ public class Business_status_DAO {
 				bsb.setMemo_content(rs.getString("memo_content"));
 				bsb.setBoard_date(rs.getString("board_date"));
 				bsb.setLimit_date(rs.getString("limit_date"));
+				
+				
+				//날짜계산
+				Date format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("limit_date"));
+				
+				Date curDate = new Date();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd- HH:mm:ss");
+				curDate = dateFormat.parse(dateFormat.format(curDate));
+				
+		        long diffMin = (format1.getTime() - curDate.getTime())/ 60000;
+				bsb.setDiffMin(diffMin);
+				
+				
 				bsb.setStatus(rs.getInt("status"));
 				bsb.setPriority(rs.getInt("Priority"));
 				list.add(bsb);
