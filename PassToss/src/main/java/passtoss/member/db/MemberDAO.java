@@ -358,4 +358,164 @@ public class MemberDAO {
 		return obj;
 	}
 
+	public int isId(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+
+		int result = -1; // DB에 해당 id가 없습니다
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				result = 0 ; // DB에 해당 id가 있습니다
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return result;
+	}
+
+	public int insert(Member m) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "insert into member (id,password,name,jumin,deptno,email,phone,address,AUTHORITY,post)"
+					+ " values ( ? , ?, ?, ? ,? ,?,?,?,?,?) ";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, m.getId());
+			pstmt.setString(2, m.getPassword());
+			pstmt.setString(3, m.getName());
+			pstmt.setString(4, m.getJumin());
+			pstmt.setInt(5, m.getDeptno());
+			pstmt.setString(6, m.getEmail());
+			pstmt.setString(7, m.getPhone());
+			pstmt.setString(8, m.getAddress());
+			pstmt.setInt(9, 0);
+			pstmt.setInt(10, m.getPost());
+	
+			result = pstmt.executeUpdate();
+			
+			
+		}catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			result = -1;
+			System.out.println("아이디 중복 에러입니다" + e);
+		
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+
+			
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return result;
+	}
+
+	public int isId(String id, String pass) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int result = -1; 
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs= pstmt.executeQuery();
+			
+				
+			if (rs.next()) {
+				if(rs.getString(2).equals(pass)) {
+					result = 1 ; 
+				}else {
+					result = 0 ; 
+				}
+
+				
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return result;
+
+	}
+
 }

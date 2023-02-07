@@ -34,6 +34,8 @@ public class BusinessAddAction implements Action{
 		
 		String limit_date = yy+"-"+mm+"-"+dd;
 		
+		
+		
 		bsb.setMemo_id(memo_id);bsb.setMemo_content(MEMO_CONTENT);bsb.setLimit_date(limit_date);
 		bsb.setPriority(Priority);bsb.setStatus(STATUS);
 

@@ -6,6 +6,7 @@ public class Member {
 	private String name;
 	private String jumin;
 	private int deptno;
+	private int post;
 	private String email;
 	private String phone;
 	private String address;
@@ -13,6 +14,17 @@ public class Member {
 	private String profileImg;
 	private String joindate;
 
+	
+	public int getPost() {
+		return post;
+	}
+
+	public void setPost(int post) {
+		this.post = post;
+	}
+
+	
+	
 	public String getId() {
 		return id;
 	}

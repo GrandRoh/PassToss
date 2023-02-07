@@ -165,9 +165,10 @@
 							           <td class='status_color3 color_fff'>완료</td>
 							       </c:if>
 				
-							    <c:set var="datevalue" value="${m.limit_date }"/>
-								<td>${fn:substring(datevalue,0,10)}</td>
-								
+							    <%--<c:set var="datevalue" value="${m.limit_date }"/>
+								 <td>${fn:substring(datevalue,0,10)}</td>--%>
+								 
+								<td>${m.diffMin }분</td>
 								
 								<td><a href="javascript:status_delete(${m.memo_seq })"><img src="image/remove.png" alt="추가" style='width:70%'></a></td>
 							</tr>
@@ -196,10 +197,9 @@
 	      			<div class="modal-body">
 	      				<form name="addForm" action="BusinessAddAction.bs" method="post">
 		      				<div class="form-group">
-		      						<%-- 추후 hidden변경 --%>
-		      						<label for ="MEMO_ID">작성자ID</label>
-		      						<input type="text" class="form-control" placeholder="Enter ID"
-		      								name="MEMO_ID" id="MEMO_ID">
+		      					
+		      						<input type=hidden 
+		      								name="MEMO_ID" id="MEMO_ID" value="${id}">
 		      								
 		      						<label for ="MEMO_CONTENT">내용</label>
 		      						<input type="text" class="form-control" placeholder="Enter CONTENT"

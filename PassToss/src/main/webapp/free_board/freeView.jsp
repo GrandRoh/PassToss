@@ -21,7 +21,7 @@
 	body{background:#e2e2e2;min-width:1400px}
  	.container{padding:10px; background:#fff;
  				margin:10px; display:inline-block; vertical-align:top;
- 				min-width:800px}
+ 				width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
  	
@@ -77,7 +77,7 @@
 		  <table class="table table-striped">
 		  	<thead>
 		  		<tr>
-		  			 <th colspan="2">사내게시판 list</th>
+		  			 <th colspan="5">사내게시판 list</th>
 		  			 <th><span>글 갯수 : ${listcount}</span></th>
 		  		</tr>
 		  		<tr>
