@@ -24,11 +24,6 @@
  				width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
- 	
- 	table caption {
-		caption-side: top;
-		text-align: center
-	}
 	
 	select.form-control {
  		width : auto;
@@ -57,7 +52,7 @@
 </head>
 <body>
 	<div class='container box_radius15'>
-	<input type="hidden" id="loginid" value="${id}" name="loginid">
+	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- id를 어디서? --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	  <form action="FreeList.bof" method="post">
 			<div class="input-group">

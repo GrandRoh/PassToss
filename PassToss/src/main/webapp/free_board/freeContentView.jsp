@@ -17,11 +17,6 @@
  				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
- 	
- 	table caption {
-		caption-side: top;
-		text-align: center
-	}
 	
 	
 </style>
