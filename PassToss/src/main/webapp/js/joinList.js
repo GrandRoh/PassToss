@@ -2,7 +2,6 @@ $(function() {
 
 	let selectedValue = $("#search_field").val();
 
-
 	if (selectedValue != '-1')
 		$("#viewcount").val(selectedValue);
 	else

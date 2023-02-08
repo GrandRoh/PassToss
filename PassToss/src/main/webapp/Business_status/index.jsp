@@ -3,6 +3,7 @@
  <%@ taglib prefix ="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -15,17 +16,20 @@
 
 <title>업무 현황</title>
 <style>
-*{margin:0;padding:0}
-	
-	body{background:#e2e2e2;min-width:1400px}
-	.container{padding:10px;background:#fff;margin:10px;display:inline-block;vertical-align:top}
+
+
 	.sidenav{display:inline-block}
 	
 	.container >div {vertical-align:top}
 	.box_radius15 , .memo_inner_box li{border-radius:5px}
 	
 	.status_left_box{width:63%;padding:1%;display:inline-block}
-	.status_right_box{width:33%;padding:1%;display:inline-block}
+	.status_right_box{width: 33%;
+					    padding: 1%;
+					    display: inline-block;
+					    text-align: center;
+					    border-left: 1px solid #ddd;
+					    margin-lefT: 8px;}
 	
 	.memo_wrap{background:#2a2d5b;padding: 20px 10px;text-align:center;min-height:400px}
 	
@@ -42,12 +46,10 @@
 	.schedule_wrap tr{margin-top:3px}
 	.schedule_wrap td:nth-child(1){border-left:3px solid #6bb0fd}
 	.schedule_wrap td{background:#eee;padding:3px}
-	.center{text-align:center}
 	
-	.color_fff{color:#fff}
-	.status_color1{background:#587def !important}
+	.status_color1{background:red !important}
 	.status_color2{background:orange !important}
-	.status_color3{background:#04a85f !important}
+	.status_color3{background:#587def !important}
 	
 	.PRIORITY_color1{background:green !important}
 	.PRIORITY_color2{background:orange !important}
@@ -67,16 +69,27 @@
 	#all_status_graph_wrap{width: 349px;
    						 height: 204px;
 					    padding: 30px 57px 31px 30px;
-					    background: url(./image/empty_battery.png) no-repeat;}
+					    background: url(./image/empty_battery.png) no-repeat;margin:20px auto}
 	#all_status_graph>div{float:left;height:145px}
 	
+	.m_memo_content a{font-weight:bold;color: gray;text-decoration:none}
+	.m_memo_content .left_a_btn{float:left;margin-lefT:10px}
+	.m_memo_content .right_a_btn{float:right;margin-right:10px}
+	
+	.status_bottom_graph_wrap{margin-top:15px}
+	
+	#business_add .form-control{margin:20px 0 30px}
+	#business_add .modal_date_form{margin:20px 0}
+	#business_add .form-group{margin:20px 0}
+	#business_add .btn{width:100%;margin-bottom:15px}
 </style>
 </head>
 <body>
 
+	<jsp:include page="../include/head.jsp"/>
+
 	<div class='container box_radius15'>
 	
-		
 		<div class='status_left_box'>
 			
 			<div class='memo_wrap box_radius15'>
@@ -85,7 +98,7 @@
 					<ul>
 						<c:forEach var="m" items="${memolist }">
 							<c:if  test = "${m.status == 1}">
-								<li>${m.memo_content }</li>
+								<li id="memo_content_${m.memo_seq }" class='m_memo_content'>${m.memo_content }<a href='javascript:change_status(${m.memo_seq },+1)' class='right_a_btn'>+</a></li>
 							 </c:if>
 						</c:forEach>
 					</ul>
@@ -96,7 +109,7 @@
 					<ul>
 						<c:forEach var="m" items="${memolist }">
 							<c:if  test = "${m.status == 2}">
-								<li>${m.memo_content }</li>
+								<li id="memo_content_${m.memo_seq }" class='m_memo_content'><a href='javascript:change_status(${m.memo_seq },-1)' class='left_a_btn'>-</a>${m.memo_content }<a href='javascript:change_status(${m.memo_seq },+1)' class='right_a_btn'>+</a></li>
 							 </c:if>
 						</c:forEach>
 					</ul>
@@ -107,7 +120,7 @@
 					<ul>
 						<c:forEach var="m" items="${memolist }">
 							<c:if  test = "${m.status == 3}">
-								<li>${m.memo_content }</li>
+								<li id="memo_content_${m.memo_seq }" class='m_memo_content'><a href='javascript:change_status(${m.memo_seq },-1)' class='left_a_btn'>-</a>${m.memo_content }</li>
 							 </c:if>
 						</c:forEach>
 					</ul>
@@ -116,19 +129,17 @@
 			</div>
 			
 			<div class='schedule_wrap'>
-				<table style='border-collapse: initial;border-spacing: 3px 5px;'>
+				<table style='border-collapse: initial;border-spacing: 3px 5px;text-align:center'>
 					<colgroup>
 						<col width="50%">
-						<col width="8%">
-						<col width="12%">
-						<col width="13%">
-						<col width="12%">
-						<col width="5%">
+						<col width="14%">
+						<col width="14%">
+						<col width="14%">
+						<col width="7%">
 					</colgroup>
 				
 					<tr>
 						<th>업무내용</th>
-						<th>사람</th>
 						<th>우선순위</th>
 						<th>상태</th>
 						<th>기한</th>
@@ -139,10 +150,9 @@
 					<c:if test="${listcount > 0 }">
 						<c:forEach var="m" items="${memolist }">
 							<tr>
-								<td>${m.memo_content }</td>
+								<td style='text-align:left'>${m.memo_content }</td>
 								
-								<td class='center'><img src="image/remove.png" alt="인물사진"></td>
-									
+		
 							     
 							
 							       <c:if  test = "${m.priority == 1}">
@@ -165,10 +175,8 @@
 							           <td class='status_color3 color_fff'>완료</td>
 							       </c:if>
 				
-							    <%--<c:set var="datevalue" value="${m.limit_date }"/>
-								 <td>${fn:substring(datevalue,0,10)}</td>--%>
-								 
-								<td>${m.diffMin }분</td>
+							
+								<td>${m.diffMin }시간</td>
 								
 								<td><a href="javascript:status_delete(${m.memo_seq })"><img src="image/remove.png" alt="추가" style='width:70%'></a></td>
 							</tr>
@@ -205,7 +213,7 @@
 		      						<input type="text" class="form-control" placeholder="Enter CONTENT"
 		      								name="MEMO_CONTENT" id="MEMO_CONTENT">
 		      							
-		      						<div>
+		      						<div class='modal_date_form'>
 		      							<label for ="LIMIT_DATE">기한</label>
 		      							<select name="yy" id="year">
 		      								<option>2023</option>
@@ -264,10 +272,10 @@
 			
 			
 			<div class='status_bottom_graph_wrap center'>
-				<h1 style='border-bottom:1px solid #eee;padding-bottom:3px'>진행정도</h1>
+				<h2 style='border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:15px'>개인 업무 현황</h2>
 				<div class="status_bottom_graph_info graph_info_div">
 					<div>
-						<div id="donutchart" style="width: 400px; height: 400px;"></div>
+						<div id="donutchart" style="width: 400px; height: 300px;"></div>
 					</div>
 				</div>
 			</div>
@@ -285,9 +293,26 @@
 	   let cnt_a0 = 0;
 	   let cnt_a1 = 0;
 	   let cnt_a2 = 0;
-	   <c:forEach var="s" items="${statuscount}" varStatus="cnt">
-				 cnt_a<c:out value="${cnt.index}"/> = <c:out value="${s.count}"/>;
+	   
+	  
+	   
+
+		
+		 <c:forEach var="s" items="${statuscountById }" >
+			<c:if  test = "${s.status == 1}">
+				cnt_a0 =  ${s.count};
+			</c:if>
+
+			<c:if  test = "${s.status == 2}">
+				cnt_a1 =  ${s.count};
+			</c:if>
+
+			<c:if  test = "${s.status == 3}">
+				cnt_a2 =  ${s.count};
+			</c:if>
 		</c:forEach>
+		
+		
    
 		if(cnt_a0 == 0 && cnt_a1 == 0 && cnt_a2 == 0 )	{
 			$("#donutchart").text("등록된 업무가 없습니다");
@@ -333,6 +358,18 @@
     	  
       }
       
+      
+      
+      
+      
+       let all_cnt_a0 = 0;
+	   let all_cnt_a1 = 0;
+	   let all_cnt_a2 = 0;
+	   <c:forEach var="b" items="${statuscount}" varStatus="count">
+				 all_cnt_a<c:out value="${count.index}"/> = <c:out value="${b.count}"/>;
+		</c:forEach>
+      
+		console.log(cnt_a0 + " " + cnt_a1 + " " + cnt_a2 )
       function draw_stackedbar(a,b,c){
     	  if(a == 0 && b == 0 && c == 0 ){
     		  $("#all_status_graph").html("등록된 업무가 없습니다")
@@ -350,7 +387,11 @@
     	  }
       }
       
-      
+		function change_status(seq,status){
+			location.href= "BusinessUpdateAction.bs?seq="+seq+"&status="+status;			
+
+			
+		}
       
       
       $(function(){
@@ -387,7 +428,7 @@
     	  
     	  
     		
-    	  	draw_stackedbar(cnt_a0,cnt_a1,cnt_a2);
+    	  	draw_stackedbar(all_cnt_a0,all_cnt_a1,all_cnt_a2);
     	  
     	  
       })
