@@ -189,3 +189,7 @@ from(select rownum rnum, j.*
  from board_free
  where(board_subject like '%안녕2%' or board_name like '%안녕2%');
  
+update board_free
+set board_subject= '안녕', board_content='수정됨', board_file='', board_notice =1
+where board_num = 10;
+ 

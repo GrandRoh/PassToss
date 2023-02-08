@@ -5,9 +5,6 @@
 <title>사내게시판</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <script src = "js/list.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <script>
 	$(function(){
@@ -52,7 +49,7 @@
 </head>
 <body>
 	<div class='container box_radius15'>
-	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- id를 어디서? --%>
+	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- leftMenu에서 저장된 id값 --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	  <form action="FreeList.bof" method="post">
 			<div class="input-group">

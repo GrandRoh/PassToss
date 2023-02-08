@@ -21,15 +21,17 @@
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
 	 	<h3>글 수정하기</h3>
 	 	<div class="from-group">
+    		 <c:if test="${!id=='admin'}">
     		<select id="board_notice" name="board_notice"> <%-- 권한이 2거나 아이디가 admin 아니면 바꿀수 없어야함 --%>
-    		<c:if test="!${id} == 'admin'">
 				<option value="1" selected>게시물</option>
-			</c:if>
-			<c:if test="${id} == 'admin'">
+			</select>
+		   </c:if>
+		   <c:if test="${id=='admin'}">
+		     <select id="board_notice" name="board_notice">
 				<option value="0">공지사항</option>
 				<option value="1" selected>게시물</option>
-			</c:if> <%-- 나중에 id 받아올때 제대로 되는지 확인하기  --%>
-			</select>
+			 </select>
+		   </c:if>
     	</div>
 	 	
 	 	<div class="form-group">
