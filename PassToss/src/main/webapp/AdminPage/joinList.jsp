@@ -5,11 +5,12 @@
 <title>ADMIN - 회원 관리</title>
 <link rel="stylesheet" href="css/joinList.css" type="text/css">
 <jsp:include page="../AdminPage/leftMenu.jsp" />
+<jsp:include page="../include/head.jsp"/>
 <script src="js/joinList.js"></script>
 </head>
-<body>
+<body>	
     <input type="hidden" id="search_field" value="${search_field}">
-	<div class='container box_radius15'>
+	<div class='container box_radius15 board_container'>
 		<form action="AdminMemberList.net?authority=${authority}" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
@@ -29,7 +30,8 @@
 			<a class="btn btn-secondary btn-sm dropdown-toggle" role="button"
 				data-bs-toggle="dropdown" aria-expanded="false"> 액션 </a>
 			<ul class="dropdown-menu">
-				<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
+				<li><button type="button" class="dropdown-item authorize" data-bs-toggle="modal"
+					data-bs-target="#modal2">권한수정</button></li>
 				<li><a class="dropdown-item delete" href="AdminDelete.net">삭제</a></li>
 			</ul>
 		</div>
@@ -63,8 +65,8 @@
 								<td><input type="checkbox" name="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num - 1}" /></td>
-								<td><button type="button" data-bs-toggle="modal" id="idInfo"
-										data-id="${m.id}" data-bs-target="#modal">${m.id}</button></td>
+								<td><button type="button" data-bs-toggle="modal"
+										data-id="${m.id}" data-bs-target="#modal1">${m.id}</button></td>
 								<td>${m.name}</td>
 								<td>${m.deptno}</td>
 								<td>${m.joindate}</td>
@@ -127,8 +129,8 @@
 		</c:if>
 	</div>
 
-	<!-- Modal -->
-	<div class="modal fade test_modal" id="modal" tabindex="-1"
+	<!-- 아이디 정보 Modal1 -->
+	<div class="modal fade" id="modal1" tabindex="-1"
 		aria-labelledby="idInfoLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -145,7 +147,23 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		
-	</script>
+	
+	<!-- 권한수정 Modal2 -->
+	<div class="modal fade" id="modal2" tabindex="-1"
+		aria-labelledby="idInfoLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="idInfoLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">내용</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
