@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="css/leftMenu.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -107,6 +112,7 @@
 </head>
 
 <body>
+
 <div class='container box_radius15'>
     <div id="calendarBox">
         <div id="calendar"></div>
@@ -166,7 +172,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <form action="/Calendar" name="eventAdd" type="post">
+                     
                         <label for="taskId" class="col-form-label">일정 내용</label>
                         <input type="text" class="form-control" id="calendar_content" name="calendar_content">
                         <label for="taskId" class="col-form-label">시작 날짜</label>
@@ -179,7 +185,7 @@
                     <button type="button" class="btn btn-warning" id="addCalendar">추가</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         id="sprintSettingModalClose">취소</button>
-                         </form>
+                       
                 </div>
     
             </div>
@@ -187,8 +193,7 @@
     </div>
    
    
-   </div>
-   
+ 
 </body>
 
 </html>
