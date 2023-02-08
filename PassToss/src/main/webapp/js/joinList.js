@@ -9,7 +9,6 @@ $(function() {
 
 	console.log(selectedValue)
 
-
 	const message = ["아이디", "이름", "부서번호"];
 	$("input").attr("placeholder", message[selectedValue] + "을(를) 입력하세요");
 
@@ -49,15 +48,10 @@ $(function() {
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사
 		if (!$("input[name=select]").is(":checked")) {
 			alert('가입승인할 회원을 선택하세요.');
-		} else {
-			$("#modal").modal("show");
-			authorize();
+			$("#modal2").on('show.bs.modal', function() {
+				return false;
+			})
 		}
-	})
-	
-	$("#idInfo").on("click", function() {
-		$("#modal").modal("show");
-		idInfo();
 	})
 
 	$(".delete").on("click", function() {//액션-삭제 유효성검사
@@ -73,51 +67,43 @@ $(function() {
 		}
 	})
 
+	$("#modal1").on('show.bs.modal', function(e) {
+		let id = $(e.relatedTarget).data('id');
+		$.ajax({
+			url: 'AdminMemberInfo.net',
+			data: {
+				id: id
+			},
+			type: 'post',
+			datatype: 'json',
+			success: function(rdata) {
+				$("#idInfoLabel").text(rdata.id + ' 회원정보');
+
+				let output = "";
+				output += "<table class='table table-bordered'>"
+					+ "<tr><th>아이디</th><td>" + rdata.id + "</td></tr>"
+					+ "<tr><th>비밀번호</th><td>" + rdata.password + "</td></tr>"
+					+ "<tr><th>이름</th><td>" + rdata.name + "</td></tr>"
+					+ "<tr><th>주민번호</th><td>" + rdata.jumin + "</td></tr>"
+					+ "<tr><th>부서번호</th><td>" + rdata.deptno + "</td></tr>"
+					+ "<tr><th>이메일</th><td>" + rdata.email + "</td></tr>"
+					+ "<tr><th>연락처</th><td>" + rdata.phone + "</td></tr>"
+					+ "<tr><th>주소</th><td>" + rdata.address + "</td></tr>"
+					+ "<tr><th>회원등급</th><td> 준회원 </td></tr>"
+					+ "<tr><th>가입일자</th><td>" + rdata.joindate + "</td></tr>";
+				$(".modal-body").html(output);
+			}
+		})
+	})
 	
-
-
-
-	function authorize() {
-		$("#modal").on('show.bs.modal', function() {
-			output = "";
-			output += "<form action='AdminAccess.net' method='post'>"
-				+ "<input type='radio' name='authority' value='준회원'>준회원"
-				+ "<input type='radio' name='authority' value='정회원'>정회원"
-				+ "</form>"
-			$(".modal-body").html(output);
-		})
-	}
-
-	function idInfo() {
-		$("#modal").on('show.bs.modal', function(e) {
-			let id = $(e.relatedTarget).data('id');
-			$.ajax({
-				url: 'AdminMemberInfo.net',
-				data: {
-					id: id
-				},
-				type: 'post',
-				datatype: 'json',
-				success: function(rdata) {
-					$("#idInfoLabel").text(rdata.id + ' 회원정보');
-
-					let output = "";
-					output += "<table class='table table-bordered'>"
-						+ "<tr><th>아이디</th><td>" + rdata.id + "</td></tr>"
-						+ "<tr><th>비밀번호</th><td>" + rdata.password + "</td></tr>"
-						+ "<tr><th>이름</th><td>" + rdata.name + "</td></tr>"
-						+ "<tr><th>주민번호</th><td>" + rdata.jumin + "</td></tr>"
-						+ "<tr><th>부서번호</th><td>" + rdata.deptno + "</td></tr>"
-						+ "<tr><th>이메일</th><td>" + rdata.email + "</td></tr>"
-						+ "<tr><th>연락처</th><td>" + rdata.phone + "</td></tr>"
-						+ "<tr><th>주소</th><td>" + rdata.address + "</td></tr>"
-						+ "<tr><th>회원등급</th><td> 준회원 </td></tr>"
-						+ "<tr><th>가입일자</th><td>" + rdata.joindate + "</td></tr>";
-					$(".modal-body").html(output);
-				}
+	$("#modal2").on('show.bs.modal', function() {
+				output = "";
+				output += "<form action='AdminAccess.net' method='post'>"
+					+ "<input type='radio' name='authority' value='준회원'>준회원"
+					+ "<input type='radio' name='authority' value='정회원'>정회원"
+					+ "</form>"
+				$(".modal-body").html(output);
 			})
-		})
-	}
 
 })
 
