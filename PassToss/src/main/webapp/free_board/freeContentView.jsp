@@ -4,20 +4,13 @@
 <head>
 <title>사내게시판 글 내용 보기</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <link rel="stylesheet" href="css/view.css" type="text/css">
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px; background:#fff;
- 				margin:10px; display:inline-block; vertical-align:top;
- 				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
-	
 	
 </style>
 <script>
@@ -36,10 +29,8 @@
 </script>
 </head>
 <body>
-  <div class='container box_radius15'>
-  	
-  
-  
+  <jsp:include page="../include/head.jsp"/>
+  <div class='container box_radius15'>  
   <input type="hidden" id="loginid" value="${id}" name="loginid">
   <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
   
@@ -121,13 +112,13 @@
   	<div>
   		<a href="FreeReplyView.bof?num=${board.board_num}"><button class="">답글쓰기</button></a>
   		
-  	   <%-- <c:if test="${board.board_num => 1}"> --%>
+  	   <%-- <c:if test="${board.board_num => 1}"> min < board_num하고 같으면 이전글 있음  --%>
   		<a href="FreeDetailAction.bof?num=${board.board_num-1}"><button class="">이전글</button></a>
   	   <%--   </c:if> --%>
   	   
   		<a href="FreeList.bof"><button class="">목록</button></a>
   		
-  	   <%-- <c:if test="${board.board_num < board.maxnum}"> --%>
+  	   <%-- <c:if test="${board.board_num < board.maxnum}"> 받을때 num말고 해당되는애로 받기 --%>
   		<a href="FreeDetailAction.bof?num=${board.board_num+1}"><button class="">다음글</button></a>
   	  <%--  </c:if> --%>
   	</div>

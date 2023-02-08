@@ -692,4 +692,166 @@ public class FreeBoardDAO {
 		}
 		return board;
 	}
+
+	public int boardModify(FreeBoard fboard) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result = 0; 
+		
+		try {
+			
+			con= ds.getConnection();
+			
+			String sql = "update board_free "
+					   + "set board_subject=?, board_content=?, board_file=?, board_notice =? "
+					   + "where board_num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, fboard.getBoard_subject());
+			pstmt.setString(2, fboard.getBoard_content());
+			pstmt.setString(3, fboard.getBoard_file());
+			pstmt.setInt(4, fboard.getBoard_notice());
+			pstmt.setInt(5, fboard.getBoard_num());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("boardModify() 에러: " + ex);
+		}finally{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
+
+	public int boardReply(FreeBoard board) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int num = 0;
+		
+		String board_max_sql = "select max(board_num)+1 from board_free";
+		
+		int re_ref = board.getBoard_re_ref();
+		int re_lev = board.getBoard_re_lev();
+		int re_seq = board.getBoard_re_seq();
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(board_max_sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				num = rs.getInt(1);
+			}
+			pstmt.close();
+			
+			String sql = "update board_free "
+					   + "set board_re_seq = board_re_seq + 1 "
+					   + "where board_re_ref = ? "
+					   + "and board_re_seq > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, re_ref);
+			pstmt.setInt(2, re_seq);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			re_seq = re_seq + 1;		
+			re_lev = re_lev + 1;
+			
+			sql = "insert into board_free "
+				+ "(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, "
+				+ " BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, "
+				+ " BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT, "
+				+ " BOARD_DATE, BOARD_NOTICE) "
+				+ "values(" + num + ", ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?) "; 
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getBoard_name());
+			pstmt.setString(2, board.getBoard_subject());
+			pstmt.setString(3, board.getBoard_content());
+			pstmt.setString(4, "");
+			pstmt.setInt(5, re_ref);
+			pstmt.setInt(6, re_lev);
+			pstmt.setInt(7, re_seq);
+			pstmt.setInt(8, 0);
+			pstmt.setInt(9, 1); // 
+			
+			if(pstmt.executeUpdate() == 1) {
+				con.commit();
+			} else {
+				con.rollback();
+			}
+			
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("boardReply() 에러: " + ex);
+			if(con != null) {
+				try {
+					con.rollback(); // rollback합니다.
+				}catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.setAutoCommit(true);
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		
+		return num;
+	}
 }
