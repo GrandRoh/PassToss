@@ -25,7 +25,7 @@
 				</thead>
 
 				<!-- ajax로 바디 부분 바꾸기 -->
-
+	<!-- ajax로 바디 부분 바꾸기 -->
 				<tbody>
 					<c:set var="num" value="${listcount-(page-1)*limit }"/>
 					<c:forEach var="b" items="${memolist}">
