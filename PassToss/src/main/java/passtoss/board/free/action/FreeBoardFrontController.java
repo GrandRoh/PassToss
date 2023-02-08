@@ -62,8 +62,16 @@ public class FreeBoardFrontController extends HttpServlet {
 				action = new FreeReplyAction();
 				break;
 				
+			case "/FreeDeleteAction.bof":
+				action = new FreeDeleteAction();
+				break;
+				
 			case "/FreeFileDown.bof":
 				action = new FreeFileDownAction();
+				break;
+				
+			case "/freeCommentAdd.bof":
+				action = new FreeCommentAdd();
 				break;
 		
 		}

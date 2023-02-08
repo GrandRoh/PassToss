@@ -12,8 +12,8 @@ td:nth-child(1) {
 	width: 20%
 }
 
-a {
-	color: white
+a{
+	color :black
 }
 
 body>div>table>tbody>tr:nth-child(5)>td:nth-child(2)>a {
@@ -141,7 +141,7 @@ textarea.comment-write-area-text {
 	font-weight: 700;
 }
 
-.comment-area a {
+.comment-area {
 	color: inherit;
 }
 
@@ -263,10 +263,6 @@ textarea {
 
 .comment-tool-button:focus, .comment-tool-button:visited {
 	outline: none;
-}
-
-a:hover {
-	text-decoration: none;
 }
 
 .btn-register, .btn-cancel, .reply {
