@@ -21,8 +21,9 @@ public class MemoDAO {
 		try {
 			Context init = new InitialContext();
 			ds = (DataSource) init.lookup("java:comp/env/jdbc/OracleDB");
-		} catch (Exception e) {
-			System.out.println("DB 연결 실패 : " + e);
+		} catch (Exception ex) {
+			System.out.println("DB 연결 실패 : " + ex);
+			return; // 생략해도 무관 (끝날 때 return이 항상 생략되어 있음)
 		}
 	}
     // 삽입
@@ -170,6 +171,8 @@ public class MemoDAO {
         return items;
  
     }
+    
+    
 	public int getListCount() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -248,7 +251,7 @@ public class MemoDAO {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			System.out.println("getMemo() 에러" + ex);
+			System.out.println("getMemoList() 에러" + ex);
 		} finally {
 			if (rs != null) // null이 아니면 클로즈해라
 				try {
@@ -274,6 +277,8 @@ public class MemoDAO {
 		}
 		return list;
 	}
+	
+	
 	public int memoDelete(int memo_num) {
 		Connection con = null;
 	      PreparedStatement pstmt = null;
@@ -321,13 +326,7 @@ public class MemoDAO {
 	      }
 	      return result;
 	   }
-	public int getListCount(String string, String search_word) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	public List<MemoVO> getMemoList(String string, String search_word, int page, int limit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
+	
 }
- 
