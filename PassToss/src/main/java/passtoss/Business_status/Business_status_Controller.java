@@ -47,7 +47,10 @@ public class Business_status_Controller extends HttpServlet {
 	    	case "/BusinessDeleteAction.bs":
 	    		action = new BusinessDeleteAction();
 	    		break;
-
+	    	case "/BusinessUpdateAction.bs":
+	    		action = new BusinessUpdateAction();
+	    		break;
+	    		
     		
     		
     	}

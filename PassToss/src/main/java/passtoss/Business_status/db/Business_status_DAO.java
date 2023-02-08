@@ -82,7 +82,7 @@ public class Business_status_DAO {
 		return result;
 	}
 
-	public int getListCount() {
+	public int getListCount(String id) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		//select만 필요
@@ -93,10 +93,10 @@ public class Business_status_DAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select count(*) from business_status";
+			String sql = "select count(*) from business_status  where memo_id=?";
 			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
 			rs= pstmt.executeQuery();
-			
 				
 			if (rs.next()) {
 				x = rs.getInt(1);
@@ -104,7 +104,7 @@ public class Business_status_DAO {
 			
 			
 		}catch(Exception se){
-			System.out.println(se.getMessage());
+			System.out.println("getListCount error "+se.getMessage());
 			
 		}finally {
 			try {
@@ -131,13 +131,13 @@ public class Business_status_DAO {
 		return x;
 	}
 
-	public List<Business_status_Bean> getMemoList() {
+	public List<Business_status_Bean> getMemoList(String id) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		//select만 필요
 		ResultSet rs = null;
 			
-			String sql = "select * from business_status";
+			String sql = "select * from business_status where memo_id =?" ;
                    
 
 
@@ -147,7 +147,7 @@ public class Business_status_DAO {
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
-			//pstmt.setInt(1, id); 추후 아이디추가
+			pstmt.setString(1, id); 
 	
 			rs= pstmt.executeQuery();
 			
@@ -167,10 +167,9 @@ public class Business_status_DAO {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd- HH:mm:ss");
 				curDate = dateFormat.parse(dateFormat.format(curDate));
 				
-		        long diffMin = (format1.getTime() - curDate.getTime())/ 60000;
+		        long diffMin = (format1.getTime() - curDate.getTime())/ 3600000;
 				bsb.setDiffMin(diffMin);
-				
-				
+			
 				bsb.setStatus(rs.getInt("status"));
 				bsb.setPriority(rs.getInt("Priority"));
 				list.add(bsb);
@@ -178,7 +177,7 @@ public class Business_status_DAO {
 			
 			
 		}catch(Exception se){
-			System.out.println(se.getMessage());
+			System.out.println("getMemoList error "+ se.getMessage());
 			
 		}finally {
 			try {
@@ -304,4 +303,107 @@ public class Business_status_DAO {
 
 		return list;
 	}
+	
+	
+	public List<Business_status_Bean> getCountAttributeById(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+		List<Business_status_Bean> list =  new ArrayList<Business_status_Bean>();
+ 		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select status,NVL(count(*),0) as count from business_status where memo_id='"+id
+					+ "' group by  status order by status"  ;
+	
+			pstmt = conn.prepareStatement(sql.toString());
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				Business_status_Bean b = new Business_status_Bean();
+				b.setStatus(rs.getInt(1));
+				b.setCount(rs.getInt(2));
+				list.add(b);
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return list;
+	}
+
+
+	public int update(int memo_seq, String status) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+		int result = 0; 
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "update business_status set status = status + "+status +" where memo_seq = ?";
+			System.out.println(sql);
+			pstmt = conn.prepareStatement(sql.toString());
+			
+	
+			pstmt.setInt(1, memo_seq);
+	
+
+				
+			result = pstmt.executeUpdate();
+			if(result ==1) {
+				System.out.println("update완료");
+			}
+			System.out.println(result);
+			
+		}catch(Exception se){
+			System.out.println("update 에러:" + se);
+			
+		}finally {
+		
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return result;
+	}
+	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import passtoss.Business_status.db.Business_status_Bean;
 import passtoss.Business_status.db.Business_status_DAO;
@@ -22,20 +23,24 @@ public class Business_Status_list implements Action{
 		
 	
 		List<Business_status_Bean> statuscount = new ArrayList<Business_status_Bean>();
-		List<Business_status_Bean> prioritycount = new ArrayList<Business_status_Bean>();
+		List<Business_status_Bean> statuscountById = new ArrayList<Business_status_Bean>();
 		
+		HttpSession session = request.getSession();
+		String id =(String) session.getAttribute("id");
+		
+	
 		//속성별 group by
 		statuscount = dao.getCountAttribute("status");
+		statuscountById = dao.getCountAttributeById(id);
 	
-		prioritycount = dao.getCountAttribute("priority");
 	
 		request.setAttribute("statuscount", statuscount);
-		request.setAttribute("prioritycount", prioritycount);
+		request.setAttribute("statuscountById", statuscountById);
 
 
 		
-		memolist = dao.getMemoList();
-		int listcount = dao.getListCount();
+		memolist = dao.getMemoList(id);
+		int listcount = dao.getListCount(id);
 		
 		request.setAttribute("listcount", listcount);
 		request.setAttribute("memolist", memolist);

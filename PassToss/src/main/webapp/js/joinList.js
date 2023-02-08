@@ -7,7 +7,7 @@ else
 const message = ["아이디", "이름", "부서번호"];
 $("input").attr("placeholder", message[selectedValue] + "을(를) 입력하세요");
 
-let change;
+let change =0;
 
 $(function() {
 	$("button[name=searchbutton]").click(function() {
