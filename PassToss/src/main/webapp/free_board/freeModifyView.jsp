@@ -8,15 +8,13 @@
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px; background:#fff;
- 				margin:10px; display:inline-block; vertical-align:top;
- 				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
 </style>
 </head>
 <body>
   <div class='container box_radius15'>
+  <jsp:include page="../include/head.jsp"/>
 	 <form action="FreeModifyAction.bof" method="post" enctype="multipart/form-data" name="modifyform">
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
 	 	<h3>글 수정하기</h3>

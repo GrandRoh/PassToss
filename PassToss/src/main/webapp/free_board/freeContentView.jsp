@@ -9,9 +9,6 @@
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px; background:#fff;
- 				margin:10px; display:inline-block; vertical-align:top;
- 				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
 	
@@ -33,6 +30,7 @@
 </head>
 <body>
   <div class='container box_radius15'>
+  <jsp:include page="../include/head.jsp"/>
   <input type="hidden" id="loginid" value="${id}" name="loginid">
   <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
   

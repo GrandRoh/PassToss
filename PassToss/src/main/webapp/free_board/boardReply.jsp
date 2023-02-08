@@ -7,9 +7,6 @@
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px; background:#fff;
- 				margin:10px; display:inline-block; vertical-align:top;
- 				 width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
 	
@@ -17,6 +14,7 @@
 </head>
 <body>
   <div class='container box_radius15'>
+   <jsp:include page="../include/head.jsp"/>
    <form action="FreeReplyAction.bof" method="post" name="replyform">
       <input type="hidden" name="board_re_ref"  value="${board.board_re_ref}"> 
       <input type="hidden" name="board_re_lev"  value="${board.board_re_lev}"> 

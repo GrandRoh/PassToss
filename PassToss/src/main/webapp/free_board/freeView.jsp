@@ -16,9 +16,6 @@
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
- 	.container{padding:10px; background:#fff;
- 				margin:10px; display:inline-block; vertical-align:top;
- 				width:80%}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
 	
@@ -49,6 +46,7 @@
 </head>
 <body>
 	<div class='container box_radius15'>
+	<jsp:include page="../include/head.jsp"/>
 	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- leftMenu에서 저장된 id값 --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	  <form action="FreeList.bof" method="post">
