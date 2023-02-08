@@ -17,8 +17,6 @@
 <title>업무 현황</title>
 <style>
 
-
-	.sidenav{display:inline-block}
 	
 	.container >div {vertical-align:top}
 	.box_radius15 , .memo_inner_box li{border-radius:5px}
@@ -88,7 +86,7 @@
 
 	<jsp:include page="../include/head.jsp"/>
 
-	<div class='container box_radius15'>
+	<div class='container box_radius15 board_container'>
 	
 		<div class='status_left_box'>
 			

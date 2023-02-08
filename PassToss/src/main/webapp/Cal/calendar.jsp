@@ -9,6 +9,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>calendar</title>
