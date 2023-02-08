@@ -1,6 +1,4 @@
 drop table business_status purge;
-drop sequence business_status_SEQ;
-
 
 create table business_status(
 	MEMO_SEQ         NUMBER	, 
@@ -14,7 +12,7 @@ create table business_status(
 );
 
 
-create sequence business_status_SEQ;
 
 
+select * from business_status;
 

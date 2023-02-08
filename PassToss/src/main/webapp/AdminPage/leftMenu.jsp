@@ -23,7 +23,7 @@
 </script>
 
 <div class="sidenav">
-	<b style='color: #fff;margin: 10px auto;display: block;text-align: center;'>${id}님 안녕하세요.</b>
+	<b style='margin: 10px auto;display: block;text-align: center;'>${id}님 안녕하세요.</b>
 	<c:if test="${id=='admin' }">
 		<button class="dropdown-btn">
 			관리자페이지 <i class="fa fa-caret-down"></i>
