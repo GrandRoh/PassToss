@@ -4,6 +4,7 @@
 <head>
 <title>사내게시판</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 <script src = "js/list.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <script>
@@ -45,8 +46,8 @@
 </style>
 </head>
 <body>
-	<div class='container box_radius15'>
-	<jsp:include page="../include/head.jsp"/>
+
+	<div class='container box_radius15 board_container'>
 	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- leftMenu에서 저장된 id값 --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	  <form action="FreeList.bof" method="post">

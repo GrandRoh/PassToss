@@ -4,6 +4,7 @@
 <head>
 <title>사내게시판 글 수정 페이지</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 <script src="js/jquery-3.6.3.js"></script>
 <style>
 	*{margin:0;padding:0}
@@ -13,8 +14,8 @@
 </style>
 </head>
 <body>
-  <div class='container box_radius15'>
-  <jsp:include page="../include/head.jsp"/>
+
+  <div class='container box_radius15 board_container'>
 	 <form action="FreeModifyAction.bof" method="post" enctype="multipart/form-data" name="modifyform">
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
 	 	<h3>글 수정하기</h3>

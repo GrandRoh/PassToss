@@ -3,6 +3,7 @@
 <head>
 <title>사내게시판 답글 달기</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 <script src="js/jquery-3.6.3.js"></script>
 <style>
 	*{margin:0;padding:0}
@@ -13,8 +14,8 @@
 </style>
 </head>
 <body>
-  <div class='container box_radius15'>
-   <jsp:include page="../include/head.jsp"/>
+
+  <div class='container box_radius15 board_container'>
    <form action="FreeReplyAction.bof" method="post" name="replyform">
       <input type="hidden" name="board_re_ref"  value="${board.board_re_ref}"> 
       <input type="hidden" name="board_re_lev"  value="${board.board_re_lev}"> 
