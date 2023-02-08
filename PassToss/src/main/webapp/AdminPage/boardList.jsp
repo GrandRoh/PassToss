@@ -8,6 +8,7 @@
 </head>
 <body>
 	<jsp:include page="../AdminPage/leftMenu.jsp" />
+	<jsp:include page="../include/head.jsp"/>
 	<div class='container box_radius15'>
 		<form action="AdminBoardList.net" method="post">
 			<div class="input-group">

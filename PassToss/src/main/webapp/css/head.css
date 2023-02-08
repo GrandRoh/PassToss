@@ -8,7 +8,6 @@ body{background:#e2e2e2;width:1600px}
     padding: 10px;
     background: #fff;
     vertical-align: top;
-    margin:20px 10px 30px;
     position:absolute;
     left:200px;
 }
@@ -21,6 +20,9 @@ body{background:#e2e2e2;width:1600px}
 			    top: 4px;
 			    background: #e1e1e1;}
 #gnb_header{font-weight:bold;border-bottom:1px solid #eee;padding:10px;color:#007bff;margin-bottom:20px;width:100%}
+
+.board_container{top:80px}
+
 .rel{position:relative}
 .abo{position:absolute}
 
