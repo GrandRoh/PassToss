@@ -31,13 +31,16 @@ public class BoardDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select count(*) from board_free " + "union all " + "select count(*) from board_dept";
+			String sql = "select count(*) from board_free " 
+						+ "union all " 
+						+ "select count(*) from board_dept";
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				x = rs.getInt(1) + rs.getInt(2);
+			
+			for (int i = 1; rs.next(); i++) {
+				x += rs.getInt(i);
+				System.out.println("x = " + x);
 			}
 		} catch (Exception se) {
 			se.printStackTrace();
@@ -51,14 +54,12 @@ public class BoardDAO {
 				}
 			if (pstmt != null)
 				try {
-
 					pstmt.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			if (conn != null)
 				try {
-
 					conn.close();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,17 +74,34 @@ public class BoardDAO {
 		ResultSet rs = null;
 
 		String board_list_sql = "select * "
-				+ " from (select rownum rnum, j.* "
-				+ "		  from (select board.*, nvl(cnt, 0) as cnt "
-				+ "				from board left outer join (select comment_board_num, count(*) as cnt "
-				+ "				 							from comm "
-				+ "				 							group by comment_board_num) "
-				+ "				on board_num = comment_board_num "
-				+ "				order by board_re_ref desc, "
-				+ "				board_re_seq asc) j "
-				+ "		 where rownum <= ? "
-				+ "		)"
-				+ " where rnum >= ? and rownum <= ?";
+							  + "from (select rownum rnum, j.*"
+							  + "	   from (select board_free.board_num, board_free.board_name, board_free.board_subject,"
+							  + "			 board_free.board_re_ref, board_free.board_re_lev, board_free.board_re_seq,"
+							  + "			 board_free.board_readcount, board_free.board_date, nvl(cnt, 0) as cnt"
+							  + "			 from board_free left outer join (select comment_board_num, count(*) cnt"
+							  + "							   				  from comment_free"
+							  + "							   				  group by comment_board_num)"
+							  + "			 on board_num = comment_board_num"
+							  + "			 order by board_re_ref desc,"
+							  + "			 board_re_seq asc) j"
+							  + "	  where rownum <= 10"
+							  + "	) "
+							  + "where rnum between 1 and 10 "
+							  + "union all "
+							  + "select * "
+							  + "from (select rownum rnum, j.*"
+							  + "	   from (select board_dept.board_num, board_dept.board_name, board_dept.board_subject,"
+							  + "			 board_dept.board_re_ref, board_dept.board_re_lev, board_dept.board_re_seq,"
+							  + "			 board_dept.board_readcount, board_dept.board_date, nvl(cnt, 0) as cnt"
+							  + "			 from board_dept left outer join (select comment_board_num, count(*) cnt"
+							  + "							   				  from comment_dept"
+							  + "							  				  group by comment_board_num)"
+							  + "	   		 on board_num = comment_board_num"
+							  + "	   		 order by board_re_ref desc,"
+							  + "	   		 board_re_seq asc) j"
+							  + "	  where rownum <= 10"
+							  + "	) "
+							  + "where rnum between 1 and 10";
 
 		List<Board> list = new ArrayList<Board>();
 
@@ -103,8 +121,6 @@ public class BoardDAO {
 				board.setBoard_num(rs.getInt("board_num"));
 				board.setBoard_name(rs.getString("board_name"));
 				board.setBoard_subject(rs.getString("board_subject"));
-				board.setBoard_content(rs.getString("board_content"));
-				board.setBoard_file(rs.getString("board_file"));
 				board.setBoard_re_ref(rs.getInt("board_re_ref"));
 				board.setBoard_re_lev(rs.getInt("board_re_lev"));
 				board.setBoard_re_seq(rs.getInt("board_re_seq"));
@@ -126,14 +142,12 @@ public class BoardDAO {
 				}
 			if (pstmt != null)
 				try {
-
 					pstmt.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			if (conn != null)
 				try {
-
 					conn.close();
 				} catch (Exception e) {
 					e.printStackTrace();

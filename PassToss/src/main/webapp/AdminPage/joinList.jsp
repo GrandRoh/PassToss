@@ -4,11 +4,11 @@
 <head>
 <title>ADMIN - 회원 관리</title>
 <link rel="stylesheet" href="css/joinList.css" type="text/css">
-<script src="js/jquery-3.6.3.js"></script>
+<jsp:include page="../AdminPage/leftMenu.jsp" />
 <script src="js/joinList.js"></script>
 </head>
-<jsp:include page="../AdminPage/leftMenu.jsp" />
 <body>
+    <input type="hidden" id="search_field" value="${search_field}">
 	<div class='container box_radius15'>
 		<form action="AdminMemberList.net?authority=${authority}" method="post">
 			<div class="input-group">
@@ -29,8 +29,7 @@
 			<a class="btn btn-secondary btn-sm dropdown-toggle" role="button"
 				data-bs-toggle="dropdown" aria-expanded="false"> 액션 </a>
 			<ul class="dropdown-menu">
-				<li><button type="button" class="dropdown-item authorize" data-bs-toggle="modal"
-					data-bs-target="#modal">권한수정</button></li>
+				<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
 				<li><a class="dropdown-item delete" href="AdminDelete.net">삭제</a></li>
 			</ul>
 		</div>

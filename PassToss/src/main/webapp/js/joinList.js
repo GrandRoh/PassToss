@@ -1,20 +1,23 @@
-let selectedValue = '${search_field}';
-if (selectedValue != '-1')
-	$("#viewcount").val(selectedValue);
-else
-	selectedValue = 0;
-
-const message = ["아이디", "이름", "부서번호"];
-$("input").attr("placeholder", message[selectedValue] + "을(를) 입력하세요");
-
-let change =0;
-
 $(function() {
+
+	let selectedValue = $("#search_field").val();
+
+	if (selectedValue != '-1')
+		$("#viewcount").val(selectedValue);
+	else
+		selectedValue = 0;
+
+	console.log(selectedValue)
+
+
+	const message = ["아이디", "이름", "부서번호"];
+	$("input").attr("placeholder", message[selectedValue] + "을(를) 입력하세요");
+
 	$("button[name=searchbutton]").click(function() {
 		//검색어 공백 유효성 검사합니다.
-		if ($("input").val() == '') {
+		if ($("input[name=search_word]").val() == '') {
 			alert("검색어를 입력하세요");
-			$("input").focus();
+			$("input[name=search_word]").focus();
 			return false;
 		}
 
@@ -32,8 +35,8 @@ $(function() {
 
 	$("#viewcount").change(function() {
 		selectedValue = $(this).val();
-		$("input").val('');
-		$("input").attr("placeholder", message[selectedValue] + " 입력하세요");
+		$("input[name=search_word]").val('');
+		$("input[name=search_word]").attr("placeholder", message[selectedValue] + " 입력하세요");
 	}) //$("#viewcount").change
 
 	$("#selectAll").click(function() {//전체 체크
@@ -46,10 +49,15 @@ $(function() {
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사
 		if (!$("input[name=select]").is(":checked")) {
 			alert('가입승인할 회원을 선택하세요.');
-			return false;
 		} else {
-			change=1;
+			$("#modal").modal("show");
+			authorize();
 		}
+	})
+	
+	$("#idInfo").on("click", function() {
+		$("#modal").modal("show");
+		idInfo();
 	})
 
 	$(".delete").on("click", function() {//액션-삭제 유효성검사
@@ -65,12 +73,23 @@ $(function() {
 		}
 	})
 
-	$("#idInfo").on("click", function() {
-		change = 0;
-	})
+	
 
-	$("#modal").on('show.bs.modal', function(e) {
-		if (change == 0) {
+
+
+	function authorize() {
+		$("#modal").on('show.bs.modal', function() {
+			output = "";
+			output += "<form action='AdminAccess.net' method='post'>"
+				+ "<input type='radio' name='authority' value='준회원'>준회원"
+				+ "<input type='radio' name='authority' value='정회원'>정회원"
+				+ "</form>"
+			$(".modal-body").html(output);
+		})
+	}
+
+	function idInfo() {
+		$("#modal").on('show.bs.modal', function(e) {
 			let id = $(e.relatedTarget).data('id');
 			$.ajax({
 				url: 'AdminMemberInfo.net',
@@ -97,11 +116,8 @@ $(function() {
 					$(".modal-body").html(output);
 				}
 			})
-		}else if(change==1){
-			console.log("권한주기")
-			return false;
-		}
-	})
+		})
+	}
 
 })
 
