@@ -15,14 +15,6 @@ public class Board {
 	private int board_deptno;
 	private int cnt;
 
-	public int getCnt() {
-		return cnt;
-	}
-
-	public void setCnt(int cnt) {
-		this.cnt = cnt;
-	}
-
 	public int getBoard_num() {
 		return board_num;
 	}
@@ -118,4 +110,13 @@ public class Board {
 	public void setBoard_deptno(int board_deptno) {
 		this.board_deptno = board_deptno;
 	}
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+
 }

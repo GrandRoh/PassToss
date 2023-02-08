@@ -3,9 +3,9 @@
 <%@ taglib prefix ="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="css/leftMenu.css" type="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <c:if test="${empty id }">
 	<script>

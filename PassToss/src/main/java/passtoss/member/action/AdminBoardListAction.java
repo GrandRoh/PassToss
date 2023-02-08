@@ -7,20 +7,29 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import passtoss.admin.board.Board;
 import passtoss.admin.board.BoardDAO;
+import passtoss.board.free.db.FreeBoard;
+import passtoss.board.free.db.FreeBoardDAO;
 
 public class AdminBoardListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ActionForward forward = new ActionForward();
 		BoardDAO dao = new BoardDAO();
 		List<Board> boardlist = null;
-
+		List<FreeBoard> fboardlist = null;
+		//List<DeptBoard> dboardlist = null;
+		
 		int page = 1;
 		int limit = 10;
+		int listcount = 0;
+
 		if (request.getParameter("page") == null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
@@ -29,12 +38,92 @@ public class AdminBoardListAction implements Action {
 		if (request.getParameter("limit") != null) {
 			limit = Integer.parseInt(request.getParameter("limit"));
 		}
-		System.out.println("넘어온 limmit = " + limit);
+		System.out.println("넘어온 limit = " + limit);
+		
+		int category=Integer.parseInt(request.getParameter("category"));
+		String[] categorylist = { "전체게시물", "사내게시판", "부서게시판", "공지사항" };
+		
+		// 전체, 사내, 부서, 공지사항 게시판 별로 나누기
+		if (request.getParameter("category") == null || category == 0) {
+			listcount = dao.getListCount();
+			boardlist = dao.getBoardList(page, limit);
+			request.setAttribute("boardlist", boardlist);
 
-		int listcount = dao.getListCount();
-		boardlist = dao.getBoardList(page, limit);
+		} else if (category == 1) {
+			FreeBoardDAO fdao = new FreeBoardDAO();
+			listcount = fdao.getListCount();
+			fboardlist = fdao.getBoardList();
+			request.setAttribute("boardlist", boardlist);
 
-		return null;
+		} else if (category == 2) {
+			// 추가예정
+			// DeptBoardDAO() ddao = new DeptBoardDAO();
+			// listcount = ddao.getListCount();
+			// List<DeptBoard> dboardlist = ddao.getBoardList();
+			// request.setAttribute("boardlist", boardlist);
+		}else if(category == 3) {
+			
+		}
+
+		int maxpage = (listcount + limit - 1) / limit;
+		System.out.println("총 페이지수 = " + maxpage);
+		int startpage = ((page - 1) / 10) * 10 + 1;
+		System.out.println("현재 페이지에 보여줄 시작 페이지 수 :" + startpage);
+		int endpage = startpage + 10 - 1;
+		System.out.println("현재 페이지에 보여줄 마지막 페이지 수:" + endpage);
+		if (endpage > maxpage)
+			endpage = maxpage;
+		
+		
+		
+		String state = request.getParameter("state");
+
+		if (state == null) {
+			System.out.println("state==null");
+			request.setAttribute("category", categorylist[category]);
+			request.setAttribute("page", page); // 현재 페이지 수
+			request.setAttribute("maxpage", maxpage); // 최대 페이지 수
+
+			// 현재 페이지에 표시할 첫 페이지 수
+			request.setAttribute("startpage", startpage);
+
+			// 현재 페이지에 표시할 끝 페이지 수
+			request.setAttribute("endpage", endpage);
+
+			request.setAttribute("listcount", listcount); // 총 글의 수
+
+			request.setAttribute("limit", limit);
+			ActionForward forward = new ActionForward();
+			forward.setRedirect(false);
+
+			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
+			forward.setPath("board/boardList.jsp");
+			return forward;// BoardFrontController.java로 리턴
+		} else {
+			System.out.println("state=ajax");
+
+			// 위에서 request로 담았던 것을 JsonObject에 담습니다.
+			JsonObject object = new JsonObject();
+			object.addProperty("page", page);
+			object.addProperty("maxpage", maxpage);
+			object.addProperty("startpage", startpage);
+			object.addProperty("endpage", endpage);
+			object.addProperty("listcount", listcount);
+			object.addProperty("limit", limit);
+
+			// JsonObject에 List 형식을 담을 수 있는 addProperty()가 존재하지 않습니다.
+			// List 형식을 JsonElement로 바꿔줘야 object에 저장할 수 있습니다.
+
+			// List => JsonElement
+			JsonElement je = new Gson().toJsonTree(boardlist);
+			System.out.println("boardlist = " + je.toString());
+			object.add("boardlist", je);
+
+			response.setContentType("application/json;charset=utf-8");
+			response.getWriter().print(object);
+			System.out.println(object.toString());
+			return null;
+		}
 	}
 
 }

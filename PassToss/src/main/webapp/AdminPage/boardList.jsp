@@ -20,8 +20,17 @@
 			</div>
 		</form>
 
+		<div class="category">
+			<ul>
+				<li><a href="AdminBoardList.net?category=0">전체게시물</a></li>
+				<li><a href="AdminBoardList.net?category=1">사내게시판</a></li>
+				<li><a href="AdminBoardList.net?category=2">부서게시판</a></li>
+				<li><a href="AdminBoardList.net?category=3">공지사항</a></li>
+			</ul>
+		</div>
 		<form action="AdminBoardDelete.net" method="post" id="board">
-			<div class="title">전체 게시물</div>
+
+			<div class="title">${category} 게시물</div>
 			<div class="count">| 작성된 게시물 수 : ${listcount}</div>
 			<div class="board">
 				<input type="image" src="image/delete.png" title="삭제">
@@ -63,7 +72,7 @@
 						</c:if>
 						<c:if test="${page > 1}">
 							<li class="page-item"><a
-								href="AdminJoinList.net?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
+								href="AdminBoardList.net?page=${page-1}&search_field=${search_field}&search_word=${search_word}"
 								class="page-link">이전</a>&nbsp;</li>
 						</c:if>
 
@@ -72,7 +81,7 @@
 								<li class="page-item active"><a class="page-link">${a}</a></li>
 							</c:if>
 							<c:if test="${a != page}">
-								<c:url var="go" value="AdminJoinList.net">
+								<c:url var="go" value="AdminBoardList.net">
 									<c:param name="search_field" value="${search_field}" />
 									<c:param name="search_word" value="${search_word}" />
 									<c:param name="page" value="${a}" />
@@ -87,7 +96,7 @@
 							</li>
 						</c:if>
 						<c:if test="${page < maxpage}">
-							<c:url var="next" value="AdminJoinList.net">
+							<c:url var="next" value="AdminBoardList.net">
 								<c:param name="search_field" value="${search_field}" />
 								<c:param name="search_word" value="${search_word}" />
 								<c:param name="page" value="${page+1}" />
@@ -107,24 +116,5 @@
 		<c:if test="${listcount == 0 && !empty search_word}">
 			<h1>검색결과가 없습니다.</h1>
 		</c:if>
-	</div>
-
-	<!-- Modal -->
-	<div class="modal fade" id="idInfo" tabindex="-1"
-		aria-labelledby="idInfoLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="idInfoLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">내용</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
 	</div>
 </body>
