@@ -4,6 +4,7 @@
 <head>
 <title>사내게시판 글 내용 보기</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 <script src="js/jquery-3.6.3.js"></script>
 <link rel="stylesheet" href="css/view.css" type="text/css">
 <style>
@@ -29,8 +30,8 @@
 </script>
 </head>
 <body>
-  <jsp:include page="../include/head.jsp"/>
-  <div class='container box_radius15'>  
+  
+  <div class='container box_radius15 board_container'>  
   <input type="hidden" id="loginid" value="${id}" name="loginid">
   <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
   
