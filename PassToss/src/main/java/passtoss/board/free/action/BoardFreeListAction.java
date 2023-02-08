@@ -19,8 +19,7 @@ public class BoardFreeListAction implements Action{
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
+			throws ServletException, IOException {		
 		ActionForward forward = new ActionForward();
 		FreeBoardDAO fdao = new FreeBoardDAO();
 		List<FreeBoard> noticelist = new ArrayList<FreeBoard>();
