@@ -1,0 +1,32 @@
+*{margin:0;padding:0}
+
+body{background:#e2e2e2;width:1600px}
+
+
+
+.container {
+    padding: 10px;
+    background: #fff;
+    vertical-align: top;
+    margin:20px 10px 30px;
+    position:absolute;
+    left:200px;
+}
+
+.head_icon {    width: 50px;
+			    height: 50px;
+			    border-radius: 30px;
+			    right: 10px;
+			    padding: 10px;
+			    top: 4px;
+			    background: #e1e1e1;}
+#gnb_header{font-weight:bold;border-bottom:1px solid #eee;padding:10px;color:#007bff;margin-bottom:20px;width:100%}
+.rel{position:relative}
+.abo{position:absolute}
+
+.center{text-align:center}
+.color_fff{color:#fff}
+	
+
+
+	

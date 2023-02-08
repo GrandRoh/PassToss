@@ -129,7 +129,7 @@
 	</div>
 
 	<!-- Modal -->
-	<div class="modal fade" id="modal" tabindex="-1"
+	<div class="modal fade test_modal" id="modal" tabindex="-1"
 		aria-labelledby="idInfoLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">

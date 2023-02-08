@@ -37,6 +37,9 @@
 </head>
 <body>
   <div class='container box_radius15'>
+  	
+  
+  
   <input type="hidden" id="loginid" value="${id}" name="loginid">
   <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
   
