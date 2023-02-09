@@ -194,3 +194,5 @@ update board_free
 set board_subject= '안녕', board_content='수정됨', board_file='', board_notice =1
 where board_num = 10;
  
+select count(*) from comment_free 
+where comment_board_num = 15

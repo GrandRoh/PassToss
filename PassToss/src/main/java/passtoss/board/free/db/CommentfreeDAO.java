@@ -95,7 +95,7 @@ public class CommentfreeDAO {
 			
 			con = ds.getConnection();
 			
-			String sql = "select * from comment_free "
+			String sql = "select count(*) from comment_free "
 					   + "where comment_board_num = ?";
 			
 			pstmt = con.prepareStatement(sql);
@@ -269,6 +269,135 @@ public class CommentfreeDAO {
 			if(con != null) {
 				try
 				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
+
+	public int commentsDelete(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int resutl = 0;
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			String sql ="delete comment_free "
+					   +"where num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			resutl = pstmt.executeUpdate();
+			
+			if(resutl == 1) {
+				System.out.println("데이터가 삭제 되었습니다.");
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("commentsDelete() 에러 : " + e);
+		}
+		finally
+		{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return resutl;
+	}
+
+	public int commentsReply(Commentfree co) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		try {
+			
+			con = ds.getConnection();
+			con.setAutoCommit(false);
+			String sql ="update comment_free "
+					   +"set comment_re_seq = comment_re_seq +1 "
+					   +"where comment_re_ref = ? "
+					   +"and comment_re_seq > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, co.getComment_re_ref());
+			pstmt.setInt(2, co.getComment_re_seq());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			sql = "insert into comment_free "
+				+ "values(fcom_seq.nextval, ?, ?, sysdate, ?, ?, ?, ?)";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, co.getId());
+			pstmt.setString(2, co.getContent());
+			pstmt.setInt(3, co.getComment_board_num());
+			pstmt.setInt(4, co.getComment_re_lev()+1);
+			pstmt.setInt(5, co.getComment_re_seq()+1);
+			pstmt.setInt(6, co.getComment_re_ref());
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("reply 삽입 완료되었습니다.");
+				con.commit();
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		finally
+		{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.setAutoCommit(true);
 					con.close();		
 				}
 				catch(Exception e)

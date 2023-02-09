@@ -55,7 +55,7 @@ function ajax(sdata){
 						
 						let img ="";
 						if(item.board_re_lev > 0){
-							img="<img src='image/reply.png'>";
+							img="<img src='image/reply.png' width='25px'>";
 						}
 						
 						let subject=item.board_subject;
@@ -86,7 +86,7 @@ function ajax(sdata){
 						
 						let img ="";
 						if(item.board_re_lev > 0){
-							img="<img src='image/reply.png'>";
+							img="<img src='image/reply.png' width='25px'>";
 						}
 						
 						let subject=item.board_subject;

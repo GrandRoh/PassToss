@@ -5,12 +5,16 @@
 <title>사내게시판 글 수정 페이지</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <jsp:include page="../include/head.jsp"/>
+<script src="js/modifyform.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <style>
 	*{margin:0;padding:0}
 	body{background:#e2e2e2;min-width:1400px}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
+ 	
+ 	#upfile{display:none}
+	img{width:20px;}
 </style>
 </head>
 <body>
