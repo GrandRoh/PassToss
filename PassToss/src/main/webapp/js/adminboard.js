@@ -45,7 +45,9 @@ function ajax(sdata) {
 				let output = "<tbody>";
 				$(data.boardlist).each(
 					function(index, item) {
-						output += '<tr><td>' + (num--) + '</td>'
+						
+						output += '<tr><td><input type="checkbox" class="select" value="'+ item.board_num +'"></td>'
+						output += '<td>' + (num--) + '</td>'
 
 						const blank_count = item.board_re_lev * 2 + 1;
 						let blank = "&nbsp;";
@@ -55,14 +57,14 @@ function ajax(sdata) {
 
 						let img = "";
 						if (item.board_re_lev > 0) {
-							img = "<img src='image/reply.png'>";
+							img = "<img src='image/reply.png' style='width: 30px; height: 30px'>";
 						}
 
 						let subject = item.board_subject;
 						if (subject.length >= 20) {
 							subject = subject.substr(0, 20) + "...";
 						}
-
+												
 						output += "<td><div>" + blank + img
 						output += ' <a href="BoardDetailAction.bo?num=' + item.board_num + '">'
 						output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -174,6 +176,7 @@ $(function() {
 					hidden += "<input type='hidden' name='select' value='" + $(this).val() + "'>"
 				})
 				$(".delete").append(hidden);
+				console.log(hidden)
 			}
 		}
 	})

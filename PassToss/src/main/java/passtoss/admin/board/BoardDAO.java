@@ -249,4 +249,100 @@ public class BoardDAO {
 		return list;
 	}
 
+	public boolean boardDelete(String[] select, String string) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		int count=0;
+		int result=0;
+		String select_sql = "select  board_re_ref, board_re_lev, board_re_seq "
+						  + "from " + string
+						  + " where board_num = ?";
+		
+		String delete_sql = "delete from " + string
+				+ " where board_re_ref = ? "
+				+ "and board_re_lev >=? "
+				+ "and board_re_seq>=? "
+				+ "and board_re_seq <=(  "
+				+ " 					nvl((select min(Board_re_seq) -1 "
+				+ "					    from " + string
+				+ "					    where board_re_ref = ? "
+				+ "					    and board_re_lev = ? "
+				+ "					    and board_re_seq >?),"
+				+ "					    (select max(Board_re_seq)"
+				+ "			  		    from " + string
+				+ "			 		    where board_re_ref = ?)))";
+		boolean result_check = false;
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			System.out.println("select.length = " + select.length);
+			for (int i = 0; i < select.length; i++) {
+				pstmt = conn.prepareStatement(select_sql);
+				pstmt.setInt(1, Integer.parseInt(select[i]));
+				rs = pstmt.executeQuery();
+				
+				if (rs.next()) {
+					pstmt2 = conn.prepareStatement(delete_sql);
+					pstmt2.setInt(1, rs.getInt("board_re_ref"));
+					pstmt2.setInt(2, rs.getInt("board_re_lev"));
+					pstmt2.setInt(3, rs.getInt("board_re_seq"));
+					pstmt2.setInt(4, rs.getInt("board_re_ref"));
+					pstmt2.setInt(5, rs.getInt("board_re_lev"));
+					pstmt2.setInt(6, rs.getInt("board_re_seq"));
+					pstmt2.setInt(7, rs.getInt("board_re_ref"));
+					result = pstmt2.executeUpdate();
+				}
+				if (result != 0)
+					count++;
+
+				if (i == select.length - 1) {
+					if (count != select.length) {
+						conn.rollback();
+						result_check = false;
+						System.out.println("게시물 삭제중 오류발생");
+					} else {
+						conn.commit();
+						System.out.println("commit 됨");
+						result_check = true;
+					}
+				}
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("boardDelete() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt2 != null)
+				try {
+
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return result_check;
+	}
 }
+
+
