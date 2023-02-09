@@ -66,7 +66,7 @@
 		</div>
 	
 	    <div class="clearfix">
-	     <button type="submit" class="signupbtn" >Sign Up</button>
+	     <button type="submit" class="signupbtn" >로그인</button>
 	     <button type="button" class="join" style='width:100%'>회원가입</button>
 	     
 	    </div>

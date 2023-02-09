@@ -114,7 +114,7 @@
 
 <body>
 
-<div class='container box_radius15'>
+<div class='container box_radius15 board_container'>
     <div id="calendarBox">
         <div id="calendar"></div>
     </div>
