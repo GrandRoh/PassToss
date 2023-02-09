@@ -2,7 +2,7 @@
 .sidenav {
   height: 100%;
   width: 200px;
-  background-color: #212a32;
+  background-color: #171d22;
   overflow-x: hidden;
   padding-top: 20px;
   position:fixed;
@@ -12,9 +12,9 @@
 
 /* Style the sidenav links and the dropdown button */
 .sidenav a, .dropdown-btn {
-  padding: 6px 8px 6px 16px;
+  padding: 8px 8px 8px 25px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 14px;
   color: #fff;
   display: block;
   border: none;
@@ -27,7 +27,9 @@
 
 /* On mouse-over */
 .sidenav a:hover, .dropdown-btn:hover {
-  opacity:.8;
+  opacity:.6;
+  color:#fff;
+  background:#303c46;
 }
 
 /* Add an active class to the active dropdown button */
@@ -38,7 +40,7 @@
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
-  background-color: #ebebeb;
+  background-color: #2b343c;
   padding-left: 8px;
 }
 
