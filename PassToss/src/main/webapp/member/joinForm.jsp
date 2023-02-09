@@ -10,12 +10,14 @@
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script src="${pageContext.request.contextPath}/js/join.js"></script>
  <link rel='stylesheet' href="${pageContext.request.contextPath}/css/join.css">
-
+<style>
+	img {width:20px}
+</style>
 
 </head>
 <body>
 
-  <form name="joinform" method="post" action="joinProcess.net" id="joinform" >
+  <form name="joinform" method="post" action="joinProcess.net" id="joinform"  enctype="multipart/form-data">
      <h1>회원가입</h1>
       <hr/>
       
@@ -56,13 +58,24 @@
      	
      
      
-     		<div>
+     		<div style='margin-bottom:30px'>
 				<label for="post1">우편번호</label>
 		      <input type="text" value='' maxLength="5" name="post1" id="post1" readonly> 
 		      <input type="button" value="우편검색" id='postcode' onclick="Postcode()">
 	      </div>
+	      
 	      <label for="address">주소</label>
 	      <input type="text" value='' name="address" id="address">
+     
+     		<div class='form-group'>
+				<label >
+					파일 첨부
+					<img src="image/attach.png" alt="파일첨부">
+					<input type="file" id="upfile" name="board_file">
+				</label>
+				<span id="filevalue"></span>
+			
+			</div>
      
      
      	<div class='clearfix'>

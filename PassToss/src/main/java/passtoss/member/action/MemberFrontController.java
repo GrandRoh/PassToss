@@ -46,7 +46,10 @@ public class MemberFrontController extends HttpServlet {
 	             break;
 			case "/join.net":
 	             action = new JoinAction();
-	             break;	             
+	             break;	 
+			case "/memberinfo.net":
+	             action = new MemberInfoAction();
+	             break;	 
 			case "/idcheck.net":
 	             action = new MemberIdCheckAction();
 	             break;              

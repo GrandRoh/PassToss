@@ -418,8 +418,8 @@ public class MemberDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = "insert into member (id,password,name,jumin,deptno,email,phone,address,AUTHORITY,post)"
-					+ " values ( ? , ?, ?, ? ,? ,?,?,?,?,?) ";
+			String sql = "insert into member (id,password,name,jumin,deptno,email,phone,address,AUTHORITY,post,PROFILEIMG)"
+					+ " values ( ? , ?, ?, ? ,? ,?,?,?,?,?,?) ";
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, m.getId());
 			pstmt.setString(2, m.getPassword());
@@ -431,6 +431,7 @@ public class MemberDAO {
 			pstmt.setString(8, m.getAddress());
 			pstmt.setInt(9, 0);
 			pstmt.setInt(10, m.getPost());
+			pstmt.setString(11, m.getProfileImg());
 	
 			result = pstmt.executeUpdate();
 			
@@ -516,6 +517,116 @@ public class MemberDAO {
 
 		return result;
 
+	}
+
+	public String getprofileimg(String id) {
+		String img_src = "";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select PROFILEIMG from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rs= pstmt.executeQuery();
+			
+				
+			if (rs.next()) {
+				img_src = rs.getString(1);
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return img_src;
+	}
+
+	public List<Member> memberinfo(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+		List<Member> list =  new ArrayList<Member>();
+ 		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select * from member where id = ?";
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1,id);
+			rs= pstmt.executeQuery();
+			
+				
+			if (rs.next()) {
+				Member m = new Member();
+				m.setId(rs.getString("id"));
+				m.setName(rs.getString("name"));
+				m.setDeptno(rs.getInt("DEPTNO"));
+				m.setEmail(rs.getString("email"));
+				m.setPhone(rs.getString("phone"));
+				m.setAddress(rs.getString("ADDRESS"));
+				m.setPost(rs.getInt("post"));
+				m.setProfileImg(rs.getString("PROFILEIMG"));
+				
+				list.add(m);
+				
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return list;
 	}
 
 }
