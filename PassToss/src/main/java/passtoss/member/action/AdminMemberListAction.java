@@ -30,21 +30,23 @@ public class AdminMemberListAction implements Action {
 		int index = -1;
 
 		String[] category = { "준회원", "정회원" };
-		int authority = 0;
-		if (request.getParameter("authority") != null) {
-			authority = Integer.parseInt(request.getParameter("authority"));
+		
+		int category_index = 0;
+		if (request.getParameter("category") != null) {
+			category_index = Integer.parseInt(request.getParameter("category"));
 		}
+		System.out.println("카테고리 = "+category_index);
 
 		String search_word = "";
 		if (request.getParameter("search_word") == null || request.getParameter("search_word").equals("")) {
-			listcount = dao.getListCount(authority);
-			list = dao.getMemberList(page, limit, authority);
+			listcount = dao.getListCount(category_index);
+			list = dao.getMemberList(page, limit, category_index);
 		} else {// 검색
 			index = Integer.parseInt(request.getParameter("search_field"));
 			String[] search_field = new String[] { "id", "name", "deptno" };
 			search_word = request.getParameter("search_word");
-			listcount = dao.getListCount(search_field[index], search_word, authority);
-			list = dao.getMemberList(search_field[index], search_word, page, limit, authority);
+			listcount = dao.getListCount(search_field[index], search_word, category_index);
+			list = dao.getMemberList(search_field[index], search_word, page, limit, category_index);
 		}
 
 		int maxpage = (listcount + limit - 1) / limit;
@@ -58,7 +60,7 @@ public class AdminMemberListAction implements Action {
 		if (endpage > maxpage)
 			endpage = maxpage;
 
-		request.setAttribute("authority", authority);
+		request.setAttribute("category_index", category_index);
 		request.setAttribute("page", page);
 		request.setAttribute("limit", limit);
 		request.setAttribute("maxpage", maxpage);
@@ -68,7 +70,7 @@ public class AdminMemberListAction implements Action {
 		request.setAttribute("joinlist", list);
 		request.setAttribute("search_field", index);
 		request.setAttribute("search_word", search_word);
-		request.setAttribute("category", category[authority]);
+		request.setAttribute("category", category[category_index]);
 
 		forward.setPath("AdminPage/joinList.jsp");
 		forward.setRedirect(false);

@@ -23,14 +23,12 @@ public class AdminBoardListAction implements Action {
 			throws ServletException, IOException {
 		BoardDAO dao = new BoardDAO();
 		List<Board> boardlist = null;
-		List<FreeBoard> fboardlist = null;
-		//List<DeptBoard> dboardlist = null;
-		
+
 		int page = 1;
 		int limit = 10;
 		int listcount = 0;
 
-		if (request.getParameter("page") == null) {
+		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		System.out.println("넘어온 페이지 = " + page);
@@ -39,30 +37,23 @@ public class AdminBoardListAction implements Action {
 			limit = Integer.parseInt(request.getParameter("limit"));
 		}
 		System.out.println("넘어온 limit = " + limit);
-		
-		int category=Integer.parseInt(request.getParameter("category"));
-		String[] categorylist = { "전체게시물", "사내게시판", "부서게시판", "공지사항" };
-		
-		// 전체, 사내, 부서, 공지사항 게시판 별로 나누기
-		if (request.getParameter("category") == null || category == 0) {
-			listcount = dao.getListCount();
-			boardlist = dao.getBoardList(page, limit);
-			request.setAttribute("boardlist", boardlist);
 
+		int category = 0;
+		if (request.getParameter("category") != null) {
+			category = Integer.parseInt(request.getParameter("category"));
+		}
+
+		String[] boardtable = { "board_free", "board_dept" };
+		String[] categorylist = { "사내게시판", "부서게시판" };
+
+		// 사내, 부서, 공지사항 게시판 별로 나누기
+		if (category == 0) {
+			listcount = dao.getListCount(boardtable[category]);
+			boardlist = dao.getfreeBoardList(page, limit);
 		} else if (category == 1) {
-			FreeBoardDAO fdao = new FreeBoardDAO();
-			listcount = fdao.getListCount();
-			fboardlist = fdao.getBoardList();
-			request.setAttribute("boardlist", boardlist);
-
-		} else if (category == 2) {
 			// 추가예정
-			// DeptBoardDAO() ddao = new DeptBoardDAO();
-			// listcount = ddao.getListCount();
-			// List<DeptBoard> dboardlist = ddao.getBoardList();
-			// request.setAttribute("boardlist", boardlist);
-		}else if(category == 3) {
-			
+			// listcount = dao.getListCount(table[category]);
+			// boardlist = dao.getdeptBoardList(page, limit);
 		}
 
 		int maxpage = (listcount + limit - 1) / limit;
@@ -73,9 +64,7 @@ public class AdminBoardListAction implements Action {
 		System.out.println("현재 페이지에 보여줄 마지막 페이지 수:" + endpage);
 		if (endpage > maxpage)
 			endpage = maxpage;
-		
-		
-		
+
 		String state = request.getParameter("state");
 
 		if (state == null) {
@@ -90,6 +79,7 @@ public class AdminBoardListAction implements Action {
 			// 현재 페이지에 표시할 끝 페이지 수
 			request.setAttribute("endpage", endpage);
 
+			request.setAttribute("boardlist", boardlist);
 			request.setAttribute("listcount", listcount); // 총 글의 수
 
 			request.setAttribute("limit", limit);
@@ -97,8 +87,8 @@ public class AdminBoardListAction implements Action {
 			forward.setRedirect(false);
 
 			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
-			forward.setPath("board/boardList.jsp");
-			return forward;// BoardFrontController.java로 리턴
+			forward.setPath("AdminPage/boardList.jsp");
+			return forward;
 		} else {
 			System.out.println("state=ajax");
 

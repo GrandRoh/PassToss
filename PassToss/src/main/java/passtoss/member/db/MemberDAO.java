@@ -253,7 +253,7 @@ public class MemberDAO {
 		return list;
 	}
 
-	public int authorize(String[] id) {
+	public int authorize(String[] id, int authority) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -264,10 +264,11 @@ public class MemberDAO {
 			System.out.println("id.length="+id.length);
 			for (int i = 0; i < id.length; i++) {
 				String sql = "update member " 
-							+ "set authority = 1 "
+							+ "set authority = ? "
 							+ "where id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, id[i]);
+				pstmt = conn.prepareStatement(sql);				
+				pstmt.setInt(1, authority);
+				pstmt.setString(2, id[i]);
 				result = pstmt.executeUpdate();
 				pstmt.close();
 				
@@ -519,6 +520,56 @@ public class MemberDAO {
 
 	}
 
+
+	public int delete(String[] id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		int count = 0;
+		try {
+			conn = ds.getConnection();
+			conn.setAutoCommit(false);
+			System.out.println("id.length="+id.length);
+			for (int i = 0; i < id.length; i++) {
+				String sql = "delete member "
+							+ "where id = ?";
+				pstmt = conn.prepareStatement(sql);	
+				pstmt.setString(1, id[i]);
+				result = pstmt.executeUpdate();
+				pstmt.close();
+				
+				if (result == 1)
+					count++;
+				if (i == id.length-1) {
+					if (count != id.length) {
+						conn.rollback();
+						System.out.println("회원삭제 중 문제가 발생했습니다.");
+					} else {
+						conn.commit();
+						System.out.println("commit 됨");
+					}
+				}
+				
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("delete() 에러: " + se);
+		} finally {
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return count;
+  }
 	public String getprofileimg(String id) {
 		String img_src = "";
 		Connection conn = null;

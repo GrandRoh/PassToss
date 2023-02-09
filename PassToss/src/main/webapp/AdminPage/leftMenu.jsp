@@ -30,7 +30,7 @@
 		</button>
 		<div class="dropdown-container">
 			<a href="AdminMemberList.net">회원관리</a> 
-			<a href="AdminboardManage.net">게시물관리</a>
+			<a href="AdminboardList.net">게시물관리</a>
 		</div>
 	</c:if>	
 	<a href="FreeList.bof">사내게시판</a>

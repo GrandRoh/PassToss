@@ -23,7 +23,7 @@ public class BoardDAO {
 		}
 	}
 
-	public int getListCount() {
+	public int getListCount(String table) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -31,13 +31,10 @@ public class BoardDAO {
 		try {
 			conn = ds.getConnection();
 
-			String sql = "select count(*) from board_free " 
-						+ "union all " 
-						+ "select count(*) from board_dept";
+			String sql = "select count(*) from " + table;
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
 			for (int i = 1; rs.next(); i++) {
 				x += rs.getInt(i);
 				System.out.println("x = " + x);
@@ -68,40 +65,23 @@ public class BoardDAO {
 		return x;
 	}
 
-	public List<Board> getBoardList(int page, int limit) {
+	public List<Board> getfreeBoardList(int page, int limit) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String board_list_sql = "select * "
-							  + "from (select rownum rnum, j.*"
-							  + "	   from (select board_free.board_num, board_free.board_name, board_free.board_subject,"
-							  + "			 board_free.board_re_ref, board_free.board_re_lev, board_free.board_re_seq,"
-							  + "			 board_free.board_readcount, board_free.board_date, nvl(cnt, 0) as cnt"
-							  + "			 from board_free left outer join (select comment_board_num, count(*) cnt"
-							  + "							   				  from comment_free"
-							  + "							   				  group by comment_board_num)"
-							  + "			 on board_num = comment_board_num"
-							  + "			 order by board_re_ref desc,"
-							  + "			 board_re_seq asc) j"
-							  + "	  where rownum <= 10"
-							  + "	) "
-							  + "where rnum between 1 and 10 "
-							  + "union all "
-							  + "select * "
-							  + "from (select rownum rnum, j.*"
-							  + "	   from (select board_dept.board_num, board_dept.board_name, board_dept.board_subject,"
-							  + "			 board_dept.board_re_ref, board_dept.board_re_lev, board_dept.board_re_seq,"
-							  + "			 board_dept.board_readcount, board_dept.board_date, nvl(cnt, 0) as cnt"
-							  + "			 from board_dept left outer join (select comment_board_num, count(*) cnt"
-							  + "							   				  from comment_dept"
-							  + "							  				  group by comment_board_num)"
-							  + "	   		 on board_num = comment_board_num"
-							  + "	   		 order by board_re_ref desc,"
-							  + "	   		 board_re_seq asc) j"
-							  + "	  where rownum <= 10"
-							  + "	) "
-							  + "where rnum between 1 and 10";
+		String board_list_sql = "select *"
+				+ "				 from(select rownum rnum, j.*"
+				+ "     			  from(SELECT board_free.*, NVL(CNT,0)CNT"
+				+ "     	  			   FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
+				+ "				 	           		       					FROM comment_free"
+				+ "				 	          		       					GROUP BY COMMENT_BOARD_NUM)"
+				+ "	      				   ON BOARD_NUM = COMMENT_BOARD_NUM"
+				+ " 	      			   ORDER BY BOARD_RE_REF DESC,"
+				+ "	      				   BOARD_RE_SEQ ASC) j"
+				+ "	 				 where board_notice = 1"
+				+ "     			 and rownum <= ?)"
+				+ " 			 where rnum between ? and ?";
 
 		List<Board> list = new ArrayList<Board>();
 
@@ -114,8 +94,7 @@ public class BoardDAO {
 			pstmt.setInt(2, startrow);
 			pstmt.setInt(3, endrow);
 			rs = pstmt.executeQuery();
-
-			// DB에서 가져온 데이터를 VO객체에 담습니다.
+			
 			while (rs.next()) {
 				Board board = new Board();
 				board.setBoard_num(rs.getInt("board_num"));
@@ -127,9 +106,8 @@ public class BoardDAO {
 				board.setBoard_readcount(rs.getInt("board_readcount"));
 				board.setBoard_date(rs.getString("board_date"));
 				board.setCnt(rs.getInt("cnt"));
-				list.add(board); // 값을 담은 객체를 리스트에 저장합니다.
+				list.add(board);
 			}
-
 		} catch (Exception se) {
 			se.printStackTrace();
 			System.out.println("getBoardlist() 에러: " + se);

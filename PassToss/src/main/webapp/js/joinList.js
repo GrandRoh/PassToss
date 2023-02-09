@@ -1,8 +1,8 @@
-$(function() {	
-	$("#viewcount").change(function(){
-      go(1); //보여줄 페이지를 1페이지로 설정
-      
-   })
+$(function() {
+	$("#viewcount").change(function() {
+		go(1); //보여줄 페이지를 1페이지로 설정
+
+	})
 
 	let selectedValue = $("#search_field").val();
 
@@ -44,21 +44,21 @@ $(function() {
 
 	$("#selectAll").click(function() {//전체 체크
 		if ($(this).is(":checked"))
-			$("input[name=select]").prop("checked", true);
+			$(".select").prop("checked", true);
 		else
-			$("input[name=select]").prop("checked", false);
+			$(".select").prop("checked", false);
 	})
 
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사
-		if (!$("input[name=select]").is(":checked")) {
-			alert('가입승인할 회원을 선택하세요.');
+		if (!$(".select").is(":checked")) {
+			alert('권한변경 할 회원을 선택하세요.');
 		} else {
 			$("#modal2").modal("show");
 		}
 	})
 
 	$(".delete").on("click", function() {//액션-삭제 유효성검사
-		if (!$("input[name=select]").is(":checked")) {
+		if (!$(".select").is(":checked")) {
 			alert('삭제할 회원을 선택하세요.');
 			return false;
 		} else {
@@ -66,6 +66,13 @@ $(function() {
 			if (!authorize) {
 				alert('취소하였습니다.');
 				return false;
+			} else {
+				console.log($(".select:checked").length);
+				let hidden = '';
+				$(".select:checked").each(function(index, item) {
+					hidden += "<input type='hidden' name='select' value='" + $(this).val() + "'>"
+				})
+				$("#delete").append(hidden);
 			}
 		}
 	})
@@ -100,16 +107,26 @@ $(function() {
 	})
 
 	$("#modal2").on('show.bs.modal', function() {
+		console.log($(".select:checked").length);
+		let hidden = '';
+		$(".select:checked").each(function(index, item) {
+			hidden += "<input type='hidden' name='select' value='" + $(this).val() + "'>"
+		})
+		console.log(hidden);
 		output = "";
 		output += "<form action='AdminAccess.net' method='post' id='authorize'>"
-			+ "<label><input type='radio' name='authority' value='준회원'>준회원</label>"
-			+ "<label><input type='radio' name='authority' value='정회원'>정회원</label><br>"
+			+ "<label><input type='radio' name='authority' value='0'>준회원</label>"
+			+ "<label><input type='radio' name='authority' value='1'>정회원</label><br>"
+			+ hidden
+			+ "<button type='submit' class='btn btn-primary' id='authorizebtn'>권한설정</button>"
+			+ '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>'
+
 			+ "</form>"
 		$(".modal-body").html(output);
 	})
-	
-	$("button[type=submit]").on("click", function(){
-		if(!$("input:radio[name=authority]").is(":checked")){
+
+	$("#authorizebtn").on("click", function() {
+		if (!$("input:radio[name=authority]").is(":checked")) {
 			alert("설정할 권한을 선택하세요");
 			return false;
 		}
