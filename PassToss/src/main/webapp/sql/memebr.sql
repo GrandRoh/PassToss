@@ -31,14 +31,44 @@ alter table member add POST number; -- 우편번호
 select * from member;
 
 update member
-set authority = 0
-where authority = 1
+set authority = 2
+where id='admin'
 
 delete member
 
 insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
 values('admin','1234','Y','560555-1234567',0,'admin@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',2,'',sysdate);
 
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('A1234','1234','a','560555-1234567',10,'a1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('B1234','1234','b','560555-2234567',20,'b1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('C1234','1234','c','560555-1234567',30,'c1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('D1234','1234','d','560555-2234567',40,'d1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('E1234','1234','e','560555-1234567',10,'e1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('F1234','1234','f','560555-2234567',20,'f1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('G1234','1234','g','560555-1234567',30,'g1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('H1234','1234','h','560555-2234567',40,'h1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('I1234','1234','i','560555-1234567',10,'i1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('J1234','1234','j','560555-2234567',20,'j1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('K1234','1234','k','560555-1234567',30,'k1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('L1234','1234','l','560555-2234567',40,'l1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('M1234','1234','m','560555-1234567',10,'m1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('N1234','1234','n','560555-2234567',20,'n1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('O1234','1234','o','560555-1234567',30,'o1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
 
 
 delete dept

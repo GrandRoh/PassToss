@@ -3,14 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
 <meta charset="UTF-8">
-<title>ADMIN - 게시물 관리</title>
-<script src="js/jquery-3.6.3.js"></script>
-</head>
-<body>
-	<jsp:include page="../AdminPage/leftMenu.jsp" />
+<jsp:include page="../AdminPage/leftMenu.jsp" />
 	<jsp:include page="../include/head.jsp"/>
+<title>ADMIN - 게시물 관리</title>
+</head>
+<body>	
 	<div class='container box_radius15'>
-		<form action="AdminBoardList.net" method="post">
+		<form action="AdminBoardList.net?" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
 					<option value="0" selected>id</option>
@@ -23,10 +22,8 @@
 
 		<div class="category">
 			<ul>
-				<li><a href="AdminBoardList.net?category=0">전체게시물</a></li>
-				<li><a href="AdminBoardList.net?category=1">사내게시판</a></li>
-				<li><a href="AdminBoardList.net?category=2">부서게시판</a></li>
-				<li><a href="AdminBoardList.net?category=3">공지사항</a></li>
+				<li><a href="AdminboardList.net?category=0">사내게시판</a></li>
+				<li><a href="AdminboardList.net?category=1">부서게시판</a></li>
 			</ul>
 		</div>
 		<form action="AdminBoardDelete.net" method="post" id="board">
@@ -50,9 +47,9 @@
 					</thead>
 					<tbody>
 						<c:set var="num" value="${listcount-(page-1)*limit}" />
-						<c:forEach var="m" items="${joinlist}">
+						<c:forEach var="m" items="${boardlist}">
 							<tr>
-								<td><input type="checkbox" name="select" value="${m.id}"></td>
+								<td><input type="checkbox" class="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num + 1}" /></td>
 								<td><button type="button" data-bs-toggle="modal"

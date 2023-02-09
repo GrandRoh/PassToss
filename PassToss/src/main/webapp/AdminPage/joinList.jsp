@@ -11,7 +11,7 @@
 <body>
 	<input type="hidden" id="search_field" value="${search_field}">
 	<div class='container box_radius15 board_container'>
-		<form action="AdminMemberList.net?authority=${authority}"
+		<form action="AdminMemberList.net?category=${category_index}"
 			method="post">
 			<div class="input-group">
 				<select id="select_value" name="search_field">
@@ -32,7 +32,9 @@
 					data-bs-toggle="dropdown" aria-expanded="false"> 액션 </a>
 				<ul class="dropdown-menu">
 					<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
-					<li><a class="dropdown-item delete" href="AdminDelete.net">삭제</a></li>
+					<li><form action="AdminDelete.net" method="post" id="delete">
+							<input type="submit" class="dropdown-item delete" value="삭제">
+						</form></li>
 				</ul>
 			</div>
 		</div>
@@ -53,7 +55,7 @@
 						<c:set var="num" value="${listcount-(page-1)*limit}" />
 						<c:forEach var="m" items="${joinlist}">
 							<tr>
-								<td><input type="checkbox" name="select" value="${m.id}"></td>
+								<td><input type="checkbox" class="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num - 1}" /></td>
 								<td><button type="button" data-bs-toggle="modal"
@@ -66,11 +68,12 @@
 					</tbody>
 				</table>
 			</div>
+			
 			<div class="category" style="display: inline-block">
 				<ul>
-					<li><a href="AdminMemberList.net?authority=0"
+					<li><a href="AdminMemberList.net?category=0"
 						class="authority-0">준회원 명단</a></li>
-					<li><a href="AdminMemberList.net?authority=1"
+					<li><a href="AdminMemberList.net?category=1"
 						class="authority-1">정회원 명단</a></li>
 				</ul>
 			</div>
@@ -118,11 +121,27 @@
 		</c:if>
 
 		<c:if test="${listcount == 0 && empty search_word}">
-			<h1>회원이 없습니다.</h1>
+			<div class="inline-block"><h1>회원이 없습니다.</h1></div>
+			<div class="category" style="display: inline-block">
+				<ul>
+					<li><a href="AdminMemberList.net?category=0"
+						class="authority-0">준회원 명단</a></li>
+					<li><a href="AdminMemberList.net?category=1"
+						class="authority-1">정회원 명단</a></li>
+				</ul>
+			</div>
 		</c:if>
 
 		<c:if test="${listcount == 0 && !empty search_word}">
-			<h1>검색결과가 없습니다.</h1>
+			<div class="inline-block"><h1>검색결과가 없습니다.</h1></div>
+			<div class="category" style="display: inline-block">
+				<ul>
+					<li><a href="AdminMemberList.net?category=0"
+						class="authority-0">준회원 명단</a></li>
+					<li><a href="AdminMemberList.net?category=1"
+						class="authority-1">정회원 명단</a></li>
+				</ul>
+			</div>
 		</c:if>
 	</div>
 
@@ -155,9 +174,10 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body"></div>
-				<div class="modal-footer">
-					<button type='submit' class='btn btn-primary' form='authorize'>권한설정</button>
+				<div class="modal-body">
+
+				<!-- <div class="modal-footer"> -->
+					<button type='submit' class='btn btn-primary' id='authorizebtn'>권한설정</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
 				</div>
