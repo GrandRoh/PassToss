@@ -1,16 +1,20 @@
-$(function() {
+$(function() {	
+	$("#viewcount").change(function(){
+      go(1); //보여줄 페이지를 1페이지로 설정
+      
+   })
 
 	let selectedValue = $("#search_field").val();
 
 	if (selectedValue != '-1')
-		$("#viewcount").val(selectedValue);
+		$("#select_value").val(selectedValue);
 	else
 		selectedValue = 0;
 
 	console.log(selectedValue)
 
 	const message = ["아이디", "이름", "부서번호"];
-	$("input").attr("placeholder", message[selectedValue] + "을(를) 입력하세요");
+	$("input").attr("placeholder", message[selectedValue] + " 입력하세요");
 
 	$("button[name=searchbutton]").click(function() {
 		//검색어 공백 유효성 검사합니다.
@@ -32,7 +36,7 @@ $(function() {
 		}
 	})//button click
 
-	$("#viewcount").change(function() {
+	$("#select_value").change(function() {
 		selectedValue = $(this).val();
 		$("input[name=search_word]").val('');
 		$("input[name=search_word]").attr("placeholder", message[selectedValue] + " 입력하세요");
@@ -48,9 +52,8 @@ $(function() {
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사
 		if (!$("input[name=select]").is(":checked")) {
 			alert('가입승인할 회원을 선택하세요.');
-			$("#modal2").on('show.bs.modal', function() {
-				return false;
-			})
+		} else {
+			$("#modal2").modal("show");
 		}
 	})
 
@@ -95,15 +98,22 @@ $(function() {
 			}
 		})
 	})
-	
+
 	$("#modal2").on('show.bs.modal', function() {
-				output = "";
-				output += "<form action='AdminAccess.net' method='post'>"
-					+ "<input type='radio' name='authority' value='준회원'>준회원"
-					+ "<input type='radio' name='authority' value='정회원'>정회원"
-					+ "</form>"
-				$(".modal-body").html(output);
-			})
+		output = "";
+		output += "<form action='AdminAccess.net' method='post' id='authorize'>"
+			+ "<label><input type='radio' name='authority' value='준회원'>준회원</label>"
+			+ "<label><input type='radio' name='authority' value='정회원'>정회원</label><br>"
+			+ "</form>"
+		$(".modal-body").html(output);
+	})
+	
+	$("button[type=submit]").on("click", function(){
+		if(!$("input:radio[name=authority]").is(":checked")){
+			alert("설정할 권한을 선택하세요");
+			return false;
+		}
+	})
 
 })
 
