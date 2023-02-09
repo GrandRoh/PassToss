@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import passtoss.board.free.db.Commentfree;
 import passtoss.board.free.db.CommentfreeDAO;
 
-public class FreeCommentAdd implements Action{
+public class FreeCommentUpdate implements Action{
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -18,18 +18,15 @@ public class FreeCommentAdd implements Action{
 		CommentfreeDAO dao = new CommentfreeDAO();
 		Commentfree co = new Commentfree();
 		
-		co.setId(request.getParameter("id"));
 		co.setContent(request.getParameter("content"));
 		System.out.println("content=" + co.getContent());
 		
-		co.setComment_re_lev(Integer.parseInt(request.getParameter("comment_re_lev")));
-		co.setComment_re_seq(Integer.parseInt(request.getParameter("comment_re_seq")));
-		co.setComment_board_num(Integer.parseInt(request.getParameter("comment_board_num")));
+		co.setNum(Integer.parseInt(request.getParameter("num")));
 		
-		int ok = dao.commentsInsert(co);
+		int ok = dao.commentsUpdate(co);
 		response.getWriter().print(ok);
 		
 		return null;
 	}
-
+	
 }
