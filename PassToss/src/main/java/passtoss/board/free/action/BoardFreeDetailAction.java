@@ -21,11 +21,9 @@ public class BoardFreeDetailAction implements Action{
 		
 		int num = Integer.parseInt(request.getParameter("num"));
 		
-		board.setBoard_readcount(num);
+		fdao.setReadCountUpdate(num);
 		
 		board = fdao.getDetail(num);
-		
-		//int maxnum = fdao.getListCount();
 		
 		if(board == null) {
 			System.out.println("게시글 불러오기 실패");
@@ -38,7 +36,6 @@ public class BoardFreeDetailAction implements Action{
 		System.out.println("상세보기 성공");
 		
 		request.setAttribute("board", board);
-		//request.setAttribute("maxnum", maxnum);
 		
 		forward = new ActionForward();
 		forward.setRedirect(false);

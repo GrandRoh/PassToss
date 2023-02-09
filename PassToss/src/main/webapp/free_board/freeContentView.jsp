@@ -56,7 +56,7 @@
 	 	<td>작성자 ${board.board_name}</td>
 	 	<td>조회수&nbsp;${board.board_readcount}</td>
 	 	<td>작성일자&nbsp;${board.board_date}</td>
-	 	<td><a href=".comment-area">댓글 <sup id="count"></sup></a></td> <%-- 클릭하면 댓글로 이동 --%>
+	 	<td><a href="#comment-area">댓글 <sup class="count"></sup></a></td> <%-- 클릭하면 댓글로 이동 --%>
 	 </tr>
 	 <tr>
 	 	<td colspan="4"><c:out value="${board.board_content}" escapeXml = "true"/></td>
@@ -86,10 +86,10 @@
 	 
    </table>
    
-   <div class="comment-area">
+   <div class="comment-area" id="comment-area">
   		<div class="comment-head">
   			<h3 class="comment-count">
-  				댓글 <sup id="count"></sup>
+  				댓글 <sup class="count"></sup>
   			</h3>
   			<div class="comment-order">
   				<ul class="comment-order-list">

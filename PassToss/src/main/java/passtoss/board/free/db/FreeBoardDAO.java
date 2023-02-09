@@ -35,7 +35,8 @@ public class FreeBoardDAO {
 		try {
 			
 			con = ds.getConnection();
-			pstmt = con.prepareStatement("select count(*) from board_free");
+			pstmt = con.prepareStatement("select count(*) from board_free where board_notice = ?");
+			pstmt.setInt(1, 1); // 게시글만 count함 
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -273,11 +274,13 @@ public class FreeBoardDAO {
 			if(field.equals("all")) {
 				sql = " select count(*) "
 					+ " from board_free "
-					+ " where(board_subject like ? or board_name like ?)";	
+					+ " where(board_subject like ? or board_name like ?) "
+					+ " and board_notice = ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%"); 
 				pstmt.setString(2, "%"+value+"%");
+				pstmt.setInt(3, 1); // 게시글만 count함 
 				rs = pstmt.executeQuery();
 				
 			} else if(!field.equals("all")){
@@ -942,5 +945,49 @@ public class FreeBoardDAO {
 			}
 		}
 		return result;
+	}
+
+	public void setReadCountUpdate(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		String sql = "update board_free "
+				   + "set BOARD_READCOUNT=BOARD_READCOUNT+1 "
+				   + "where BOARD_NUM = ?";
+		
+		try {
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+		}catch (SQLException ex) {
+			System.out.println("setReadCountUpdate() 에러: " + ex);
+		}finally{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		
 	}
 }

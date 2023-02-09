@@ -69,7 +69,7 @@
 		  	<thead>
 		  		<tr>
 		  			 <th colspan="5">사내게시판 list</th>
-		  			 <th><span>글 갯수 : ${listcount}</span></th>
+		  			 <th><span>게시글 갯수 : ${listcount}</span></th>
 		  		</tr>
 		  		<tr>
 		  			<td>번호</td>
@@ -97,7 +97,7 @@
 	   		      	<c:forEach var="a" begin="0" end="${b.board_re_lev*2}" step="1">
 	   		      	 &nbsp;
 	   		      	</c:forEach>
-	   		      	<img src='image/reply.png' width="25px" >
+	   		      	<img src='image/reply.png' width='25px' >
 	   		      	</c:if>
 	   		      
 	   		      	<c:if test="${b.board_re_lev == 0}"> <%-- 원문인 경우 --%>
