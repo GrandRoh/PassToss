@@ -1,6 +1,7 @@
 package passtoss.board.free.action;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -46,6 +47,18 @@ public class FreeModifyAction implements Action{
 					fileSize,
 					"utf-8",
 					new DefaultFileRenamePolicy());
+			
+			if(id == multi.getParameter("board_name")) {
+				
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('아이디가 다릅니다.');");
+				out.println("history.back();");
+				out.println("</script>");
+				out.close();
+				return null;
+			}
 			
 			fboard.setBoard_num(Integer.parseInt(multi.getParameter("board_num")));;
 			fboard.setBoard_notice(Integer.parseInt(multi.getParameter("board_notice")));

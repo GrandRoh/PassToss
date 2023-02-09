@@ -97,7 +97,7 @@
 	   		      	<c:forEach var="a" begin="0" end="${b.board_re_lev*2}" step="1">
 	   		      	 &nbsp;
 	   		      	</c:forEach>
-	   		      	<img src='image/reply.png'>
+	   		      	<img src='image/reply.png' width="25px" >
 	   		      	</c:if>
 	   		      
 	   		      	<c:if test="${b.board_re_lev == 0}"> <%-- 원문인 경우 --%>
@@ -134,7 +134,7 @@
 	   		      	<c:forEach var="a" begin="0" end="${b.board_re_lev*2}" step="1">
 	   		      	 &nbsp;
 	   		      	</c:forEach>
-	   		      	<img src='image/reply.png'>
+	   		      	<img src='image/reply.png ' width="25px">
 	   		      	</c:if>
 	   		      
 	   		      	<c:if test="${b.board_re_lev == 0}"> <%-- 원문인 경우 --%>

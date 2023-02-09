@@ -854,4 +854,93 @@ public class FreeBoardDAO {
 		
 		return num;
 	}
+
+	public int boardDelete(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			String select_sql ="select BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ "
+							  +"from board_free "
+							  +"where BOARD_NUM =?";
+			
+			pstmt = con.prepareStatement(select_sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			String board_delete_sql = "delete from board_free "
+									+ "where board_re_ref = ? "
+									+ "and board_re_lev >=? "
+									+ "and board_re_seq>=? "
+									+ "and board_re_seq <=(  "
+									+ " 					nvl((select min(Board_re_seq) -1 "
+									+ "					    from board_free "
+									+ "					    where board_re_ref = ? "
+									+ "					    and board_re_lev = ? "
+									+ "					    and board_re_seq >?),"
+									+ "					    (select max(Board_re_seq)"
+									+ "			  		    from board_free"
+									+ "			 		    where board_re_ref = ?)))";
+			if(rs.next()) {
+				pstmt2 = con.prepareStatement(board_delete_sql);
+				pstmt2.setInt(1, rs.getInt("BOARD_RE_REF"));
+				pstmt2.setInt(2, rs.getInt("BOARD_RE_LEV"));
+				pstmt2.setInt(3, rs.getInt("BOARD_RE_SEQ"));
+				pstmt2.setInt(4, rs.getInt("BOARD_RE_REF"));
+				pstmt2.setInt(5, rs.getInt("BOARD_RE_LEV"));
+				pstmt2.setInt(6, rs.getInt("BOARD_RE_SEQ"));
+				pstmt2.setInt(7, rs.getInt("BOARD_RE_REF"));
+				
+				result = pstmt2.executeUpdate();
+			}
+		}catch (Exception ex) {
+			System.out.println("boardDelete() 에러: " + ex);
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt2 != null) {
+				try
+				{
+					pstmt2.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
 }

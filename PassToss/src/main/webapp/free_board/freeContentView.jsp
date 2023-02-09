@@ -71,8 +71,9 @@
 					
 			<%-- 파일을 첨부한 경우 --%>
 			<c:if test="${!empty board.board_file}">
-				<td><img src="image/down.png" width="10px">
-					<a href="FreeFileDown.bof?filename=${board.board_file}">${board.board_file}</a></td>
+				<td><label><img src="image/down.png" width="10px">
+					<a href="FreeFileDown.bof?filename=${board.board_file}">${board.board_file}
+					</a></label></td>
 			</c:if>
 					
 			<%-- 파일을 첨부하지 않은 경우 --%>
