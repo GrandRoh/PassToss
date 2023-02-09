@@ -1,8 +1,6 @@
 package passtoss.member.action;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +18,13 @@ public class MemberInfoAction implements Action {
 			throws ServletException, IOException {
 		
 		ActionForward forward = new ActionForward();
-		List<Member> memberinfo = new ArrayList<Member>();
+		Member memberinfo = new Member();
 		MemberDAO dao = new MemberDAO();
 		
 		HttpSession session = request.getSession();
 		String id =(String) session.getAttribute("id");
-		
+	
 		memberinfo  = dao.memberinfo(id);
-		
 		request.setAttribute("memberinfo", memberinfo);
 		
 		

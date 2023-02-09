@@ -183,7 +183,7 @@
 							       </c:if>
 				
 							
-								<td>${m.diffMin }시간</td>
+								<td>약 ${m.diffMin }시간</td>
 								
 								<td><a href="javascript:status_delete(${m.memo_seq })"><img src="image/remove.png" alt="추가" style='width:70%'></a></td>
 							</tr>
@@ -218,7 +218,7 @@
 		      								
 		      						<label for ="MEMO_CONTENT">내용</label>
 		      						<input type="text" class="form-control" placeholder="Enter CONTENT"
-		      								name="MEMO_CONTENT" id="MEMO_CONTENT">
+		      								name="MEMO_CONTENT" id="MEMO_CONTENT" required>
 		      							
 		      						<div class='modal_date_form'>
 		      							<label for ="LIMIT_DATE">기한</label>
