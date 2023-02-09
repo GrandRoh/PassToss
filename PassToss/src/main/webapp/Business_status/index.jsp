@@ -80,10 +80,19 @@
 	#business_add .modal_date_form{margin:20px 0}
 	#business_add .form-group{margin:20px 0}
 	#business_add .btn{width:100%;margin-bottom:15px}
+	
+	
+	@media screen and (max-width: 1200px) {
+    .status_left_box, .status_right_box {
+       width: 100%;margin-bottom:50px
+    }
+}
+	
+}
+	
 </style>
 </head>
 <body>
-
 	<jsp:include page="../include/head.jsp"/>
 
 	<div class='container box_radius15 board_container'>
@@ -314,7 +323,7 @@
    
 		if(cnt_a0 == 0 && cnt_a1 == 0 && cnt_a2 == 0 )	{
 			$("#donutchart").text("등록된 업무가 없습니다");
-			console.log("없음");
+		
 		}else{
 		      google.charts.load("current", {packages:["corechart"]});
 		      google.charts.setOnLoadCallback(drawChartCircle);
@@ -367,7 +376,7 @@
 				 all_cnt_a<c:out value="${count.index}"/> = <c:out value="${b.count}"/>;
 		</c:forEach>
       
-		console.log(cnt_a0 + " " + cnt_a1 + " " + cnt_a2 )
+	
       function draw_stackedbar(a,b,c){
     	  if(a == 0 && b == 0 && c == 0 ){
     		  $("#all_status_graph").html("등록된 업무가 없습니다")
@@ -376,7 +385,6 @@
     		  a = a/sum * 100;
     		  b = b/sum * 100;
     		  c = c/sum * 100;
-    		  console.log(a +' '+ b +' '+ c)
     		  
     		  $("#all_status_graph").append("<div style='background:red;width:"+ a +"%'></div>");
     		  $("#all_status_graph").append("<div style='background:orange;width:"+ b +"%'></div>");

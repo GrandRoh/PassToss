@@ -13,8 +13,17 @@ public class Member {
 	private int authority;
 	private String profileImg;
 	private String joindate;
+	private String PROFILEIMG;
 
 	
+	public String getPROFILEIMG() {
+		return PROFILEIMG;
+	}
+
+	public void setPROFILEIMG(String pROFILEIMG) {
+		PROFILEIMG = pROFILEIMG;
+	}
+
 	public int getPost() {
 		return post;
 	}

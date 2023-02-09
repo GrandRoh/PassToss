@@ -28,12 +28,16 @@ public class LoginProcessAction implements Action {
 		MemberDAO dao = new MemberDAO();
 		
 		int result = dao.isId(id,pass);
-		System.out.println("결과는 " + result);
 		
 		//로그인 성공
 		if(result ==1) {
 			HttpSession session = request.getSession();
 			session.setAttribute("id", id);
+			
+			String profileimg = dao.getprofileimg(id);
+		
+			session.setAttribute("profileimg", profileimg);
+			System.out.println(profileimg);
 			
 			String IDstore = request.getParameter("remember");
 			Cookie cookie = new Cookie("id",id);
@@ -41,8 +45,6 @@ public class LoginProcessAction implements Action {
 			if(IDstore != null && IDstore.equals("store")) {
 				cookie.setMaxAge(2*60);
 				
-				response.addCookie(cookie);
-				System.out.println("쿠키확인");
 			}else {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);

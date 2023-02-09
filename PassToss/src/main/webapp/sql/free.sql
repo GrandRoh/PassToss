@@ -28,6 +28,7 @@ create table comment_free(
 	);
 	
 select * from comment_free;
+delete comment_free;
 	
 create sequence fcom_seq; -- 댓글 
 drop sequence fcom_seq;
