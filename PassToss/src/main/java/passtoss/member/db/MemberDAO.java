@@ -619,12 +619,12 @@ public class MemberDAO {
 		return img_src;
 	}
 
-	public List<Member> memberinfo(String id) {
+	public Member memberinfo(String id) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		//select만 필요
+
 		ResultSet rs = null;
-		List<Member> list =  new ArrayList<Member>();
+		Member m =  null;
  		
 		try {
 			
@@ -637,17 +637,15 @@ public class MemberDAO {
 			
 				
 			if (rs.next()) {
-				Member m = new Member();
+				m = new Member();
 				m.setId(rs.getString("id"));
 				m.setName(rs.getString("name"));
 				m.setDeptno(rs.getInt("DEPTNO"));
 				m.setEmail(rs.getString("email"));
 				m.setPhone(rs.getString("phone"));
-				m.setAddress(rs.getString("ADDRESS"));
+				m.setAddress(rs.getString("address"));
 				m.setPost(rs.getInt("post"));
 				m.setProfileImg(rs.getString("PROFILEIMG"));
-				
-				list.add(m);
 				
 			}
 			
@@ -677,7 +675,55 @@ public class MemberDAO {
 			
 		}
 
-		return list;
+		return m;
+	}
+
+	public int updateMember(Member m) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "update member set name=? , phone=?, email=?,post=?,address=?,PROFILEIMG=? where id=? ";
+			pstmt = conn.prepareStatement(sql.toString());
+
+			pstmt.setString(1, m.getName());
+			pstmt.setString(2, m.getPhone());
+			pstmt.setString(3, m.getEmail());
+			pstmt.setInt(4, m.getPost());
+			pstmt.setString(5, m.getAddress());
+			pstmt.setString(6, m.getProfileImg());
+			pstmt.setString(7, m.getId());
+		
+	
+			result = pstmt.executeUpdate();
+			
+			
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+
+			
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return result;
 	}
 
 }

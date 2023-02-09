@@ -47,6 +47,9 @@ public class MemberFrontController extends HttpServlet {
 			case "/join.net":
 	             action = new JoinAction();
 	             break;	 
+			case "/updateProcess.net":
+	    		action = new MemberUpdateProcessAction();
+	    		break;
 			case "/memberinfo.net":
 	             action = new MemberInfoAction();
 	             break;	 

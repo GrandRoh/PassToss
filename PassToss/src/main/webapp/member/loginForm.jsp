@@ -55,7 +55,7 @@
 
 	<form name='Loginform' action="loginProcess.net" method="post"  style="border:1px solid #ccc;padding:30px">
 	    <label for="id"><b>아이디</b></label>
-	    <input type="text" placeholder="Enter id" name="id"  >
+	    <input type="text" placeholder="Enter id" id='id' name="id" >
 	
 	    <label for="passwd"><b>Password</b></label>
 	    <input type="password" placeholder="Enter passwd" name="pass" >
