@@ -5,6 +5,7 @@
 <title>사내게시판 글 내용 보기</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <jsp:include page="../include/head.jsp"/>
+<script src="js/view.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <link rel="stylesheet" href="css/view.css" type="text/css">
 <style>
