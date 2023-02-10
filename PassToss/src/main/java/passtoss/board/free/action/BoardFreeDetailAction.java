@@ -1,6 +1,7 @@
 package passtoss.board.free.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,16 @@ public class BoardFreeDetailAction implements Action{
 		ActionForward forward = new ActionForward();
 		FreeBoard board = new FreeBoard();
 		
+		ArrayList<FreeBoard> board_num_next_prev = new ArrayList<FreeBoard>();
+		
+		
 		int num = Integer.parseInt(request.getParameter("num"));
+		
+		
+		//다음,이전값
+		board_num_next_prev = fdao.getNextPrevNum(num);
+		
+		request.setAttribute("board_num_next_prev", board_num_next_prev);
 		
 		fdao.setReadCountUpdate(num);
 		
