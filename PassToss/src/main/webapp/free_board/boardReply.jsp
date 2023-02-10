@@ -10,11 +10,9 @@
 	body{background:#e2e2e2;min-width:1400px}
     .sidenav{display:inline-block}
  	.box_radius15{border-radius:5px}
-	
 </style>
 </head>
 <body>
-
   <div class='container box_radius15 board_container'>
    <form action="FreeReplyAction.bof" method="post" name="replyform">
       <input type="hidden" name="board_re_ref"  value="${board.board_re_ref}"> 
