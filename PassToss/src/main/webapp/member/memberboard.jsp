@@ -4,15 +4,15 @@
 <head>
 <jsp:include page="../AdminPage/leftMenu.jsp" />
 <jsp:include page="../include/head.jsp" />
-<script src="js/adminboard.js"></script>
+<script src="js/memberboard.js"></script>
 <link rel="stylesheet" href="css/adminboard.css" type="text/css">
-<title>ADMIN - 게시물 관리</title>
+<title>마이페이지 - 게시물 관리</title>
 </head>
 <body>
 	<div class='container box_radius15 board_container'>
 
 		<input type="hidden" id="search_field" value="${search_field}">
-		<form action="AdminboardList.net?category=${category_index}"
+		<form action="memberboardList.net?category=${category_index}"
 			method="post">
 			<div class="input-group">
 				<select id="select_value" name="search_field">
@@ -24,12 +24,12 @@
 			</div>
 		</form>
 		<div class="header">
-			<span class="title">Admin - ${category}</span> <span class="count">|
+			<span class="title">마이페이지 - ${category}</span> <span class="count">|
 				글 개수 : ${listcount}</span>
 		</div>
 		<br> <span class="category"><a
-			href="AdminboardList.net?category=0">사내게시판</a></span> <span class="category"><a
-			href="AdminboardList.net?category=1">부서게시판</a></span>
+			href="memberboardList.net?category=0">사내게시판</a></span> <span class="category"><a
+			href="memberboardList.net?category=1">부서게시판</a></span>
 		<form class="delete" action="AdminBoardDelete.net" method="post">
 			<input type="image" src="image/delete.png">
 		</form>
@@ -177,3 +177,4 @@
 		</c:if>
 	</div>
 </body>
+</html>

@@ -24,7 +24,6 @@ public class AdminBoardDeleteAction implements Action {
 		
 		if (request.getParameter("category") != null) {
 			category_index = Integer.parseInt(request.getParameter("category"));
-
 		}
 		
 		result = dao.boardDelete(select, category[category_index]);
