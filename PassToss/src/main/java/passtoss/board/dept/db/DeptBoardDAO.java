@@ -834,6 +834,7 @@ public class DeptBoardDAO {
 			pstmt.setInt(5, board.getBoard_num());
 			
 			result = pstmt.executeUpdate();
+			System.out.println("dao 수정 result : " + result);
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();

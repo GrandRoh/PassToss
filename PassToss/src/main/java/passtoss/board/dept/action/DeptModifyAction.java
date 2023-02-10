@@ -50,7 +50,7 @@ public class DeptModifyAction implements Action{
 					"utf-8",
 					new DefaultFileRenamePolicy());
 			
-			if(id == multi.getParameter("board_name")) {
+			if(!id.equals(multi.getParameter("board_name"))) {
 				
 				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();
@@ -65,9 +65,10 @@ public class DeptModifyAction implements Action{
 			board.setBoard_notice(Integer.parseInt(multi.getParameter("board_notice")));
 			board.setBoard_subject(multi.getParameter("board_subject"));
 			board.setBoard_content(multi.getParameter("board_content"));
-			board.setBoard_name(id);
-			board.setBoard_deptno(deptno);
-
+			board.setBoard_name(multi.getParameter("board_name"));
+			board.setBoard_deptno(Integer.parseInt(multi.getParameter("board_deptno")));
+			board.setBoard_num(Integer.parseInt(multi.getParameter("board_num")));
+			
 			String check = multi.getParameter("check");
 			System.out.println("check=" + check); // 체크값을 인식을 못함 
 			if(check != null) { //파일 첨부를 변경하지 않으면
@@ -100,6 +101,5 @@ public class DeptModifyAction implements Action{
 			forward.setRedirect(false);
 			return forward;
 		} 
-
 	}
 }
