@@ -990,4 +990,68 @@ public class FreeBoardDAO {
 		}
 		
 	}
+
+	public ArrayList<FreeBoard> getNextPrevNum(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		//select만 필요
+		ResultSet rs = null;
+			
+			String sql = "SELECT b.* FROM( "
+					+ "SELECT "
+					+ "    Board_num, "
+					+ "    LAG(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_prev_num,"
+					+ "    LEAD(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_next_num "
+					+ "FROM BOARD_free "
+					+ ") b "
+					+ "WHERE b.Board_num = ? " ;
+                   
+
+
+		ArrayList<FreeBoard> list = new ArrayList<FreeBoard>();
+
+			
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, num); 
+	
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				FreeBoard b = new FreeBoard();
+				b.setBoard_prev_num(rs.getInt("board_prev_num"));
+				b.setBoard_next_num(rs.getInt("board_next_num"));
+				list.add(b);
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println("getNextPrevNum error "+ se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return list;
+	}
 }
