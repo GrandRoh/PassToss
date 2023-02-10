@@ -44,7 +44,7 @@
 	   <c:if test="${id == 'admin'}">
 		<a href="AdminboardList.net?category=1 ">게시물</a> 
 	   </c:if>
-		<a href="calendar">캘린더</a>
+		<a href="calendar.cal">캘린더</a>
 	</div>
 	<button class="dropdown-btn">
 		마이페이지 <i class="fa fa-caret-down"></i>
