@@ -1,0 +1,38 @@
+#viewcount {
+	width: 50px;
+	text-align: center;
+}
+
+.title {
+	font-size: 50px;
+}
+
+.category>a {
+	width: 200px;
+	height: 100px;
+	margin-bottom: 10px;
+	padding: 10px 20px 10px 20px;
+	background: #212529;
+	color: white;
+	text-decoration: none;
+	font-size: 30px;
+}
+
+.category>a:hover {
+	opacity: 0.9;
+}
+
+.delete {
+	float: right;
+}
+
+.delete > input {
+	width: 40px;
+	height: 40px;
+}
+
+#search{
+	float:right;
+	width:300px;
+	vertical-align: top;
+}

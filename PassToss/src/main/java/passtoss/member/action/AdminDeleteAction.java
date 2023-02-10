@@ -26,7 +26,7 @@ public class AdminDeleteAction implements Action {
 			out.println("alert('" + result + "명의 회원정보가 삭제되었습니다.');");
 			out.println("location.href='AdminMemberList.net'");
 		} else {
-			out.println("alert('가입승인에 실패했습니다.');");
+			out.println("alert('회원정보 삭제에 실패했습니다.');");
 			out.println("history.back();");
 		}
 		out.println("</script>");

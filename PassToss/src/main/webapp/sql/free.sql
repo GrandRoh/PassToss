@@ -30,18 +30,18 @@ create table comment_free(
 select * from comment_free;
 delete comment_free;
 	
-create sequence fcom_seq; -- 댓글 
+create sequence fcom_seq; -- 댓글
 drop sequence fcom_seq;
 
-create sequence fboard_seq; -- 게시판 
+create sequence fboard_seq; -- 게시판
 drop sequence fboard_seq;
 
 SELECT fboard_seq.nextval FROM DUAL;
 SELECT fboard_seq.CURRVAL FROM DUAL;
 
-insert into board_free 
-(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, 
-BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, 
+insert into board_free
+(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT,
+BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF,
 BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT,
 BOARD_DATE, BOARD_NOTICE)
 values(1, 'admin', '안녕1', '안녕하세요','fox.png', 1, 0, 0, 0,sysdate, 0);
