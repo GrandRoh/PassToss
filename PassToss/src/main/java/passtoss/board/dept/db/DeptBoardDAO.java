@@ -11,7 +11,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import passtoss.board.free.db.FreeBoard;
 
 public class DeptBoardDAO {
 	
@@ -27,7 +26,7 @@ public class DeptBoardDAO {
 		}
 	}
 
-	public int getListCount() {
+	public int getListCount(int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -36,8 +35,10 @@ public class DeptBoardDAO {
 		try {
 			
 			con = ds.getConnection();
-			pstmt = con.prepareStatement("select count(*) from board_dept where board_notice = ?");
+			pstmt = con.prepareStatement("select count(*) from board_dept "
+									   + "where board_notice = ? and board_deptno = ?");
 			pstmt.setInt(1, 1); // 게시글만 count함 
+			pstmt.setInt(2, deptno);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -83,7 +84,7 @@ public class DeptBoardDAO {
 		return x;
 	}
 
-	public List<DeptBoard> getBoardList() {
+	public List<DeptBoard> getBoardList(int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -98,6 +99,7 @@ public class DeptBoardDAO {
 				+ " 	      ORDER BY BOARD_RE_REF DESC, "
 				+ "	      BOARD_RE_SEQ ASC) j "
 				+ "		where board_notice = 0"
+				+ "		and board_deptno = ? "
 				+ "     and rownum <= 3) "
 				+ " where rnum >= 1 and rnum <= 3";
 		
@@ -107,6 +109,7 @@ public class DeptBoardDAO {
 			
 			con = ds.getConnection(); 
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, deptno);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -167,7 +170,7 @@ public class DeptBoardDAO {
 		return list;
 	}
 
-	public List<DeptBoard> getBoardList(int page, int limit) {
+	public List<DeptBoard> getBoardList(int page, int limit, int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -181,7 +184,8 @@ public class DeptBoardDAO {
 				+ "	          ON BOARD_NUM = COMMENT_BOARD_NUM "
 				+ " 	      ORDER BY BOARD_RE_REF DESC, "
 				+ "	      BOARD_RE_SEQ ASC) j "
-				+ "		where board_notice = 1"
+				+ "		where board_notice = 1 "
+				+ "     and board_deptno = ? "
 				+ "     and rownum <= ?) "
 				+ " where rnum >= ? and rnum <= ?";
 		
@@ -194,9 +198,10 @@ public class DeptBoardDAO {
 			
 			con = ds.getConnection(); 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, endrow);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, endrow);
+			pstmt.setInt(1, deptno);
+			pstmt.setInt(2, endrow);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, endrow);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -257,7 +262,7 @@ public class DeptBoardDAO {
 		return list;
 	}
 
-	public int getListCount(String field, String value) {
+	public int getListCount(String field, String value, int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -272,20 +277,24 @@ public class DeptBoardDAO {
 				sql = " select count(*) "
 					+ " from board_dept "
 					+ " where(board_subject like ? or board_name like ?) "
-					+ " and board_notice = ?";
+					+ " and board_notice = ? "
+					+ " and board_deptno = ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%"); 
 				pstmt.setString(2, "%"+value+"%");
-				pstmt.setInt(3, 1); // 게시글만 count함 
+				pstmt.setInt(3, 1); // 게시글만 count함
+				pstmt.setInt(4, deptno);
 				rs = pstmt.executeQuery();
 				
 			} else if(!field.equals("all")){
 				sql = "select count(*) from board_dept "
-					+ "where " + field + " like ?";
+					+ "where " + field + " like ? "
+					+ "and board_deptno = ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%"); 
+				pstmt.setInt(2, deptno);
 				rs = pstmt.executeQuery();
 			}
 			if(rs.next()) {
@@ -328,7 +337,7 @@ public class DeptBoardDAO {
 		return x;
 	}
 
-	public List<DeptBoard> getBoardList(String field, String value) {
+	public List<DeptBoard> getBoardList(String field, String value, int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -352,12 +361,14 @@ public class DeptBoardDAO {
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 0"
 						+ " 	and(board_subject like ? or board_name like ?)"
+						+ "     and board_deptno = ? "
 						+ "     and rownum <= 3) "
 						+ " where rnum >= 1 and rnum <= 3";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%");
 				pstmt.setString(2, "%"+value+"%");
+				pstmt.setInt(3, deptno);
 				rs = pstmt.executeQuery();
 				
 			} else if(!field.equals("all")){
@@ -372,12 +383,14 @@ public class DeptBoardDAO {
 						+ " 	     ORDER BY BOARD_RE_REF DESC, "
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 0"
-						+ "		and " + field + " like ?"
+						+ "		and " + field + " like ? "
+						+ "		and board_deptno = ? "
 						+ "     and rownum <= 3) "
 						+ " where rnum >= 1 and rnum <= 3";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%");
+				pstmt.setInt(2, deptno);
 				rs = pstmt.executeQuery();
 			}
 			
@@ -439,7 +452,7 @@ public class DeptBoardDAO {
 		return list;
 	}
 
-	public List<DeptBoard> getBoardList(String field, String value, int page, int limit) {
+	public List<DeptBoard> getBoardList(String field, String value, int page, int limit, int deptno) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -465,15 +478,17 @@ public class DeptBoardDAO {
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 1"
 						+ " 	and(board_subject like ? or board_name like ?)"
+						+ "	    and board_deptno = ? "
 						+ "     and rownum <= ?) "
 						+ " where rnum >= ? and rnum <= ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%");
 				pstmt.setString(2, "%"+value+"%");
-				pstmt.setInt(3, endrow);
-				pstmt.setInt(4, startrow);
-				pstmt.setInt(5, endrow);
+				pstmt.setInt(3, deptno);
+				pstmt.setInt(4, endrow);
+				pstmt.setInt(5, startrow);
+				pstmt.setInt(6, endrow);
 				rs = pstmt.executeQuery();
 				
 			} else if(!field.equals("all")){
@@ -488,15 +503,17 @@ public class DeptBoardDAO {
 						+ " 	     ORDER BY BOARD_RE_REF DESC, "
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 1"
-						+ "		and " + field + " like ?"
+						+ "		and " + field + " like ? "
+						+ "		and board_deptno = ? "
 						+ "     and rownum <= ?) "
 						+ " where rnum >= ? and rnum <= ?";
 				
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+value+"%");
-				pstmt.setInt(2, endrow);
-				pstmt.setInt(3, startrow);
-				pstmt.setInt(4, endrow);
+				pstmt.setInt(2, deptno);
+				pstmt.setInt(3, endrow);
+				pstmt.setInt(4, startrow);
+				pstmt.setInt(5, endrow);
 				rs = pstmt.executeQuery();
 			}
 			
@@ -595,6 +612,232 @@ public class DeptBoardDAO {
 			
 		}catch (Exception ex) {
 			System.out.println("boardInsert() 에러: " + ex);
+		}finally{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
+
+	public String getdname(int deptno) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String dname = null;
+		
+		try {
+			con = ds.getConnection();
+			
+			String sql = "select dname from dept where deptno = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, deptno);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dname = rs.getString(1);
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("getdname() 에러 : " + e);
+		}
+		finally
+		{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return dname;
+	}
+
+	public void setReadCountUpdate(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		String sql = "update board_dept "
+				   + "set BOARD_READCOUNT=BOARD_READCOUNT+1 "
+				   + "where BOARD_NUM = ?";
+		
+		try {
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+		}catch (SQLException ex) {
+			System.out.println("setReadCountUpdate() 에러: " + ex);
+		}finally{
+			
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		
+	}
+
+	public DeptBoard getDetail(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		DeptBoard board = null; 
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			String sql = "select * from board_dept where board_num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				board = new DeptBoard();
+				
+				board.setBoard_num(rs.getInt("board_num"));
+				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_subject(rs.getString("board_subject"));
+				board.setBoard_content(rs.getString("board_content"));
+				board.setBoard_file(rs.getString("board_file"));
+				board.setBoard_re_ref(rs.getInt("board_re_ref"));
+				board.setBoard_re_lev(rs.getInt("board_re_lev"));
+				board.setBoard_re_seq(rs.getInt("board_re_seq"));
+				board.setBoard_readcount(rs.getInt("board_readcount"));
+				board.setBoard_date(rs.getString("board_date"));
+				board.setBoard_notice(rs.getInt("board_notice"));
+				board.setBoard_notice(rs.getInt("board_deptno"));
+			}
+			
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getDetail() 에러: " + ex);
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return board;
+	}
+
+	public int boardModify(DeptBoard board) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		int result = 0; 
+		
+		try {
+			
+			con= ds.getConnection();
+			
+			String sql = "update board_dept "
+					   + "set board_subject=?, board_content=?, board_file=?, board_notice =? "
+					   + "where board_num = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getBoard_subject());
+			pstmt.setString(2, board.getBoard_content());
+			pstmt.setString(3, board.getBoard_file());
+			pstmt.setInt(4, board.getBoard_notice());
+			pstmt.setInt(5, board.getBoard_num());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("boardModify() 에러: " + ex);
 		}finally{
 			
 			if(pstmt != null) {

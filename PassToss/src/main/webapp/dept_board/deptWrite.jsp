@@ -21,10 +21,10 @@
 	<div class='container box_radius15 board_container'>
     <form action="BoardDeptAdd.bod" method="post" enctype="multipart/form-data" name="boardform">
     <input type="hidden" id="loginid" value="${id}" name="loginid">
-    	<h3>부서게시판 글쓰기</h3>
+    	<h3>${dname} 게시판 글쓰기</h3>
     	<div class="from-group">
     	   <c:if test="${id !='admin'}">
-    		<select id="board_notice" name="board_notice"> <%-- 권한이 2거나 아이디가 admin 아니면 바꿀수 없어야함 --%>
+    		<select id="board_notice" name="board_notice"> 
 				<option value="1" selected>게시물</option>
 			</select>
 		   </c:if>
