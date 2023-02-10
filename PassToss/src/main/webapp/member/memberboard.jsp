@@ -5,33 +5,23 @@
 <jsp:include page="../AdminPage/leftMenu.jsp" />
 <jsp:include page="../include/head.jsp" />
 <script src="js/memberboard.js"></script>
-<link rel="stylesheet" href="css/adminboard.css" type="text/css">
+<link rel="stylesheet" href="css/memberboard.css" type="text/css">
 <title>마이페이지 - 게시물 관리</title>
 </head>
 <body>
 	<div class='container box_radius15 board_container'>
-		<input type="hidden" id="search_field" value="${search_field}">
-		<form action="memberBoardList.net?category=${category_index}"
-			method="post">
-			<div class="input-group">
-				<select id="select_value" name="search_field">
-					<option value="0" selected>제목</option>
-					<option value="1">작성자</option>
-				</select> <input name="search_word" type="text" class="form-control"
-					placeholder="검색어를 입력하세요" value="${search_word}">
-				<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
-			</div>
-		</form>
+
 		<div class="header">
 			<span class="title">마이페이지 - ${category}</span> <span class="count">|
 				글 개수 : ${listcount}</span>
 		</div>
 		<br>
-		<c:if test="${id != admin}">		
-		<span class="category"><a
-			href="memberBoardList.net?category=0">사내게시판</a></span> <span class="category"><a
-			href="memberBoardList.net?category=1">부서게시판</a></span>
-		</c:if> 	
+		<c:if test="${id != 'admin'}">
+			<span class="category"><a
+				href="memberBoardList.net?category=0">사내게시판</a></span>
+			<span class="category"><a
+				href="memberBoardList.net?category=1">부서게시판</a></span>
+		</c:if>
 		<form class="delete" action="memberBoardDelete.net" method="post">
 			<input type="image" src="image/delete.png">
 		</form>
@@ -121,6 +111,15 @@
 					<option value="10" selected>10</option>
 				</select>
 			</div>
+
+			<form action="memberBoardList.net?category=${category_index}"
+				method="post" id="search">
+				<div class="input-group">
+					<input name="search_word" type="text" class="form-control"
+						placeholder="글 제목을 입력하세요" value="${search_word}">
+					<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
+				</div>
+			</form>
 
 			<div class="center-block">
 				<ul class="pagination justify-content-center">

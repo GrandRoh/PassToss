@@ -30,7 +30,6 @@ public class MemberBoardListAction implements Action {
 		int page = 1;
 		int limit = 10;
 		int listcount = 0;
-		int index = -1;
 		String search_word = "";
 
 		if (request.getParameter("page") != null) {
@@ -50,7 +49,7 @@ public class MemberBoardListAction implements Action {
 
 		String[] boardtable = { "board_free", "board_dept" };
 		String[] categorylist = { "사내게시판", "부서게시판" };
-		String[] search_field = { "board_subject", "board_name" };
+		String search_field = "board_subject";
 		if (request.getParameter("search_word") == null || request.getParameter("search_word").equals("")) {
 			
 			if (category_index == 0) {
@@ -62,14 +61,13 @@ public class MemberBoardListAction implements Action {
 				boardlist = dao.getdeptBoardList(page, limit,id);
 			}
 		} else {
-			index = Integer.parseInt(request.getParameter("search_field"));
 			if (category_index == 0) {
 				search_word = request.getParameter("search_word");
-				listcount = dao.getBoardListCount(search_field[index], search_word, boardtable[category_index],id);
-				boardlist = dao.getfreeBoardList(search_field[index], search_word, page, limit,id);
+				listcount = dao.getBoardListCount(search_field, search_word, boardtable[category_index],id);
+				boardlist = dao.getfreeBoardList(search_field, search_word, page, limit,id);
 			} else if (category_index == 1) {
-				listcount = dao.getBoardListCount(search_field[index], search_word, boardtable[category_index],id);
-				boardlist = dao.getdeptBoardList(search_field[index], search_word, page, limit,id);
+				listcount = dao.getBoardListCount(search_field, search_word, boardtable[category_index],id);
+				boardlist = dao.getdeptBoardList(search_field, search_word, page, limit,id);
 			}
 		}
 
@@ -100,7 +98,6 @@ public class MemberBoardListAction implements Action {
 			request.setAttribute("boardlist", boardlist);
 			request.setAttribute("listcount", listcount); // 총 글의 수
 			request.setAttribute("search_word", search_word);
-			request.setAttribute("search_field", index);
 			request.setAttribute("limit", limit);
 			request.setAttribute("id", id);
 			ActionForward forward = new ActionForward();
