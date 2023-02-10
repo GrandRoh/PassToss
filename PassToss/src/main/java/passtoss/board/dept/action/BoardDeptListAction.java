@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -44,18 +45,25 @@ public class BoardDeptListAction implements Action{
 		
 		String search_word = "";
 		
+		HttpSession session = request.getSession();
+		int deptno = (Integer)session.getAttribute("deptno");
+		System.out.println("deptno = " + deptno);
+		
+		String dname = dao.getdname(deptno);
+		
 		if(request.getParameter("search_word") == null 
 				|| request.getParameter("search_word").equals("")) {
-			listcount = dao.getListCount();
-			noticelist = dao.getBoardList();
-			boardlist = dao.getBoardList(page, limit);
+			listcount = dao.getListCount(deptno);
+			noticelist = dao.getBoardList(deptno);
+			boardlist = dao.getBoardList(page, limit, deptno);
+			
 		} else {
 			index =Integer.parseInt(request.getParameter("search_field"));
 			String[] search_field = new String[] {"all", "board_subject", "board_name"};
 			search_word = request.getParameter("search_word");
-			listcount = dao.getListCount(search_field[index], search_word);
-			noticelist = dao.getBoardList(search_field[index], search_word);
-			boardlist = dao.getBoardList(search_field[index], search_word, page, limit);
+			listcount = dao.getListCount(search_field[index], search_word, deptno);
+			noticelist = dao.getBoardList(search_field[index], search_word, deptno);
+			boardlist = dao.getBoardList(search_field[index], search_word, page, limit, deptno);
 		}
 		
 		int maxpage = (listcount + limit - 1) / limit;
@@ -87,6 +95,8 @@ public class BoardDeptListAction implements Action{
 			request.setAttribute("noticelist", noticelist);
 			
 			request.setAttribute("limit", limit);
+			request.setAttribute("deptno", deptno);
+			request.setAttribute("dname", dname);
 			
 			request.setAttribute("search_field", index);
 			request.setAttribute("search_word", search_word);
@@ -107,6 +117,8 @@ public class BoardDeptListAction implements Action{
 			object.addProperty("endpage", endpage);
 			object.addProperty("listcount", listcount);
 			object.addProperty("limit", limit);
+			object.addProperty("deptno", deptno);
+			object.addProperty("dname", dname);
 			
 			JsonElement je = new Gson().toJsonTree(boardlist);
 			JsonElement je_no = new Gson().toJsonTree(noticelist);

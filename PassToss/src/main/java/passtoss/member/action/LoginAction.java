@@ -18,8 +18,12 @@ public class LoginAction implements Action {
 		
 		if(cookies != null) {
 			for(int i = 0; i < cookies.length; i++) {
-				id=cookies[i].getValue();
-				
+
+				if(cookies[i].getName().equals("id")) {
+		               id=cookies[i].getValue();
+		               
+		            }
+		         
 			}
 		}
 		

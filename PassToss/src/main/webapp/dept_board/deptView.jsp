@@ -49,6 +49,7 @@
 	<div class='container box_radius15 board_container'>
 	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- leftMenu에서 저장된 id값 --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
+	<input type="hidden" id= "deptno" value="${deptno}" name="deptno">
 	  <form action="DeptList.bod" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
@@ -67,7 +68,7 @@
 		  <table class="table table-striped">
 		  	<thead>
 		  		<tr>
-		  			 <th colspan="5">부서게시판 list</th>
+		  			 <th colspan="5">${dname} 게시판 list</th>
 		  			 <th><span>게시글 갯수 : ${listcount}</span></th>
 		  		</tr>
 		  		<tr>

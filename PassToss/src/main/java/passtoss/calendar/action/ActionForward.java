@@ -1,4 +1,4 @@
-package passtoss.calendar.memo;
+package passtoss.calendar.action;
 //ActionForward 클래스는 Action 인터페이스에서 명령을 수행하고 결과값 가지고 이동할 때 사용되는 클래스 입니다.
 //이 클래스는 Redirect 여부 값과 포워딩할 페이지의 위치를 가지고 있습니다.
 //이 값들은 FrontController에서 ActionForward클래스 타입으로 반환값으로

@@ -47,6 +47,17 @@ public class DeptBoardFrontController extends HttpServlet {
 				action = new BoardDeptAddAction();
 				break;
 				
+			case "/DeptDetailAction.bod":
+				action = new BoardDeptDetailAction();
+				break;
+				
+			case "/DeptModifyView.bod":
+				action = new DeptModifyViewAction();
+				break;
+				
+			case "/DeptModifyAction.bod":
+				action = new DeptModifyAction();
+				break;
 				
 		}
 		forward = action.execute(request, response);

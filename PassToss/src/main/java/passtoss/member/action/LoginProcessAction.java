@@ -23,7 +23,6 @@ public class LoginProcessAction implements Action {
 		ActionForward forward =  new ActionForward();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
-		
 
 		MemberDAO dao = new MemberDAO();
 		
@@ -38,17 +37,26 @@ public class LoginProcessAction implements Action {
 		
 			session.setAttribute("profileimg", profileimg);
 			
+			int deptno = dao.getdeptno(id);
+			
+			session.setAttribute("deptno", deptno);
+			
 			String IDstore = request.getParameter("remember");
-		
 			Cookie cookie = new Cookie("id",id);
 		
 			if(IDstore != null && IDstore.equals("store")) {
 				cookie.setMaxAge(2*60);
 				response.addCookie(cookie);
+				
 			}else {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);
 			}
+			
+			
+			
+			
+			
 			forward.setRedirect(true);
 			forward.setPath("Business_status.bs");
 			return forward;
@@ -67,11 +75,6 @@ public class LoginProcessAction implements Action {
 			out.close();
 			return null;
 		}
-		
-		
-		
-		
-				
 	}
 
 }
