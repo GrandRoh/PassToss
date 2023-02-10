@@ -6,22 +6,27 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import passtoss.admin.board.Board;
-import passtoss.admin.board.BoardDAO;
+import passtoss.member.db.MemberDAO;
 
-public class AdminBoardListAction implements Action {
+public class MemberBoardListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		BoardDAO dao = new BoardDAO();
+		MemberDAO dao = new MemberDAO();
 		List<Board> boardlist = null;
-
+		
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("id");
+		System.out.println("id=" + id);
+		
 		int page = 1;
 		int limit = 10;
 		int listcount = 0;
@@ -47,24 +52,24 @@ public class AdminBoardListAction implements Action {
 		String[] categorylist = { "사내게시판", "부서게시판" };
 		String[] search_field = { "board_subject", "board_name" };
 		if (request.getParameter("search_word") == null || request.getParameter("search_word").equals("")) {
-			// 사내, 부서, 공지사항 게시판 별로 나누기
+			
 			if (category_index == 0) {
-				listcount = dao.getListCount(boardtable[category_index]);
-				boardlist = dao.getfreeBoardList(page, limit);
+				listcount = dao.getBoardListCount(boardtable[category_index],id);
+				boardlist = dao.getfreeBoardList(page, limit,id);
 			} else if (category_index == 1) {
 				// 추가예정
-				listcount = dao.getListCount(boardtable[category_index]);
-				boardlist = dao.getdeptBoardList(page, limit);
+				listcount = dao.getBoardListCount(boardtable[category_index],id);
+				boardlist = dao.getdeptBoardList(page, limit,id);
 			}
 		} else {
 			index = Integer.parseInt(request.getParameter("search_field"));
-			if (category_index == 0) {				
+			if (category_index == 0) {
 				search_word = request.getParameter("search_word");
-				listcount = dao.getListCount(search_field[index], search_word, boardtable[category_index]);
-				boardlist = dao.getfreeBoardList(search_field[index], search_word, page, limit);
+				listcount = dao.getBoardListCount(search_field[index], search_word, boardtable[category_index],id);
+				boardlist = dao.getfreeBoardList(search_field[index], search_word, page, limit,id);
 			} else if (category_index == 1) {
-				listcount = dao.getListCount(search_field[index], search_word,boardtable[category_index]);
-				boardlist = dao.getdeptBoardList(search_field[index], search_word,page, limit);
+				listcount = dao.getBoardListCount(search_field[index], search_word, boardtable[category_index],id);
+				boardlist = dao.getdeptBoardList(search_field[index], search_word, page, limit,id);
 			}
 		}
 
@@ -96,11 +101,12 @@ public class AdminBoardListAction implements Action {
 			request.setAttribute("listcount", listcount); // 총 글의 수
 			request.setAttribute("search_field", index);
 			request.setAttribute("limit", limit);
+			request.setAttribute("id", id);
 			ActionForward forward = new ActionForward();
 			forward.setRedirect(false);
 
 			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
-			forward.setPath("AdminPage/boardList.jsp");
+			forward.setPath("member/memberboard.jsp");
 			return forward;
 		} else {
 			System.out.println("state=ajax");
@@ -114,6 +120,7 @@ public class AdminBoardListAction implements Action {
 			object.addProperty("listcount", listcount);
 			object.addProperty("limit", limit);
 			object.addProperty("category_index", category_index);
+			object.addProperty("id", id);
 
 			// JsonObject에 List 형식을 담을 수 있는 addProperty()가 존재하지 않습니다.
 			// List 형식을 JsonElement로 바꿔줘야 object에 저장할 수 있습니다.

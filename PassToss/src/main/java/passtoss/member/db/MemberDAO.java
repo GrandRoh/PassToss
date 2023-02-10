@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import com.google.gson.JsonObject;
 
+import passtoss.admin.board.Board;
+
 public class MemberDAO {
 
 	private DataSource ds;
@@ -725,7 +727,299 @@ public class MemberDAO {
 		}
 		return result;
 	}
+  
+	public int getBoardListCount(String table, String id) { //마이페이지
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int x = 0;
+		String sql = "";
+		try {
+			conn = ds.getConnection();
+			
+			if (id.equals("admin")) {
+				sql = "select count(*) from " + table 
+					+ " where board_name = ?";
+				System.out.println("admin실행");
+			} else {
+				sql = "select count(*) from " + table 
+					+ " where board_name = ? and board_notice = 1";
+				System.out.println("else");
+			}
 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			for (int i = 1; rs.next(); i++) {
+				x += rs.getInt(i);
+				System.out.println("x = " + x);
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("getBoardListCount() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return x;
+	}
+
+	public int getBoardListCount(String field, String word, String table, String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int x = 0;
+		try {
+			conn = ds.getConnection();
+			String sql ="";
+			
+			if(id.equals("admin")) {
+				sql = "select count(*) from " + table 
+						+ " where " + field + " like ? "
+						+ "and board_name = ?";
+			}else {
+				sql = "select count(*) from " + table 
+						+ " where " + field + " like ? "
+						+ "and board_name = ? "
+						+ "and board_notice = 1";
+			}			 
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + word + "%");
+			pstmt.setString(2, id);
+			rs = pstmt.executeQuery();
+			for (int i = 1; rs.next(); i++) {
+				x += rs.getInt(i);
+				System.out.println("x = " + x);
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("getListCount() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return x;
+	}
+
+	public List<Board> getfreeBoardList(int page, int limit, String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql="";
+
+		if(id.equals("admin")) {
+			sql = "select *"
+				+ "	from(select rownum rnum, j.*"
+				+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
+				+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
+				+ "				 	           		       	   FROM comment_free"
+				+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM)"
+				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
+				+ " 	      ORDER BY BOARD_RE_REF DESC,"
+				+ "	      	  BOARD_RE_SEQ ASC) j"
+				+ "		 where board_name = ?"
+				+ "      and rownum <= ?)"
+				+ " where rnum between ? and ?";
+		}else {
+			sql = "select *"
+					+ "	from(select rownum rnum, j.*"
+					+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
+					+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
+					+ "				 	           		       	   FROM comment_free"
+					+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM)"
+					+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
+					+ " 	      ORDER BY BOARD_RE_REF DESC,"
+					+ "	      	  BOARD_RE_SEQ ASC) j"
+					+ "	 	 where board_notice = 1"
+					+ "		 and board_name = ?"
+					+ "      and rownum <= ?)"
+					+ " where rnum between ? and ?";
+		}		
+
+		List<Board> list = new ArrayList<Board>();
+
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, endrow);
+			pstmt.setInt(3, startrow);
+			pstmt.setInt(4, endrow);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Board board = new Board();
+				board.setBoard_num(rs.getInt("board_num"));
+				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_subject(rs.getString("board_subject"));
+				board.setBoard_re_ref(rs.getInt("board_re_ref"));
+				board.setBoard_re_lev(rs.getInt("board_re_lev"));
+				board.setBoard_re_seq(rs.getInt("board_re_seq"));
+				board.setBoard_readcount(rs.getInt("board_readcount"));
+				board.setBoard_date(rs.getString("board_date"));
+				board.setCnt(rs.getInt("cnt"));
+				list.add(board);
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("getfreeBoardlist() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return list;
+	}
+
+	public List<Board> getfreeBoardList(String field, String word, int page, int limit, String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql ="";
+		if(id.equals("admin")) {
+			sql = "select *"
+				+ "	from(select rownum rnum, j.*"
+				+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
+				+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
+				+ "				 	           		       	   FROM comment_free"
+				+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM)"
+				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
+				+ " 	      ORDER BY BOARD_RE_REF DESC,"
+				+ "	      	  BOARD_RE_SEQ ASC) j"
+				+ "		 where board_name = ?"
+				+ "		 and "+ field + " like ?"
+				+ "      and rownum <= ?)"
+				+ " where rnum between ? and ?";
+		}else {
+			sql = "select *"
+				+ "	from(select rownum rnum, j.*"
+				+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
+				+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
+				+ "				 	           		       	   FROM comment_free"
+				+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM)"
+				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
+				+ " 	      ORDER BY BOARD_RE_REF DESC,"
+				+ "	      	  BOARD_RE_SEQ ASC) j"
+				+ "	 	 where board_notice = 1"
+				+ "	 	 and board_name = ?"
+				+ "		 and "+ field + " like ?"
+				+ "      and rownum <= ?)"
+				+ " where rnum between ? and ?";
+		}	
+
+		List<Board> list = new ArrayList<Board>();
+
+		int startrow = (page - 1) * limit + 1;
+		int endrow = startrow + limit - 1;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, "%" + word + "%");
+			pstmt.setInt(3, endrow);
+			pstmt.setInt(4, startrow);
+			pstmt.setInt(5, endrow);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Board board = new Board();
+				board.setBoard_num(rs.getInt("board_num"));
+				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_subject(rs.getString("board_subject"));
+				board.setBoard_re_ref(rs.getInt("board_re_ref"));
+				board.setBoard_re_lev(rs.getInt("board_re_lev"));
+				board.setBoard_re_seq(rs.getInt("board_re_seq"));
+				board.setBoard_readcount(rs.getInt("board_readcount"));
+				board.setBoard_date(rs.getString("board_date"));
+				board.setCnt(rs.getInt("cnt"));
+				list.add(board);
+			}
+		} catch (Exception se) {
+			se.printStackTrace();
+			System.out.println("getfreeBoardlist() 에러: " + se);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			if (conn != null)
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return list;
+	}
+
+	public List<Board> getdeptBoardList(int page, int limit, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Board> getdeptBoardList(String string, String search_word, int page, int limit, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+  
 	public int getdeptno(String id) {
 		
 		Connection conn = null;
@@ -773,5 +1067,4 @@ public class MemberDAO {
 		}
 		return deptno;
 	}
-
 }

@@ -68,6 +68,9 @@ public class MemberFrontController extends HttpServlet {
 			case "/AdminBoardDelete.net":
 				action = new AdminBoardDeleteAction();
 				break;
+			case "/memberBoardList.net":
+				action = new MemberBoardListAction();
+				break;
 		}
 		forward = action.execute(request, response);
 

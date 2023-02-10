@@ -50,7 +50,8 @@
 		마이페이지 <i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="memberinfo.net">정보수정</a> <a href="#">게시물관리</a>
+		<a href="memberinfo.net">정보수정</a> 
+		<a href="memberBoardList.net">게시물관리</a>
 	</div>
 	<a href="Business_status.bs">업무현황</a>
 </div>
