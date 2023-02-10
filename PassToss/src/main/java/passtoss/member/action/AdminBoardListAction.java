@@ -94,6 +94,7 @@ public class AdminBoardListAction implements Action {
 
 			request.setAttribute("boardlist", boardlist);
 			request.setAttribute("listcount", listcount); // 총 글의 수
+			request.setAttribute("search_word", search_word);
 			request.setAttribute("search_field", index);
 			request.setAttribute("limit", limit);
 			ActionForward forward = new ActionForward();
