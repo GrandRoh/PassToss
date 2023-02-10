@@ -115,15 +115,18 @@
   	<div>
   		<a href="FreeReplyView.bof?num=${board.board_num}"><button class="">답글쓰기</button></a>
   		
-  	   <%-- <c:if test="${board.board_num => 1}"> min < board_num하고 같으면 이전글 있음  --%>
-  		<a href="FreeDetailAction.bof?num=${board.board_num-1}"><button class="">이전글</button></a>
-  	   <%--   </c:if> --%>
-  	   
+  	    <c:forEach var = 'bnum' items="${board_num_next_prev}">
+	  	 <c:if test="${bnum.board_prev_num != -1}"> 
+	  		<a href="FreeDetailAction.bof?num=${bnum.board_prev_num}"><button class="">이전글</button></a>
+	  	   </c:if> 
+  	 
   		<a href="FreeList.bof"><button class="">목록</button></a>
   		
-  	   <%-- <c:if test="${board.board_num < board.maxnum}"> 받을때 num말고 해당되는애로 받기 --%>
-  		<a href="FreeDetailAction.bof?num=${board.board_num+1}"><button class="">다음글</button></a>
-  	  <%--  </c:if> --%>
+  	   <c:if test="${bnum.board_next_num != -1}"> 
+  		<a href="FreeDetailAction.bof?num=${bnum.board_next_num}"><button class="">다음글</button></a>
+  	   </c:if>
+  	   
+  	   </c:forEach>
   	</div>
   </div>
 </body>

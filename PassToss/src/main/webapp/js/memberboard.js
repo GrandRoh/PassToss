@@ -121,22 +121,11 @@ function ajax(sdata) {
 
 
 $(function() {
-	let selectedValue = $("#search_field").val();
-
-	if (selectedValue != '-1')
-		$("#select_value").val(selectedValue);
-	else
-		selectedValue = 0;
-
-	console.log(selectedValue)
 
 	$("#viewcount").change(function() {
 		go(1); //보여줄 페이지를 1페이지로 설정
 
 	})
-
-	const message = ["제목을", "작성자 id를"];
-	$("input").attr("placeholder", message[selectedValue] + " 입력하세요");
 
 	$("button[name=searchbutton]").click(function() {
 		//검색어 공백 유효성 검사합니다.
@@ -146,12 +135,6 @@ $(function() {
 			return false;
 		}
 	})//button click
-
-	$("#select_value").change(function() {
-		selectedValue = $(this).val();
-		$("input[name=search_word]").val('');
-		$("input[name=search_word]").attr("placeholder", message[selectedValue] + " 입력하세요");
-	})
 	
 	$(".selectAll").click(function() {//전체 체크
 		if ($(this).is(":checked"))
