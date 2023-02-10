@@ -67,6 +67,7 @@ html, body {
 
 		}).done(function(result) {
 			list = result;
+			//
 			console.log(list)
 		}) //성공시
 		.fail(function(request, status, error) {
@@ -162,7 +163,7 @@ html, body {
 		//동기식
 
 		}).done(function(result) {
-
+			location.reload();
 		}) //성공시
 		.fail(function(request, status, error) {
 			alert("에러발생:" + error);
