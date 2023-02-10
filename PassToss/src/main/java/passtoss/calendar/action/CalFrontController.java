@@ -1,4 +1,5 @@
-package passtoss.calendar.memo;
+package passtoss.calendar.action;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -9,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("*.me")
-public class MemoFrontController extends HttpServlet {
+@WebServlet("*.cal")
+public class CalFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response)
@@ -42,16 +43,16 @@ public class MemoFrontController extends HttpServlet {
 		switch (command) {
 		
 		
-		case "/MemoAdd.me":
-			action = new MemoAdd();
+		case "/CalAdd.cal":
+			action = new CalAddAction();
 			break;
 			
-		case "/MemoList.me":
-			action = new MemoList();
+		case "/CalList.cal":
+			action = new CalListAction();
 			break;
 			
-		case "/MemoDelete.me":
-			action = new MemoDelete();
+		case "/CalDel.cal":
+			action = new CalDelAction();
 			break;
 			
 		
