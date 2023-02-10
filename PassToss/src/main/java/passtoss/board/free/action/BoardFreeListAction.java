@@ -40,6 +40,7 @@ public class BoardFreeListAction implements Action{
 		
 		int listcount = 0; 
 		int index = -1;
+		int noticecount = 0;
 		
 		String search_word = "";
 		
@@ -48,6 +49,7 @@ public class BoardFreeListAction implements Action{
 			listcount = fdao.getListCount();
 			noticelist = fdao.getBoardList();
 			boardlist = fdao.getBoardList(page, limit);
+			noticecount = fdao.getnoticecount();
 		} else {
 			index =Integer.parseInt(request.getParameter("search_field"));
 			String[] search_field = new String[] {"all", "board_subject", "board_name"};
@@ -55,6 +57,7 @@ public class BoardFreeListAction implements Action{
 			listcount = fdao.getListCount(search_field[index], search_word);
 			noticelist = fdao.getBoardList(search_field[index], search_word);
 			boardlist = fdao.getBoardList(search_field[index], search_word, page, limit);
+			noticecount = fdao.getnoticecount();
 		}
 		
 		int maxpage = (listcount + limit - 1) / limit;
@@ -84,6 +87,7 @@ public class BoardFreeListAction implements Action{
 			
 			request.setAttribute("boardlist", boardlist);
 			request.setAttribute("noticelist", noticelist);
+			request.setAttribute("noticecount", noticecount);
 			
 			request.setAttribute("limit", limit);
 			
@@ -106,6 +110,7 @@ public class BoardFreeListAction implements Action{
 			object.addProperty("endpage", endpage);
 			object.addProperty("listcount", listcount);
 			object.addProperty("limit", limit);
+			object.addProperty("noticecount", noticecount);
 			
 			JsonElement je = new Gson().toJsonTree(boardlist);
 			JsonElement je_no = new Gson().toJsonTree(noticelist);

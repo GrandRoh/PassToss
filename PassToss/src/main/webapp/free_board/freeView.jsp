@@ -81,12 +81,11 @@
 		  		</tr>
 		    </thead>
 		    <tbody>
-		     <c:set var="num" value="${listcount- (page-1)*limit}"/>
+		     
 		     <c:forEach var="b" items="${noticelist}">
 	   		 	<tr>
-	   		 	  <td> <%-- 번호 --%>
-	   		 	    <c:out value="${num}"/>
-	   		 	    <c:set var="num" value="${num-1}"/>
+	   		 	  <td>
+	   		 	    <img src="image/notice.png" width="25">
 	   		 	  </td>
 	   		 	  <td> 
 	   		 	    <c:out value="[공지사항]"/>
@@ -119,6 +118,7 @@
 	   		   	 <td><div>${b.board_readcount}</div></td>
 	   		 	</tr>
 	   		 </c:forEach>
+	   		 <c:set var="num" value="${listcount - (page-1)*limit }"/>
 	   		 <c:forEach var="b" items="${boardlist}">
 	   		 	<tr>
 	   		 	  <td> <%-- 번호 --%>

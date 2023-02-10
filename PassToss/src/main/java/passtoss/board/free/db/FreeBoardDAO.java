@@ -990,4 +990,61 @@ public class FreeBoardDAO {
 		}
 		
 	}
+
+	public int getnoticecount() {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int x = 0;
+		
+		try {
+			
+			con = ds.getConnection();
+			pstmt = con.prepareStatement("select count(*) from board_free where board_notice = ?");
+			pstmt.setInt(1, 0); // 게시글만 count함 
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				x = rs.getInt(1); 
+			}
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("getnoticecount() 에러 : " + e);
+		}
+		finally
+		{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return x;
+	}
 }
