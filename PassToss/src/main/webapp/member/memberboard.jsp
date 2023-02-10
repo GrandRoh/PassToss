@@ -10,9 +10,8 @@
 </head>
 <body>
 	<div class='container box_radius15 board_container'>
-
 		<input type="hidden" id="search_field" value="${search_field}">
-		<form action="memberboardList.net?category=${category_index}"
+		<form action="memberBoardList.net?category=${category_index}"
 			method="post">
 			<div class="input-group">
 				<select id="select_value" name="search_field">
@@ -27,10 +26,13 @@
 			<span class="title">마이페이지 - ${category}</span> <span class="count">|
 				글 개수 : ${listcount}</span>
 		</div>
-		<br> <span class="category"><a
-			href="memberboardList.net?category=0">사내게시판</a></span> <span class="category"><a
-			href="memberboardList.net?category=1">부서게시판</a></span>
-		<form class="delete" action="AdminBoardDelete.net" method="post">
+		<br>
+		<c:if test="${id != admin}">		
+		<span class="category"><a
+			href="memberBoardList.net?category=0">사내게시판</a></span> <span class="category"><a
+			href="memberBoardList.net?category=1">부서게시판</a></span>
+		</c:if> 	
+		<form class="delete" action="memberBoardDelete.net" method="post">
 			<input type="image" src="image/delete.png">
 		</form>
 
