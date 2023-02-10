@@ -52,7 +52,7 @@
 					<c:set var="num" value="${listcount-(page-1)*limit}" />
 					<c:forEach var="b" items="${boardlist}">
 						<tr>
-							<td><input type="checkbox" class="select"></td>
+							<td><input type="checkbox" class="select" value="${b.board_num}"></td>
 							<td>
 								<%-- 번호 --%> <c:out value="${num}" /> <%-- num 출력 --%> <c:set
 									var="num" value="${num-1}" /> <%-- num = num-1; 의미 --%>
