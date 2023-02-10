@@ -20,7 +20,9 @@
 <body>
 	 <div class='container box_radius15 board_container'>
 	 <form action="DeptModifyAction.bod" method="post" enctype="multipart/form-data" name="modifyform">
+	 	<input type="hidden" name="board_name" value="${board.board_name}">
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
+	 	<input type="hidden" name="board_deptno" value="${board_deptno}">
 	 	<h3>글 수정하기</h3>
 	 	<div class="from-group">
     		 <c:if test="${id !='admin'}">
