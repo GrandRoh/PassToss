@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>사내게시판 글 수정 페이지</title>
+<title>부서게시판 글 수정 페이지</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <jsp:include page="../include/head.jsp"/>
 <script src="js/modifyform.js"></script>
@@ -18,14 +18,13 @@
 </style>
 </head>
 <body>
-
-  <div class='container box_radius15 board_container'>
-	 <form action="FreeModifyAction.bof" method="post" enctype="multipart/form-data" name="modifyform">
+	 <div class='container box_radius15 board_container'>
+	 <form action="DeptModifyAction.bod" method="post" enctype="multipart/form-data" name="modifyform">
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
 	 	<h3>글 수정하기</h3>
 	 	<div class="from-group">
     		 <c:if test="${id !='admin'}">
-    		<select id="board_notice" name="board_notice"> <%-- 권한이 2거나 아이디가 admin 아니면 바꿀수 없어야함 --%>
+    		<select id="board_notice" name="board_notice">
 				<option value="1" selected>게시물</option>
 			</select>
 		   </c:if>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>사내게시판 글쓰기</title>
+<title>부서게시판 글쓰기</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <jsp:include page="../include/head.jsp"/>
 <script src="js/writeform.js"></script>
@@ -18,15 +18,14 @@
 </style>
 </head>
 <body>
-
-<div class='container box_radius15 board_container'>
-    <form action="BoardFreeAdd.bof" method="post" enctype="multipart/form-data" name="boardform">
+	<div class='container box_radius15 board_container'>
+    <form action="BoardDeptAdd.bod" method="post" enctype="multipart/form-data" name="boardform">
     <input type="hidden" id="loginid" value="${id}" name="loginid">
-    	<h3>사내게시판 글쓰기</h3>
+    	<h3>부서게시판 글쓰기</h3>
     	<div class="from-group">
     	   <c:if test="${id !='admin'}">
-    		<select id="board_notice" name="board_notice"> 
-				<option value="1">게시물</option>
+    		<select id="board_notice" name="board_notice"> <%-- 권한이 2거나 아이디가 admin 아니면 바꿀수 없어야함 --%>
+				<option value="1" selected>게시물</option>
 			</select>
 		   </c:if>
 		   <c:if test="${id=='admin'}">
@@ -34,7 +33,7 @@
 				<option value="0">공지사항</option>
 				<option value="1" selected>게시물</option>
 			 </select>
-		   </c:if> <%-- 나중에 id 받아올때 제대로 되는지 확인하기  --%>
+		   </c:if> 
 			
     	</div>
     	

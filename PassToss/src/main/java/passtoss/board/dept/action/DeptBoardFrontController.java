@@ -31,9 +31,23 @@ public class DeptBoardFrontController extends HttpServlet {
 		
 		switch(command) {
 		
-			case "/DeptMain.bod":
+			case "/DeptMain.bod": // 아직 작성 안함 
 				action = new DeptMainAction();
 				break;
+				
+			case "/DeptList.bod":
+				action = new BoardDeptListAction();
+				break;
+				
+			case "/DeptWrite.bod":
+				action = new BoardDeptWriteAction();
+				break;
+				
+			case "/BoardDeptAdd.bod":
+				action = new BoardDeptAddAction();
+				break;
+				
+				
 		}
 		forward = action.execute(request, response);
 		
