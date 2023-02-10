@@ -12,8 +12,12 @@ BOARD_RE_SEQ	NUMBER(5),
 BOARD_READCOUNT	NUMBER(5),
 BOARD_DATE		DATE default sysdate,
 BOARD_NOTICE	NUMBER(5) check(BOARD_NOTICE in(0,1)),
-BOARD_DEPTNO	number(5)
+BOARD_DEPTNO	number(2) --references member(deptno)
 );
+
+ALTER TABLE board_dept
+ADD FOREIGN KEY (BOARD_DEPTNO)
+REFERENCES Member(deptno);
 
 select * from board_dept;
 

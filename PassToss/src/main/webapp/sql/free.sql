@@ -36,6 +36,9 @@ drop sequence fcom_seq;
 create sequence fboard_seq; -- 게시판 
 drop sequence fboard_seq;
 
+SELECT fboard_seq.nextval FROM DUAL;
+SELECT fboard_seq.CURRVAL FROM DUAL;
+
 insert into board_free 
 (BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, 
 BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, 

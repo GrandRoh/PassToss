@@ -38,7 +38,7 @@
 		부서게시판 <i class="fa fa-caret-down"></i>
 	</button>
 	<div class="dropdown-container">
-		<a href="#">게시물</a> 
+		<a href="DeptList.bod">게시물</a> 
 		<a href="calendar">캘린더</a>
 	</div>
 	<button class="dropdown-btn">
