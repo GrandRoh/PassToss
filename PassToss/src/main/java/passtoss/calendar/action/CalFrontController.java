@@ -39,9 +39,11 @@ public class CalFrontController extends HttpServlet {
 		// 초기화
 		ActionForward forward = null;
 		Action action = null;
-
-		switch (command) {
 		
+		switch (command) {
+		case "/calendar.cal":
+			action = new CalViewAction();
+			break;
 		
 		case "/CalAdd.cal":
 			action = new CalAddAction();
