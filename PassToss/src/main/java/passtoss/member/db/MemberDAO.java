@@ -726,4 +726,52 @@ public class MemberDAO {
 		return result;
 	}
 
+	public int getdeptno(String id) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int deptno = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select deptno from member where id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				deptno = rs.getInt(1);
+			}
+		}catch(Exception se){
+			System.out.println(se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		return deptno;
+	}
+
 }

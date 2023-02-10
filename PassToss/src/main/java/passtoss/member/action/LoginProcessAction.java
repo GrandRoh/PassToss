@@ -23,7 +23,6 @@ public class LoginProcessAction implements Action {
 		ActionForward forward =  new ActionForward();
 		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
-		
 
 		MemberDAO dao = new MemberDAO();
 		
@@ -37,6 +36,10 @@ public class LoginProcessAction implements Action {
 			String profileimg = dao.getprofileimg(id);
 		
 			session.setAttribute("profileimg", profileimg);
+			
+			int deptno = dao.getdeptno(id);
+			
+			session.setAttribute("deptno", deptno);
 			
 			String IDstore = request.getParameter("remember");
 		
@@ -67,11 +70,6 @@ public class LoginProcessAction implements Action {
 			out.close();
 			return null;
 		}
-		
-		
-		
-		
-				
 	}
 
 }
