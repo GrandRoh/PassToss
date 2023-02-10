@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import passtoss.member.db.Member;
 import passtoss.member.db.MemberDAO;
 
 public class LoginProcessAction implements Action {
@@ -34,7 +35,11 @@ public class LoginProcessAction implements Action {
 			session.setAttribute("id", id);
 			
 			String profileimg = dao.getprofileimg(id);
-		
+			
+			Member memberinfo = dao.memberinfo(id);
+			session.setAttribute("memberinfo", memberinfo);
+			
+			
 			session.setAttribute("profileimg", profileimg);
 			
 			int deptno = dao.getdeptno(id);
