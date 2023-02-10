@@ -59,6 +59,10 @@ public class DeptBoardFrontController extends HttpServlet {
 				action = new DeptModifyAction();
 				break;
 				
+			case "/DeptReplyView.bod":
+				action = new DeptReplyViewAction();
+				break;
+				
 		}
 		forward = action.execute(request, response);
 		
