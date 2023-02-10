@@ -39,16 +39,21 @@ public class LoginProcessAction implements Action {
 			session.setAttribute("profileimg", profileimg);
 			
 			String IDstore = request.getParameter("remember");
-		
 			Cookie cookie = new Cookie("id",id);
 		
 			if(IDstore != null && IDstore.equals("store")) {
 				cookie.setMaxAge(2*60);
 				response.addCookie(cookie);
+				
 			}else {
 				cookie.setMaxAge(0);
 				response.addCookie(cookie);
 			}
+			
+			
+			
+			
+			
 			forward.setRedirect(true);
 			forward.setPath("Business_status.bs");
 			return forward;
