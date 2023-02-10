@@ -38,6 +38,10 @@ public class MemberFrontController extends HttpServlet {
 			case "/LoginAction.net":
 	            action = new LoginAction();
 	            break;
+			case "/logout.net":
+	    		action = new MemberLogOutAction();
+	    		break;
+	    		
 			case "/loginProcess.net":
 	             action = new LoginProcessAction();
 	             break;
