@@ -11,7 +11,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-
 public class DeptBoardDAO {
 	
 	private DataSource ds;
@@ -193,6 +192,7 @@ public class DeptBoardDAO {
 		
 		int startrow = (page - 1) *limit + 1; 
 		int endrow = startrow + limit -1;
+		
 		
 		try {
 			
@@ -584,13 +584,15 @@ public class DeptBoardDAO {
 			
 			con = ds.getConnection();
 			
+			String max_sql = "(select nvl(max(board_num),0)+1 from board_dept)";
+			
 			String sql = "insert into board_dept "
 					   + "(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, "
 					   + " BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, "
 					   + " BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT, "
 					   + " BOARD_DATE, BOARD_NOTICE, BOARD_DEPTNO) "
-					   + " values(fboard_seq.nextval, ?, ?, "
-					   + " 		  ?, ?, fboard_seq.nextval, " 
+					   + " values(" + max_sql +", ?, ?, "
+					   + " 		  ?, ?, " + max_sql + ", " 
 					   + "		  ?, ?, ?, sysdate, ?, ?)";
 			
 			pstmt = con.prepareStatement(sql);
@@ -845,6 +847,271 @@ public class DeptBoardDAO {
 				try
 				{
 					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<DeptBoard> getNextPrevNum(int num, int deptno) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+			
+			String sql = "SELECT b.* FROM( "
+					+ "SELECT "
+					+ "    Board_num, board_deptno,"
+					+ "    LAG(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_prev_num,"
+					+ "    LEAD(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_next_num "
+					+ "FROM BOARD_dept "
+					+ ") b "
+					+ "WHERE b.Board_num = ? "
+					+ "and b.board_deptno = ?" ;
+
+
+		ArrayList<DeptBoard> list = new ArrayList<DeptBoard>();
+
+			
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, num); 
+			pstmt.setInt(2, deptno);
+	
+			rs= pstmt.executeQuery();
+			
+				
+			while (rs.next()) {
+				DeptBoard b = new DeptBoard();
+				b.setBoard_prev_num(rs.getInt("board_prev_num"));
+				b.setBoard_next_num(rs.getInt("board_next_num"));
+				list.add(b);
+			}
+			
+			
+		}catch(Exception se){
+			System.out.println("getNextPrevNum error "+ se.getMessage());
+			
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(pstmt != null)
+					pstmt.close();
+			}catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(conn != null)
+					conn.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+
+		return list;
+	}
+
+	public int boardReply(DeptBoard board) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int num = 0;
+		
+		String board_max_sql = "select max(board_num)+1 from board_dept";
+		
+		int re_ref = board.getBoard_re_ref();
+		int re_lev = board.getBoard_re_lev();
+		int re_seq = board.getBoard_re_seq();
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(board_max_sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				num = rs.getInt(1);
+			}
+			pstmt.close();
+			
+			String sql = "update board_dept "
+					   + "set board_re_seq = board_re_seq + 1 "
+					   + "where board_deptno = ? "
+					   + "and board_re_ref = ? "
+					   + "and board_re_seq > ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, board.getBoard_deptno());
+			pstmt.setInt(2, re_ref);
+			pstmt.setInt(3, re_seq);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			re_seq = re_seq + 1;		
+			re_lev = re_lev + 1;
+			
+			sql = "insert into board_dept "
+				+ "(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, "
+				+ " BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, "
+				+ " BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT, "
+				+ " BOARD_DATE, BOARD_NOTICE, BOARD_DEPTNO) "
+				+ "values(" + num + ", ?, ?, ?, ?, ?, ?, ?, ?, sysdate, ?, ?) "; 
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getBoard_name());
+			pstmt.setString(2, board.getBoard_subject());
+			pstmt.setString(3, board.getBoard_content());
+			pstmt.setString(4, "");
+			pstmt.setInt(5, re_ref);
+			pstmt.setInt(6, re_lev);
+			pstmt.setInt(7, re_seq);
+			pstmt.setInt(8, 0);
+			pstmt.setInt(9, 1); 
+			pstmt.setInt(10, board.getBoard_deptno());
+			
+			if(pstmt.executeUpdate() == 1) {
+				con.commit();
+			} else {
+				con.rollback();
+			}
+			
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println("boardReply() 에러: " + ex);
+			if(con != null) {
+				try {
+					con.rollback(); // rollback합니다.
+				}catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(con != null) {
+				try
+				{
+					con.setAutoCommit(true);
+					con.close();		
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+		
+		return num;
+	}
+
+	public int boardDelete(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {
+			
+			con = ds.getConnection();
+			
+			String select_sql ="select BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ "
+							  +"from board_dept "
+							  +"where BOARD_NUM =?";
+			
+			pstmt = con.prepareStatement(select_sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			String board_delete_sql = "delete from board_dept "
+									+ "where board_re_ref = ? "
+									+ "and board_re_lev >=? "
+									+ "and board_re_seq>=? "
+									+ "and board_re_seq <=(  "
+									+ " 					nvl((select min(Board_re_seq) -1 "
+									+ "					    from board_dept "
+									+ "					    where board_re_ref = ? "
+									+ "					    and board_re_lev = ? "
+									+ "					    and board_re_seq >?),"
+									+ "					    (select max(Board_re_seq)"
+									+ "			  		    from board_dept"
+									+ "			 		    where board_re_ref = ?)))";
+			if(rs.next()) {
+				pstmt2 = con.prepareStatement(board_delete_sql);
+				pstmt2.setInt(1, rs.getInt("BOARD_RE_REF"));
+				pstmt2.setInt(2, rs.getInt("BOARD_RE_LEV"));
+				pstmt2.setInt(3, rs.getInt("BOARD_RE_SEQ"));
+				pstmt2.setInt(4, rs.getInt("BOARD_RE_REF"));
+				pstmt2.setInt(5, rs.getInt("BOARD_RE_LEV"));
+				pstmt2.setInt(6, rs.getInt("BOARD_RE_SEQ"));
+				pstmt2.setInt(7, rs.getInt("BOARD_RE_REF"));
+				
+				result = pstmt2.executeUpdate();
+			}
+		}catch (Exception ex) {
+			System.out.println("boardDelete() 에러: " + ex);
+		}finally{
+			
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt != null) {
+				try
+				{
+					pstmt.close();
+				}
+				catch(SQLException e)
+				{
+					System.out.println(e.getMessage());
+				}
+			}
+			if(pstmt2 != null) {
+				try
+				{
+					pstmt2.close();
 				}
 				catch(SQLException e)
 				{

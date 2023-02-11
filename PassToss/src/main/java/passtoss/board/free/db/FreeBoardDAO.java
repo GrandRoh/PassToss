@@ -572,13 +572,15 @@ public class FreeBoardDAO {
 			
 			con = ds.getConnection();
 			
+			String max_sql = "(select nvl(max(board_num),0)+1 from board_free)";
+			
 			String sql = "insert into board_free "
 					   + "(BOARD_NUM, BOARD_NAME, BOARD_SUBJECT, "
 					   + " BOARD_CONTENT, BOARD_FILE, BOARD_RE_REF, "
 					   + " BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_READCOUNT, "
 					   + " BOARD_DATE, BOARD_NOTICE) "
-					   + " values(fboard_seq.nextval, ?, ?, "
-					   + " 		  ?, ?, fboard_seq.nextval, " 
+					   + " values(" + max_sql +", ?, ?, "
+					   + " 		  ?, ?," + max_sql + ", " 
 					   + "		  ?, ?, ?, sysdate, ?)";
 			
 			pstmt = con.prepareStatement(sql);

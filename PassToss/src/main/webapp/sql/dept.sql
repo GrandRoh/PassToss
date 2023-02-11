@@ -12,7 +12,7 @@ BOARD_RE_SEQ	NUMBER(5),
 BOARD_READCOUNT	NUMBER(5),
 BOARD_DATE		DATE default sysdate,
 BOARD_NOTICE	NUMBER(5) check(BOARD_NOTICE in(0,1)),
-BOARD_DEPTNO	number(2) --references member(deptno)
+BOARD_DEPTNO	number(2) 
 );
 
 ALTER TABLE board_dept

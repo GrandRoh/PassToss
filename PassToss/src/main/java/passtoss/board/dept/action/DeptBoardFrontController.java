@@ -63,6 +63,37 @@ public class DeptBoardFrontController extends HttpServlet {
 				action = new DeptReplyViewAction();
 				break;
 				
+			case "/DeptReplyAction.bod":
+				action = new DeptReplyAction();
+				break;
+				
+			case "/DeptDeleteAction.bod":
+				action = new DeptDeleteAction();
+				break;
+				
+			case "/DeptFileDown.bod":
+				action = new DeptFileDownAction();
+				break;
+				
+			case "/DeptCommentAdd.bod":
+				action = new DeptCommentAdd();
+				break;
+				
+			case "/DeptCommentList.bod":
+				action = new DeptCommentList();
+				break;
+				
+			case "/DeptCommentUpdate.bod":
+				action = new DeptCommentUpdate();
+				break;
+				
+			case "/DeptCommentDelete.bod":
+				action = new DeptCommentDelete();
+				break;
+				
+			case "/DeptCommentReply.bod":
+				action = new DeptCommentReply();
+				break;
 		}
 		forward = action.execute(request, response);
 		
