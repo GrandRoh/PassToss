@@ -16,6 +16,21 @@ public class DeptBoard {
 	private int board_deptno;
 	private int cnt;
 	
+	private int board_next_num;
+	private int board_prev_num;
+	
+	public int getBoard_next_num() {
+		return board_next_num;
+	}
+	public void setBoard_next_num(int board_next_num) {
+		this.board_next_num = board_next_num;
+	}
+	public int getBoard_prev_num() {
+		return board_prev_num;
+	}
+	public void setBoard_prev_num(int board_prev_num) {
+		this.board_prev_num = board_prev_num;
+	}
 	public int getCnt() {
 		return cnt;
 	}

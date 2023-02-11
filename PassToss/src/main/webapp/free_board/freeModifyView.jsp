@@ -22,6 +22,8 @@
   <div class='container box_radius15 board_container'>
 	 <form action="FreeModifyAction.bof" method="post" enctype="multipart/form-data" name="modifyform">
 	 	<input type="hidden" name="board_num" value="${board.board_num}">
+	 	<input type="hidden" name="board_name" value="${board.board_name}">
+	 	
 	 	<h3>글 수정하기</h3>
 	 	<div class="from-group">
     		 <c:if test="${id !='admin'}">
@@ -58,8 +60,8 @@
       
       <div class="form-group">
     		<label for="board_content"></label>
-    		<input name="board_content" id="board_content" rows="10"
-    			   class="form-control" value="${board.board_content}">
+    		<textarea name="board_content" id="board_content" rows="10"
+    			   class="form-control">${board.board_content}</textarea>
       </div> 
       
       <div class="form-group">

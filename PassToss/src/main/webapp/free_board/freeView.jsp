@@ -26,6 +26,16 @@
  		display : inline-block	
  	}
  	
+ 	select .rows{
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	outline: none;
+	}
+ 	
  	.gray{
  		color: gray;
  	}

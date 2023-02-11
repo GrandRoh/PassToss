@@ -48,7 +48,7 @@ public class FreeModifyAction implements Action{
 					"utf-8",
 					new DefaultFileRenamePolicy());
 			
-			if(id == multi.getParameter("board_name")) {
+			if(!id.equals(multi.getParameter("board_name"))) {
 				
 				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();

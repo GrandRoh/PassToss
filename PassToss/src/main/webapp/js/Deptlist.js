@@ -1,5 +1,4 @@
-//freeView, beptView 에서 사용함 
-//줄보기 관련 ajax 코드 내용 들어가야함 
+
 function go(page){
 	const limit = $('#lineviewcount').val();
 	//const data = `limit=${limit}&state=ajax&page=${page}`;
@@ -29,7 +28,7 @@ function ajax(sdata){
 	console.log(sdata)
 	
 	$.ajax({
-		url : "FreeList.bof",
+		url : "DeptList.bod",
 		data : sdata,
 		type : "post",
 		dataType : "json",
@@ -45,7 +44,8 @@ function ajax(sdata){
 				let output = "<tbody>";
 				$(rdata.noticelist).each(
 					function(index, item){
-						output += "<tr><td><img src='image/notice.png' width='25'></td>";
+						
+						output += '<tr><td><img src="image/notice.png" width="25"></td>';
 						output += '<td> [공지사항] </td>';
 						const blank_count = item.board_re_lev * 2 + 1;
 						let blank = '&nbsp';
@@ -64,7 +64,7 @@ function ajax(sdata){
 						}
 						
 						output += "<td><div>" + blank + img
-						output += ' <a href="FreeDetailAction.bof?num=' + item.board_num + '">'
+						output += ' <a href="DeptDetailAction.bod?num=' + item.board_num + '">'
 						output += subject.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 									+'</a>[' + item.cnt + ']</div></td>'
 						output += "<td><div>" + item.board_name + '</div></td>'
@@ -95,7 +95,7 @@ function ajax(sdata){
 						}
 						
 						output += "<td><div>" + blank + img
-						output += ' <a href="FreeDetailAction.bof?num=' + item.board_num + '">'
+						output += ' <a href="DeptDetailAction.bod?num=' + item.board_num + '">'
 						output += subject.replace(/</g,'&lt;').replace(/>/g,'&gt;')
 									+'</a>[' + item.cnt + ']</div></td>'
 						output += "<td><div>" + item.board_name + '</div></td>'

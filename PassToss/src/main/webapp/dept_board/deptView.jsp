@@ -5,7 +5,7 @@
 <title>부서게시판</title>
 <jsp:include page="../AdminPage/leftMenu.jsp"/>
 <jsp:include page="../include/head.jsp"/>
-<script src = "js/list.js"></script>
+<script src = "js/Deptlist.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <script>
 	$(function(){
@@ -81,12 +81,10 @@
 		  		</tr>
 		    </thead>
 		    <tbody>
-		     <c:set var="num" value="${listcount- (page-1)*limit}"/>
 		     <c:forEach var="b" items="${noticelist}">
 	   		 	<tr>
-	   		 	  <td> <%-- 번호 --%>
-	   		 	    <c:out value="${num}"/>
-	   		 	    <c:set var="num" value="${num-1}"/>
+	   		 	  <td>
+	   		 	    <img src="image/notice.png" width="25">
 	   		 	  </td>
 	   		 	  <td> 
 	   		 	    <c:out value="[공지사항]"/>
@@ -119,6 +117,7 @@
 	   		   	 <td><div>${b.board_readcount}</div></td>
 	   		 	</tr>
 	   		 </c:forEach>
+	   		 <c:set var="num" value="${listcount- (page-1)*limit}"/>
 	   		 <c:forEach var="b" items="${boardlist}">
 	   		 	<tr>
 	   		 	  <td> <%-- 번호 --%>

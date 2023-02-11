@@ -33,8 +33,8 @@
 <body>
 	<div class='container box_radius15 board_container'>  
   <input type="hidden" id="loginid" value="${id}" name="loginid">
-  <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
-  
+  <input type="hidden" name="num" value="${param.num}" id="comment_board_num">
+  <input type="hidden" name="board_name" value="${board.board_name}">
    <div class='modifybutton'>
 	<c:if test="${board.board_name == id || id == 'admin'}">
 	  <a href="DeptModifyView.bod?num=${board.board_num}">
@@ -67,10 +67,9 @@
 	 <c:if test="${board.board_re_lev==0}">
 		<%-- 원문글인 경우에만 첨부파일을 추가 할 수 있습니다. --%>
 		<tr>
-			<td><div>첨부파일</div></td>
-					
 			<%-- 파일을 첨부한 경우 --%>
 			<c:if test="${!empty board.board_file}">
+			<td><div>첨부파일</div></td>
 				<td><label><img src="image/down.png" width="10px">
 					<a href="DeptFileDown.bod?filename=${board.board_file}">${board.board_file}
 					</a></label></td>
@@ -78,7 +77,7 @@
 					
 			<%-- 파일을 첨부하지 않은 경우 --%>
 			<c:if test="${empty boarddata.board_file}">
-				<td></td>
+				
 			</c:if>
 		</tr>
 	 </c:if>
@@ -114,15 +113,19 @@
   	<div>
   		<a href="DeptReplyView.bod?num=${board.board_num}"><button class="">답글쓰기</button></a>
   		
-  	   <%-- <c:if test="${board.board_num => 1}"> min < board_num하고 같으면 이전글 있음  --%>
-  		<a href="DeptDetailAction.bod?num=${board.board_num-1}"><button class="">이전글</button></a>
-  	   <%--   </c:if> --%>
+  		
+  	   <c:forEach var = 'bnum' items="${board_num_next_prev}">
+	  	 <c:if test="${bnum.board_prev_num != -1}"> 
+	  		<a href="DeptDetailAction.bod?num=${bnum.board_prev_num}"><button class="">이전글</button></a>
+	  	 </c:if> 
   	   
   		<a href="DeptList.bod"><button class="">목록</button></a>
   		
-  	   <%-- <c:if test="${board.board_num < board.maxnum}"> 받을때 num말고 해당되는애로 받기 --%>
-  		<a href="DeptDetailAction.bod?num=${board.board_num+1}"><button class="">다음글</button></a>
-  	  <%--  </c:if> --%>
+  	  	<c:if test="${bnum.board_next_num != -1}"> 
+  			<a href="DeptDetailAction.bod?num=${bnum.board_next_num}"><button class="">다음글</button></a>
+  	   	</c:if>
+  	   
+  	   </c:forEach>
   	</div>
   </div>
 </body>

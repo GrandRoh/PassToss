@@ -59,8 +59,8 @@
       
       <div class="form-group">
     		<label for="board_content"></label>
-    		<input name="board_content" id="board_content" rows="10"
-    			   class="form-control" value="${board.board_content}">
+    		<textarea name="board_content" id="board_content" rows="10"
+    			   class="form-control">${board.board_content}</textarea>
       </div> 
       
       <div class="form-group">

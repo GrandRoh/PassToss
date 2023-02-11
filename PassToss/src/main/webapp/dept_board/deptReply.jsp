@@ -19,8 +19,10 @@
       <input type="hidden" name="board_re_ref"  value="${board.board_re_ref}"> 
       <input type="hidden" name="board_re_lev"  value="${board.board_re_lev}"> 
       <input type="hidden" name="board_re_seq"  value="${board.board_re_seq}">
-      <h3>사내게시판 답글 작성</h3>
+      <input type="hidden" name="board_name"  value="${board.board_name}">
+      <input type="hidden" name="board_deptno" value="${deptno}">
       
+      <h3>${dname} 게시판 답글쓰기</h3>
       <div class="form-group">
     	<label for="board_subject"></label>
     	<textarea name="board_subject" id="board_subject" rows="1"

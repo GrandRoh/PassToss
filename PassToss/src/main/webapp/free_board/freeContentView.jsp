@@ -35,7 +35,7 @@
   <div class='container box_radius15 board_container'>  
   <input type="hidden" id="loginid" value="${id}" name="loginid">
   <input type="hidden" name="num" value="${param.num}" id="comment_board_num"> <%-- 폼안에 안넣으면 안넘어가나? --%>
-  
+  <input type="hidden" name="board_name" value="${board.board_name}">
    <div class='modifybutton'>
 	<c:if test="${board.board_name == id || id == 'admin'}">
 	  <a href="FreeModifyView.bof?num=${board.board_num}">
@@ -68,18 +68,17 @@
 	 <c:if test="${board.board_re_lev==0}">
 		<%-- 원문글인 경우에만 첨부파일을 추가 할 수 있습니다. --%>
 		<tr>
-			<td><div>첨부파일</div></td>
-					
 			<%-- 파일을 첨부한 경우 --%>
 			<c:if test="${!empty board.board_file}">
-				<td><label><img src="image/down.png" width="10px">
+			<td><div>첨부파일</div></td>
+				<td><label ><img src="image/down.png" width="10px">
 					<a href="FreeFileDown.bof?filename=${board.board_file}">${board.board_file}
 					</a></label></td>
 			</c:if>
 					
 			<%-- 파일을 첨부하지 않은 경우 --%>
 			<c:if test="${empty boarddata.board_file}">
-				<td></td>
+				
 			</c:if>
 		</tr>
 	 </c:if>

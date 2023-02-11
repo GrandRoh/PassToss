@@ -52,8 +52,8 @@
     	</div>
     	<div class="form-group">
     		<label for="board_content"></label>
-    		<input name="board_content" id="board_content" rows="10"
-    			   class="form-control" placeholder="내용을 입력하세요">
+    		<textarea name="board_content" id="board_content" rows="10"
+    			   class="form-control" placeholder="내용을 입력하세요"></textarea>
     	</div>
     	<div class="form-group">
     		<button type=submit class="">등록</button>
