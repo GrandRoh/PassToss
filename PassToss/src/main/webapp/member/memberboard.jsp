@@ -16,14 +16,15 @@
 				글 개수 : ${listcount}</span>
 		</div>
 		<br>
-		<c:if test="${id != 'admin'}">
+		
 			<span class="category"><a
 				href="memberBoardList.net?category=0">사내게시판</a></span>
 			<span class="category"><a
 				href="memberBoardList.net?category=1">부서게시판</a></span>
-		</c:if>
+		
 		<form class="delete" action="memberBoardDelete.net" method="post">
-			<input type="image" src="image/delete.png">
+			<input type="hidden" name="category" value="${category_index}">
+			<input type="image" src="image/delete.png">			
 		</form>
 
 		<%-- 게시글이 있는 경우 --%>

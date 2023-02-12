@@ -75,3 +75,12 @@ h1 {
 	display: inline-block;
 	width:75%;
 }
+
+.info{
+	border:none;
+	background:none;
+}
+.info:hover{
+	opacity:0.7;
+	color:red;
+}
