@@ -15,44 +15,58 @@
 	});
 </script>
 <style>
-	*{margin:0;padding:0}
-	body{background:#e2e2e2;min-width:1400px}
-    .sidenav{display:inline-block}
- 	.box_radius15{border-radius:5px}
+	/*table-striped 글 목록에 회색색깔 나오게 하는거 */
 	
-	select.form-control {
- 		width : auto;
- 		margin-bottom : 2em;
- 		display : inline-block	
- 	}
- 	
- 	select .rows{
+	form {
+	margin: 0 auto;
+	width: 60%;
+	text-align: center
+	}
+	
+	 select {
 	color: #495057;
 	background-color: #fff;
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
-	border-radius: .25rem;
+	/*border-radius: .25rem;*/
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	outline: none;
 	}
- 	
- 	.gray{
+	
+	select.form-control {
+    width: auto;
+    margin-bottom: 2em;
+    display: inline-block;
+	}
+	
+	.container {
+	width: 80%
+	}
+	
+	a{
+		color : black;
+		text-decoration: none;
+	}
+	
+	a:hover{
+		color : black;
+	}
+	
+	.write {
+	  border-radius: 0.25rem;
+	  text-align: left;
+	  /*dispaly : right;*/
+	  color: #fff;
+      background-color: #212529;
+      border-color: #212529;
+      border: 1px solid transparent;
+      border-radius: 0rem;
+      padding: 0.375rem 0.75rem;
+	}
+	
+	.gray{
  		color: gray;
  	}
-	
-	.rows{
- 		text-align : left;
- 	}
- 	
- 	.rows button{
- 		text-align :right;
- 		/* margin-left : 730px; */
- 	}
- 	
- 	#lineviewcount{
- 		width : 50px;
- 	}
- 	
 </style>
 </head>
 <body>
@@ -69,17 +83,17 @@
 				</select>
 					<input id="word" name="search_word" type="text" class="form-control"
 						   placeholder="검색어를 입력하세요" value="${search_word}">
-					<button type="submit" id="search">검색</button>
+					<button type="submit" id="search"  class="btn btn-dark">검색</button>
 			</div>
 		</form>
 		
 		<c:if test="${listcount > 0}">
 		
-		  <table class="table table-striped">
+		  <table class="table ">
 		  	<thead>
 		  		<tr>
 		  			 <th colspan="5">사내게시판 list</th>
-		  			 <th><span>게시글 갯수 : ${listcount}</span></th>
+		  			 <th><span>게시글 개수 : ${listcount}</span></th>
 		  		</tr>
 		  		<tr>
 		  			<td>번호</td>
@@ -178,7 +192,6 @@
 	  			<option value="20">20</option>
 	  		
 	  		</select>
-	  		
 	  	 </div>
 		  
 		  <div class="center-block">
@@ -239,7 +252,7 @@
 	 	 </div>
 		</c:if>
 		
-		<button id="button" type="button" class="btn btn-info float-right">글 쓰 기</button>
+		<button id="button" type="button"  class="write">글 쓰 기</button>
 		
 		<c:if test="${listcount == 0 && empty search_word}" >
 			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>

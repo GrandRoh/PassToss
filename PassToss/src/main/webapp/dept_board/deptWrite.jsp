@@ -8,13 +8,16 @@
 <script src="js/writeform.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <style>
-	*{margin:0;padding:0}
-	body{background:#e2e2e2;min-width:1400px}
-    .sidenav{display:inline-block}
- 	.box_radius15{border-radius:5px}
+	.subject{
+	    border-color : White;
+		border-bottom : solid 1px black; 
+	}
 	
 	#upfile{display:none}
-	img{width:20px;}
+	img{
+	  width:20px;
+	  left-margin : 10px;	
+	}
 </style>
 </head>
 <body>
@@ -40,7 +43,7 @@
     	<div class="form-group">
     		<label for="board_subject"></label>
     		<input name="board_subject" id="board_subject" maxlength="100"
-    			   type="text" class="form-control"
+    			   type="text" class="form-control subject"
     			   placeholder="제목을 입력하세요">
     	</div>
     	<div class="form-group">
