@@ -1006,8 +1006,7 @@ public class MemberDAO {
 				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
 				+ " 	      ORDER BY BOARD_RE_REF DESC,"
 				+ "	      	  BOARD_RE_SEQ ASC) j"
-				+ "	 	 where board_notice = 1"
-				+ "		 and board_name = ?"
+				+ "		 where board_name = ?"
 				+ "      and rownum <= ?)"
 				+ " where rnum between ? and ?";
 
