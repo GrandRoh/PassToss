@@ -252,7 +252,7 @@
 	 	 </div>
 		</c:if>
 		
-		<button id="button" type="button" class="write">글 쓰 기</button>
+		<button id="button" type="button" class="write" style="float: right">글 쓰 기</button>
 		
 		<c:if test="${listcount == 0 && empty search_word}" >
 			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
