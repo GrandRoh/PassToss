@@ -8,13 +8,51 @@
 <script src="js/writeform.js"></script>
 <script src="js/jquery-3.6.3.js"></script>
 <style>
-	*{margin:0;padding:0}
-	body{background:#e2e2e2;min-width:1400px}
-    .sidenav{display:inline-block}
- 	.box_radius15{border-radius:5px}
+	.subject{
+	    border-color : White;
+		border-bottom : solid 1px silver; 
+	}
+	
+	select {
+	  padding: 1.5;
+      margin: 5;
+      margin-left: 10;
+	}
 	
 	#upfile{display:none}
-	img{width:20px;}
+	
+	img{
+	  width:20px;
+	  left-margin : 10px;	
+	  margin: 10;
+	}
+	
+	#board_content{
+		border-color : White; 
+		border-top : solid 1px silver;
+	}
+	
+	.submit{
+	  padding: 0.275rem 0.75rem;
+	  /*border-color: black; border테두리*/
+      border-radius: 1;
+      margin: 5;
+	}
+	
+	.cancel{
+	  padding: 0.275rem 0.75rem;
+	  border-color: black;
+      border-radius: 1;
+      margin: 5;
+	}
+	
+	.container {
+	width: 70%
+	}
+	
+	textarea{
+	 resize: none;
+	}
 </style>
 </head>
 <body>
@@ -40,7 +78,7 @@
     	<div class="form-group">
     		<label for="board_subject"></label>
     		<input name="board_subject" id="board_subject" maxlength="100"
-    			   type="text" class="form-control"
+    			   type="text" class="form-control subject"
     			   placeholder="제목을 입력하세요">
     	</div>
     	<div class="form-group">
@@ -56,8 +94,8 @@
     			   class="form-control" placeholder="내용을 입력하세요"></textarea>
     	</div>
     	<div class="form-group">
-    		<button type=submit class="">등록</button>
-    		<button type=reset class="" onClick="history.go(-1)">취소</button>
+    		<button type=submit class="btn btn-dark submit" style="float: right">등록</button>
+    		<button type=reset class="btn btn-light cancel" onClick="history.go(-1)">취소</button>
     	</div>
     </form>
 </div>

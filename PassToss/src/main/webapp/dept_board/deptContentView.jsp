@@ -9,11 +9,73 @@
 <script src="js/jquery-3.6.3.js"></script>
 <link rel="stylesheet" href="css/view.css" type="text/css">
 <style>
-	*{margin:0;padding:0}
-	body{background:#e2e2e2;min-width:1400px}
-    .sidenav{display:inline-block}
- 	.box_radius15{border-radius:5px}
+	.update {
+		margin : 5;
+	}
 	
+	.delete{
+		margin : 5;
+	}
+	
+	.reply{
+	  padding: 0.275rem 0.25rem;
+	}
+	
+	.prev{
+	   padding: 0.275rem 0.25rem;
+	}
+	
+	.list{
+	   padding: 0.275rem 0.25rem;
+	}
+	
+	.next{
+	   padding: 0.275rem 0.25rem;
+	}
+	
+	td.subject {
+	   margin : 5;
+	   padding : 10;
+	   font-size: 25px;
+	   font-weight : bold;
+	}
+	
+	td.name {
+	  width : 1px;
+	  
+	}
+	
+	td.date{
+	  width : 1px;
+	}
+	
+	td.readcount{
+	  width : 1px;
+	}
+	
+	tr.sharing {
+		text-align: right;
+	}
+	
+	td#sharing{
+		border-color : White;
+		border-bottom : solid 1px Silver;
+	}
+	
+	td.content {
+	   margin : 5;
+	   padding : 10;
+	   border-color : White;
+	}
+	
+	body>div>table>tbody tr:last-child {
+	  text-align : left;
+	}
+	
+	td.file {
+	 border-color : White;
+	 border-bottom : solid 1px Silver;
+	}
 </style>
 <script>
 	$(function(){
@@ -37,30 +99,30 @@
   <input type="hidden" name="board_name" value="${board.board_name}">
    <div class='modifybutton'>
 	<c:if test="${board.board_name == id || id == 'admin'}">
-	  <a href="DeptModifyView.bod?num=${board.board_num}">
-		<button class="btn btn-info">수정</button>
-	  </a>
 	  <%-- href의 주소를 #으로 설정합니다. --%>
 	  <a href="#">
-		<button class="btn btn-danger" id="deletebutton">삭제</button>
+		<button class="btn btn-danger delete" id="deletebutton" style="float: right">삭제</button>
+	  </a>
+	  <a href="DeptModifyView.bod?num=${board.board_num}">
+		<button class="btn btn-success update" style="float: right">수정</button>
 	  </a>
 	</c:if>
    </div>
    
    <table class="table">
    	 <tr>
-		<td colspan="4"><c:out value="${board.board_subject}"/></td>
+		<td colspan="4" class="subject"><c:out value="${board.board_subject}"/></td>
 	 </tr>
 	 <tr>
-	 	<td>작성자 ${board.board_name}</td>
-	 	<td>조회수&nbsp;${board.board_readcount}</td>
-	 	<td>작성일자&nbsp;${board.board_date}</td>
+	 	<td class="name">작성자 ${board.board_name}</td>
+	 	<td class="readcount">조회수&nbsp;${board.board_readcount}</td>
+	 	<td class="date">작성일자&nbsp;${board.board_date}</td>
 	 	<td><a href="#comment-area">댓글 <sup class="count"></sup></a></td> <%-- 클릭하면 댓글로 이동 --%>
 	 </tr>
 	 <tr>
-	 	<td colspan="4"><c:out value="${board.board_content}" escapeXml = "true"/></td>
+	 	<td colspan="4" class ="content"><c:out value="${board.board_content}" escapeXml = "true"/></td>
 	 </tr>
-	 <tr>
+	 <tr class="sharing">
 	 	<td colspan="4" id="sharing"><img src="image/sharing.png" width="20px"> 공유 </td>
 	 </tr>
 	 
@@ -69,8 +131,8 @@
 		<tr>
 			<%-- 파일을 첨부한 경우 --%>
 			<c:if test="${!empty board.board_file}">
-			<td><div>첨부파일</div></td>
-				<td><label><img src="image/down.png" width="10px">
+			<td class="file"><div>첨부파일</div></td>
+				<td colspan="3" class="file"><label><img src="image/down.png" width="10px">
 					<a href="DeptFileDown.bod?filename=${board.board_file}">${board.board_file}
 					</a></label></td>
 			</c:if>
@@ -111,18 +173,20 @@
   	</div>
   	
   	<div>
-  		<a href="DeptReplyView.bod?num=${board.board_num}"><button class="">답글쓰기</button></a>
-  		
+  		<a href="DeptReplyView.bod?num=${board.board_num}">
+  		<button class="btn reply">답글쓰기</button></a>
   		
   	   <c:forEach var = 'bnum' items="${board_num_next_prev}">
 	  	 <c:if test="${bnum.board_prev_num != -1}"> 
-	  		<a href="DeptDetailAction.bod?num=${bnum.board_prev_num}"><button class="">이전글</button></a>
+	  		<a href="DeptDetailAction.bod?num=${bnum.board_prev_num}">
+	  		<button class="btn prev">이전글</button></a>
 	  	 </c:if> 
   	   
-  		<a href="DeptList.bod"><button class="">목록</button></a>
+  		<a href="DeptList.bod"><button class="btn list">목록</button></a>
   		
   	  	<c:if test="${bnum.board_next_num != -1}"> 
-  			<a href="DeptDetailAction.bod?num=${bnum.board_next_num}"><button class="">다음글</button></a>
+  			<a href="DeptDetailAction.bod?num=${bnum.board_next_num}">
+  			<button class="btn next">다음글</button></a>
   	   	</c:if>
   	   
   	   </c:forEach>

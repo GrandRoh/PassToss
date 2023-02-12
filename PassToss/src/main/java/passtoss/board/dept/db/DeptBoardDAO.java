@@ -34,11 +34,19 @@ public class DeptBoardDAO {
 		try {
 			
 			con = ds.getConnection();
-			pstmt = con.prepareStatement("select count(*) from board_dept "
+			if(deptno != 0) {
+			 pstmt = con.prepareStatement("select count(*) from board_dept "
 									   + "where board_notice = ? and board_deptno = ?");
-			pstmt.setInt(1, 1); // 게시글만 count함 
-			pstmt.setInt(2, deptno);
-			rs = pstmt.executeQuery();
+			 pstmt.setInt(1, 1); // 게시글만 count함 
+			 pstmt.setInt(2, deptno);
+			 rs = pstmt.executeQuery();
+			 
+			}else if(deptno == 0) {
+				pstmt = con.prepareStatement("select count(*) from board_dept "
+						 						+ "where board_notice = ?");
+				pstmt.setInt(1, 1); // 게시글만 count함 
+				rs = pstmt.executeQuery();
+			}
 			
 			if(rs.next()) {
 				x = rs.getInt(1); 
@@ -83,33 +91,32 @@ public class DeptBoardDAO {
 		return x;
 	}
 
-	public List<DeptBoard> getBoardList(int deptno) {
+	public List<DeptBoard> getBoardList() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String sql = "select * "
-				+ "from(select rownum rnum, j.* "
-				+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
-				+ "     	  FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
-				+ "				 	           		       FROM COMMENT_DEPT "
-				+ "				 	          		       GROUP BY COMMENT_BOARD_NUM) "
-				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM "
-				+ " 	      ORDER BY BOARD_RE_REF DESC, "
-				+ "	      BOARD_RE_SEQ ASC) j "
-				+ "		where board_notice = 0"
-				+ "		and board_deptno = ? "
-				+ "     and rownum <= 3) "
-				+ " where rnum >= 1 and rnum <= 3";
-		
+		String sql = null;
 		List<DeptBoard> list = new ArrayList<DeptBoard>();
 		
 		try {
 			
 			con = ds.getConnection(); 
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, deptno);
-			rs = pstmt.executeQuery();
+			
+				sql = "select * "
+						+ "from(select rownum rnum, j.* "
+						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+						+ "     	  FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+						+ "				 	           		       FROM COMMENT_DEPT "
+						+ "				 	          		       GROUP BY COMMENT_BOARD_NUM) "
+						+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM "
+						+ " 	      ORDER BY BOARD_RE_REF DESC, "
+						+ "	      BOARD_RE_SEQ ASC) j "
+						+ "		where board_notice = 0"
+						+ "     and rownum <= 3) "
+						+ " where rnum >= 1 and rnum <= 3";
+				
+			 pstmt = con.prepareStatement(sql);
+			 rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				
@@ -173,20 +180,7 @@ public class DeptBoardDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String sql = "select * "
-				+ "from(select rownum rnum, j.* "
-				+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
-				+ "     	  FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
-				+ "				 	           		       FROM COMMENT_DEPT "
-				+ "				 	          		       GROUP BY COMMENT_BOARD_NUM) "
-				+ "	          ON BOARD_NUM = COMMENT_BOARD_NUM "
-				+ " 	      ORDER BY BOARD_RE_REF DESC, "
-				+ "	      BOARD_RE_SEQ ASC) j "
-				+ "		where board_notice = 1 "
-				+ "     and board_deptno = ? "
-				+ "     and rownum <= ?) "
-				+ " where rnum >= ? and rnum <= ?";
+		String sql = null;
 		
 		List<DeptBoard> list = new ArrayList<DeptBoard>();
 		
@@ -197,12 +191,49 @@ public class DeptBoardDAO {
 		try {
 			
 			con = ds.getConnection(); 
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, deptno);
-			pstmt.setInt(2, endrow);
-			pstmt.setInt(3, startrow);
-			pstmt.setInt(4, endrow);
+			
+			if(deptno != 0) {
+				sql = "select * "
+						+ "from(select rownum rnum, j.* "
+						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+						+ "     	  FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+						+ "				 	           		       FROM COMMENT_DEPT "
+						+ "				 	          		       GROUP BY COMMENT_BOARD_NUM) "
+						+ "	          ON BOARD_NUM = COMMENT_BOARD_NUM "
+						+ " 	      ORDER BY BOARD_RE_REF DESC, "
+						+ "	      BOARD_RE_SEQ ASC) j "
+						+ "		where board_notice = 1 "
+						+ "     and board_deptno = ? "
+						+ "     and rownum <= ?) "
+						+ " where rnum >= ? and rnum <= ?";
+			
+			 pstmt = con.prepareStatement(sql);
+			 pstmt.setInt(1, deptno);
+			 pstmt.setInt(2, endrow);
+			 pstmt.setInt(3, startrow);
+			 pstmt.setInt(4, endrow);
+			 rs = pstmt.executeQuery();
+			 
+			} else if(deptno == 0) {
+				sql = "select * "
+						+ "from(select rownum rnum, j.* "
+						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+						+ "     	  FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+						+ "				 	           		       FROM COMMENT_DEPT "
+						+ "				 	          		       GROUP BY COMMENT_BOARD_NUM) "
+						+ "	          ON BOARD_NUM = COMMENT_BOARD_NUM "
+						+ " 	      ORDER BY BOARD_RE_REF DESC, "
+						+ "	      BOARD_RE_SEQ ASC) j "
+						+ "		where board_notice = 1 "
+						+ "     and rownum <= ?) "
+						+ " where rnum >= ? and rnum <= ?";
+			
+			 pstmt = con.prepareStatement(sql);
+			 pstmt.setInt(1, endrow);
+			 pstmt.setInt(2, startrow);
+			 pstmt.setInt(3, endrow);
 			rs = pstmt.executeQuery();
+			}
 			
 			while (rs.next()) {
 				
@@ -274,28 +305,52 @@ public class DeptBoardDAO {
 			con = ds.getConnection();
 			
 			if(field.equals("all")) {
+				if(deptno != 0) {
 				sql = " select count(*) "
 					+ " from board_dept "
 					+ " where(board_subject like ? or board_name like ?) "
 					+ " and board_notice = ? "
 					+ " and board_deptno = ?";
 				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, "%"+value+"%"); 
-				pstmt.setString(2, "%"+value+"%");
-				pstmt.setInt(3, 1); // 게시글만 count함
-				pstmt.setInt(4, deptno);
-				rs = pstmt.executeQuery();
+				 pstmt = con.prepareStatement(sql);
+				 pstmt.setString(1, "%"+value+"%"); 
+				 pstmt.setString(2, "%"+value+"%");
+				 pstmt.setInt(3, 1); // 게시글만 count함
+				 pstmt.setInt(4, deptno);
+				 rs = pstmt.executeQuery();
+				 
+				} else if(deptno == 0) {
+					sql = " select count(*) "
+							+ " from board_dept "
+							+ " where(board_subject like ? or board_name like ?) "
+							+ " and board_notice = ? ";
+						
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%"); 
+					pstmt.setString(2, "%"+value+"%");
+					pstmt.setInt(3, 1); // 게시글만 count함
+					rs = pstmt.executeQuery();
+				}
 				
 			} else if(!field.equals("all")){
+				if(deptno != 0) {
 				sql = "select count(*) from board_dept "
 					+ "where " + field + " like ? "
 					+ "and board_deptno = ?";
 				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, "%"+value+"%"); 
-				pstmt.setInt(2, deptno);
-				rs = pstmt.executeQuery();
+				 pstmt = con.prepareStatement(sql);
+				 pstmt.setString(1, "%"+value+"%"); 
+				 pstmt.setInt(2, deptno);
+				 rs = pstmt.executeQuery();
+				 
+				} else if(deptno == 0) {
+					sql = "select count(*) from board_dept "
+							+ "where " + field + " like ? ";
+						
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%"); 
+					rs = pstmt.executeQuery();
+				}
 			}
 			if(rs.next()) {
 				x = rs.getInt(1);
@@ -337,7 +392,7 @@ public class DeptBoardDAO {
 		return x;
 	}
 
-	public List<DeptBoard> getBoardList(String field, String value, int deptno) {
+	public List<DeptBoard> getBoardList(String field, String value) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -350,7 +405,7 @@ public class DeptBoardDAO {
 			
 			if(field.equals("all")) {
 				
-				sql = "select * "
+				  sql = "select * "
 						+ "from(select rownum rnum, j.* "
 						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
 						+ "     	 FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
@@ -361,37 +416,33 @@ public class DeptBoardDAO {
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 0"
 						+ " 	and(board_subject like ? or board_name like ?)"
-						+ "     and board_deptno = ? "
 						+ "     and rownum <= 3) "
 						+ " where rnum >= 1 and rnum <= 3";
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, "%"+value+"%");
-				pstmt.setString(2, "%"+value+"%");
-				pstmt.setInt(3, deptno);
-				rs = pstmt.executeQuery();
-				
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%");
+					pstmt.setString(2, "%"+value+"%");
+					rs = pstmt.executeQuery();
+			  
 			} else if(!field.equals("all")){
-				
-				sql = "select * "
-						+ "from(select rownum rnum, j.* "
-						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
-						+ "     	 FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
-						+ "				 	           		      	   FROM COMMENT_DEPT "
-						+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM) "
-						+ "	      	 ON BOARD_NUM = COMMENT_BOARD_NUM "
-						+ " 	     ORDER BY BOARD_RE_REF DESC, "
-						+ "	         BOARD_RE_SEQ ASC) j "
-						+ "		where board_notice = 0"
-						+ "		and " + field + " like ? "
-						+ "		and board_deptno = ? "
-						+ "     and rownum <= 3) "
-						+ " where rnum >= 1 and rnum <= 3";
-				
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, "%"+value+"%");
-				pstmt.setInt(2, deptno);
-				rs = pstmt.executeQuery();
+				   sql = "select * "
+					   + "from(select rownum rnum, j.* "
+					   + "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+					   + "     	 FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+					   + "				 	           		      	   FROM COMMENT_DEPT "
+				       + "				 	          		       	   GROUP BY COMMENT_BOARD_NUM) "
+					   + "	      	 ON BOARD_NUM = COMMENT_BOARD_NUM "
+					   + " 	     ORDER BY BOARD_RE_REF DESC, "
+					   + "	         BOARD_RE_SEQ ASC) j "
+					   + "		where board_notice = 0"
+					   + "		and " + field + " like ? "
+					   + "     and rownum <= 3) "
+					   + " where rnum >= 1 and rnum <= 3";
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%");
+					rs = pstmt.executeQuery();
+			   
 			}
 			
 			while (rs.next()) {
@@ -466,7 +517,7 @@ public class DeptBoardDAO {
 			con = ds.getConnection(); 
 			
 			if(field.equals("all")) {
-				
+			  if(deptno != 0) {
 				sql = "select * "
 						+ "from(select rownum rnum, j.* "
 						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
@@ -491,8 +542,32 @@ public class DeptBoardDAO {
 				pstmt.setInt(6, endrow);
 				rs = pstmt.executeQuery();
 				
-			} else if(!field.equals("all")){
+			  } else if(deptno == 0 ) {
+				  sql = "select * "
+							+ "from(select rownum rnum, j.* "
+							+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+							+ "     	 FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+							+ "				 	           		      	   FROM COMMENT_DEPT "
+							+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM) "
+							+ "	      	 ON BOARD_NUM = COMMENT_BOARD_NUM "
+							+ " 	     ORDER BY BOARD_RE_REF DESC, "
+							+ "	         BOARD_RE_SEQ ASC) j "
+							+ "		where board_notice = 1"
+							+ " 	and(board_subject like ? or board_name like ?)"
+							+ "     and rownum <= ?) "
+							+ " where rnum >= ? and rnum <= ?";
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%");
+					pstmt.setString(2, "%"+value+"%");
+					pstmt.setInt(3, endrow);
+					pstmt.setInt(4, startrow);
+					pstmt.setInt(5, endrow);
+					rs = pstmt.executeQuery();
+			  }
 				
+			} else if(!field.equals("all")){
+			   if(deptno != 0) {
 				sql = "select * "
 						+ "from(select rownum rnum, j.* "
 						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
@@ -515,6 +590,29 @@ public class DeptBoardDAO {
 				pstmt.setInt(4, startrow);
 				pstmt.setInt(5, endrow);
 				rs = pstmt.executeQuery();
+				
+			   } else if(deptno == 0) {
+				   sql = "select * "
+							+ "from(select rownum rnum, j.* "
+							+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
+							+ "     	 FROM BOARD_DEPT LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT "
+							+ "				 	           		      	   FROM COMMENT_DEPT "
+							+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM) "
+							+ "	      	 ON BOARD_NUM = COMMENT_BOARD_NUM "
+							+ " 	     ORDER BY BOARD_RE_REF DESC, "
+							+ "	         BOARD_RE_SEQ ASC) j "
+							+ "		where board_notice = 1"
+							+ "		and " + field + " like ? "
+							+ "     and rownum <= ?) "
+							+ " where rnum >= ? and rnum <= ?";
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+value+"%");
+					pstmt.setInt(2, endrow);
+					pstmt.setInt(3, startrow);
+					pstmt.setInt(4, endrow);
+					rs = pstmt.executeQuery();
+			   }
 			}
 			
 			while (rs.next()) {
