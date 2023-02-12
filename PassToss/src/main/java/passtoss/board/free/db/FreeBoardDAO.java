@@ -1061,9 +1061,9 @@ public class FreeBoardDAO {
 					+ "    Board_num, "
 					+ "    LAG(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_prev_num,"
 					+ "    LEAD(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_next_num "
-					+ "FROM BOARD_free "
+					+ "FROM BOARD_free  where BOARD_NOTICE = 1 and BOARD_RE_LEV = 0"
 					+ ") b "
-					+ "WHERE b.Board_num = ? " ;
+					+ "WHERE b.Board_num = ?" ;
                    
 
 
