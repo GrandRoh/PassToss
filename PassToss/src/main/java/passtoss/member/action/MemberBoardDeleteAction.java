@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import passtoss.admin.board.BoardDAO;
+import passtoss.member.db.MemberDAO;
 
 public class MemberBoardDeleteAction implements Action {
 
@@ -15,7 +15,7 @@ public class MemberBoardDeleteAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		boolean result = false;
-		BoardDAO dao = new BoardDAO();
+		MemberDAO dao = new MemberDAO();
 
 		String[] select = request.getParameterValues("select");
 

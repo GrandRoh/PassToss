@@ -58,7 +58,7 @@
 								<td><input type="checkbox" class="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num - 1}" /></td>
-								<td><button type="button" data-bs-toggle="modal"
+								<td><button type="button" class="info" data-bs-toggle="modal"
 										data-id="${m.id}" data-bs-target="#modal1">${m.id}</button></td>
 								<td>${m.name}</td>
 								<td>${m.deptno}</td>

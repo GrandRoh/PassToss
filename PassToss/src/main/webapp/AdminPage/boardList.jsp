@@ -31,6 +31,7 @@
 			href="AdminboardList.net?category=0">사내게시판</a></span> <span class="category"><a
 			href="AdminboardList.net?category=1">부서게시판</a></span>
 		<form class="delete" action="AdminBoardDelete.net" method="post">
+			<input type="hidden" name="category" value="${category_index}">
 			<input type="image" src="image/delete.png">
 		</form>
 
