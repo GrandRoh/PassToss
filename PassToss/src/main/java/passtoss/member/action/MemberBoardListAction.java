@@ -61,8 +61,8 @@ public class MemberBoardListAction implements Action {
 				boardlist = dao.getdeptBoardList(page, limit,id);
 			}
 		} else {
-			if (category_index == 0) {
-				search_word = request.getParameter("search_word");
+			search_word = request.getParameter("search_word");
+			if (category_index == 0) {			
 				listcount = dao.getBoardListCount(search_field, search_word, boardtable[category_index],id);
 				boardlist = dao.getfreeBoardList(search_field, search_word, page, limit,id);
 			} else if (category_index == 1) {

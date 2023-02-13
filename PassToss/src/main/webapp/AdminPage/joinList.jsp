@@ -11,37 +11,62 @@
 <body>
 	<input type="hidden" id="search_field" value="${search_field}">
 	<div class='container box_radius15 board_container'>
-		<form action="AdminMemberList.net?category=${category_index}"
-			method="post">
-			<div class="input-group">
-				<select id="select_value" name="search_field">
-					<option value="0" selected>id</option>
-					<option value="1">이름</option>
-					<option value="2">부서번호</option>
-				</select> <input name="search_word" type="text" class="form-control"
-					placeholder="검색어를 입력하세요" value="${search_word}">
-				<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
-			</div>
-		</form>
-		<div class="header">
-			<div class="title">${category}명단</div>
-			<div class="count">| 가입인원 : ${listcount}</div>
-
-			<div class="dropdown">
-				<a class="btn btn-secondary btn-sm dropdown-toggle" role="button"
-					data-bs-toggle="dropdown" aria-expanded="false"> 액션 </a>
-				<ul class="dropdown-menu">
-					<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
-					<li><form action="AdminDelete.net" method="post" id="delete">
-							<input type="submit" class="dropdown-item delete" value="삭제">
-						</form></li>
-				</ul>
-			</div>
+		<div class="category">
+			<ul class="menu">
+				<li><a href="AdminMemberList.net?category=0"
+					class="authority-0">준회원 명단</a></li>
+				<li><a href="AdminMemberList.net?category=1"
+					class="authority-1">정회원 명단</a></li>
+			</ul>
 		</div>
-		<c:if test="${listcount > 0}">
-			<div class="content" style="display: inline-block">
-				<table class="table table-striped">
-					<thead class="bg-dark text-white thead-dark">
+		<div class="content">
+			<c:if test="${listcount == 0 && !empty search_word}">
+			<table class="table">
+					<thead>
+						<tr>
+							<th><input type="checkbox" id="selectAll"></input></th>
+							<th>번호</th>
+							<th>id</th>
+							<th>이름</th>
+							<th>부서번호</th>
+							<th>가입일자</th>
+						</tr>
+					</thead>
+			</table>
+				<h3>검색결과가 없습니다.</h3>
+			</c:if>
+			<c:if test="${listcount == 0 && empty search_word}">
+			<table class="table">
+					<thead>
+						<tr>
+							<th><input type="checkbox" id="selectAll"></input></th>
+							<th>번호</th>
+							<th>id</th>
+							<th>이름</th>
+							<th>부서번호</th>
+							<th>가입일자</th>
+						</tr>
+					</thead>
+			</table>				
+				<h3>회원이 없습니다.</h3>
+			</c:if>
+			<c:if test="${listcount > 0}">
+				<div>${category}명단<span class="count">| 가입인원 :
+						${listcount}</span>
+				</div>
+				<div class="dropdown">
+					<img src="image/more.png" class="btn btn-sm dropdown-toggle more"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<ul class="dropdown-menu">
+						<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
+						<li><form action="AdminDelete.net" method="post" id="delete">
+								<input type="submit" class="dropdown-item delete" value="삭제">
+							</form></li>
+					</ul>
+				</div>
+
+				<table class="table">
+					<thead>
 						<tr>
 							<th><input type="checkbox" id="selectAll"></input></th>
 							<th>번호</th>
@@ -58,8 +83,9 @@
 								<td><input type="checkbox" class="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num - 1}" /></td>
-								<td><button type="button" class="info" data-bs-toggle="modal"
-										data-id="${m.id}" data-bs-target="#modal1">${m.id}</button></td>
+								<td><button type="button" class="info"
+										data-bs-toggle="modal" data-id="${m.id}"
+										data-bs-target="#modal1">${m.id}</button></td>
 								<td>${m.name}</td>
 								<td>${m.deptno}</td>
 								<td>${m.joindate}</td>
@@ -67,82 +93,63 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
-			
-			<div class="category" style="display: inline-block">
-				<ul>
-					<li><a href="AdminMemberList.net?category=0"
-						class="authority-0">준회원 명단</a></li>
-					<li><a href="AdminMemberList.net?category=1"
-						class="authority-1">정회원 명단</a></li>
-				</ul>
-			</div>
 
-			<div class="center-block">
-				<ul class="pagination justify-content-center">
-					<c:if test="${page <= 1}">
-						<li class="page-item"><a class="page-link gray">이전&nbsp;</a></li>
-					</c:if>
-					<c:if test="${page > 1}">
-						<li class="page-item"><a
-							href="AdminMemberList.net?page${page-1}&search_field=${search_field}&search_word=${search_word}"
-							class="page-link">이전</a>&nbsp;</li>
-					</c:if>
+				<form action="AdminMemberList.net?category=${category_index}"
+					method="post">
+					<div class="input-group">
+						<select id="select_value" name="search_field">
+							<option value="0" selected>id</option>
+							<option value="1">이름</option>
+							<option value="2">부서번호</option>
+						</select> <input name="search_word" type="text" class="form-control"
+							placeholder="검색어를 입력하세요" value="${search_word}">
+						<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
+					</div>
+				</form>
 
-					<c:forEach var="a" begin="${startpage}" end="${endpage}">
-						<c:if test="${a == page}">
-							<li class="page-item active"><a class="page-link">${a}</a></li>
+
+				<div class="center-block">
+					<ul class="pagination justify-content-center">
+						<c:if test="${page <= 1}">
+							<li class="page-item"><a class="page-link gray">이전&nbsp;</a></li>
 						</c:if>
-						<c:if test="${a != page}">
-							<c:url var="go" value="AdminMemberList.net">
+						<c:if test="${page > 1}">
+							<li class="page-item"><a
+								href="AdminMemberList.net?page${page-1}&search_field=${search_field}&search_word=${search_word}"
+								class="page-link">이전</a>&nbsp;</li>
+						</c:if>
+
+						<c:forEach var="a" begin="${startpage}" end="${endpage}">
+							<c:if test="${a == page}">
+								<li class="page-item active"><a class="page-link">${a}</a></li>
+							</c:if>
+							<c:if test="${a != page}">
+								<c:url var="go" value="AdminMemberList.net">
+									<c:param name="search_field" value="${search_field}" />
+									<c:param name="search_word" value="${search_word}" />
+									<c:param name="page" value="${a}" />
+								</c:url>
+								<li class="page-item"><a href="${go}" class="page-link">${a}</a>
+								</li>
+							</c:if>
+						</c:forEach>
+
+						<c:if test="${page >= maxpage}">
+							<li class="page-item"><a class="page-link gray">&nbsp;다음</a></li>
+						</c:if>
+						<c:if test="${page < maxpage}">
+							<c:url var="next" value="AdminMemberList.net">
 								<c:param name="search_field" value="${search_field}" />
 								<c:param name="search_word" value="${search_word}" />
-								<c:param name="page" value="${a}" />
+								<c:param name="page" value="${page+1}" />
 							</c:url>
-							<li class="page-item"><a href="${go}" class="page-link">${a}</a>
+							<li class="page-item"><a href="${next}" class="page-link">&nbsp;다음</a>
 							</li>
 						</c:if>
-					</c:forEach>
-
-					<c:if test="${page >= maxpage}">
-						<li class="page-item"><a class="page-link gray">&nbsp;다음</a></li>
-					</c:if>
-					<c:if test="${page < maxpage}">
-						<c:url var="next" value="AdminMemberList.net">
-							<c:param name="search_field" value="${search_field}" />
-							<c:param name="search_word" value="${search_word}" />
-							<c:param name="page" value="${page+1}" />
-						</c:url>
-						<li class="page-item"><a href="${next}" class="page-link">&nbsp;다음</a>
-						</li>
-					</c:if>
-				</ul>
-			</div>
-		</c:if>
-
-		<c:if test="${listcount == 0 && empty search_word}">
-			<div class="inline-block"><h1>회원이 없습니다.</h1></div>
-			<div class="category" style="display: inline-block">
-				<ul>
-					<li><a href="AdminMemberList.net?category=0"
-						class="authority-0">준회원 명단</a></li>
-					<li><a href="AdminMemberList.net?category=1"
-						class="authority-1">정회원 명단</a></li>
-				</ul>
-			</div>
-		</c:if>
-
-		<c:if test="${listcount == 0 && !empty search_word}">
-			<div class="inline-block"><h1>검색결과가 없습니다.</h1></div>
-			<div class="category" style="display: inline-block">
-				<ul>
-					<li><a href="AdminMemberList.net?category=0"
-						class="authority-0">준회원 명단</a></li>
-					<li><a href="AdminMemberList.net?category=1"
-						class="authority-1">정회원 명단</a></li>
-				</ul>
-			</div>
-		</c:if>
+					</ul>
+				</div>
+			</c:if>
+		</div>
 	</div>
 
 	<!-- 아이디 정보 Modal1 -->
@@ -176,7 +183,7 @@
 				</div>
 				<div class="modal-body">
 
-				<!-- <div class="modal-footer"> -->
+					<!-- <div class="modal-footer"> -->
 					<button type='submit' class='btn btn-primary' id='authorizebtn'>권한설정</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
