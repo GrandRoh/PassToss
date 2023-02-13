@@ -58,6 +58,11 @@
 	#board_content{
 		border-color : White;
 		background-color: White;
+		outline: none;
+	}
+	
+	#board_content:focus {
+  	  outline: none;
 	}
 	
 	body>div>table>tbody tr:last-child {

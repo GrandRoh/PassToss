@@ -58,6 +58,11 @@
 	#board_content{
 		border-color : White;
 		background-color: White;
+		outline: none;
+	}
+	
+	#board_content:focus {
+  	  outline: none;
 	}
 	
 	body>div>table>tbody tr:last-child {
@@ -117,7 +122,7 @@
 	 </tr>
 	 <tr>
 	 	<td colspan="4" class ="content">
-	 	<textarea name="board_content" id="board_content" rows="10" readOnly
+	 	<textarea name="board_content" id="board_content" rows="10" style="border: none"  readOnly
     			   class="form-control" placeholder="내용을 입력하세요">${board.board_content}</textarea>
 	 	</td>
 	 </tr>
