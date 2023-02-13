@@ -3,7 +3,14 @@
 <%@ taglib prefix ="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="css/head.css" type="text/css">
 
+<c:if test="${empty id}">
+	<script>
+		location.href = "LoginAction.net"
+	</script>
+</c:if>
+
 <script>
+ 
 	$(function(){
 	$(".gnb_profile_close_btn").click(function(){
 			
@@ -15,6 +22,7 @@
 		})
 		
 	})
+	
 </script>
 <style>
 	
