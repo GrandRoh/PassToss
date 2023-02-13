@@ -47,6 +47,7 @@
 	td#sharing{
 		border-color : White;
 		border-bottom : solid 1px Silver;
+		text-align: right;
 	}
 	
 	td.content {
@@ -76,6 +77,10 @@
 	
 	a:hover{
 	  color : black;
+	}
+	
+	h3{
+	  font-weight: lighter;
 	}
 </style>
 <script>

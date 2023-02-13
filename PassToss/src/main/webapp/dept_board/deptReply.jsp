@@ -15,6 +15,15 @@
 		border-color : White; 
 	}
 	
+	tr.sharing {
+		text-align: right;
+	}
+	
+	td#sharing{
+		border-color : White;
+		border-bottom : solid 1px Silver;
+	}
+	
 	.submit{
 	  padding: 0.275rem 0.75rem;
 	  /*border-color: black; border테두리*/
@@ -37,6 +46,9 @@
 	 resize: none;
 	}
 	
+	h3{
+	  font-weight: lighter;
+	}
 </style>
 </head>
 <body>
