@@ -78,6 +78,10 @@
 	a:hover{
 	  color : black;
 	}
+	
+	h3{
+	  font-weight: lighter;
+	}
 </style>
 <script>
 	$(function(){

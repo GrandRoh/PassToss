@@ -53,6 +53,10 @@
 	textarea{
 	 resize: none;
 	}
+	
+	h3{
+	  font-weight: lighter;
+	}
 </style>
 </head>
 <body>
