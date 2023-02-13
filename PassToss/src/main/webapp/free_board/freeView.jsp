@@ -62,10 +62,16 @@
       border: 1px solid transparent;
       border-radius: 0rem;
       padding: 0.375rem 0.75rem;
+      float: right;
 	}
 	
 	.gray{
  		color: gray;
+ 	}
+ 	
+ 	h1{
+ 		text-align:center;
+ 		padding : 30;
  	}
 </style>
 </head>
@@ -87,7 +93,7 @@
 			</div>
 		</form>
 		
-		<c:if test="${listcount > 0}">
+		<c:if test="${noticelist.size() > 0  || listcount > 0}">
 		
 		  <table class="table ">
 		  	<thead>
@@ -194,6 +200,7 @@
 	  		</select>
 	  	 </div>
 		  
+		  <c:if test="${listcount > 0}">
 		  <div class="center-block">
 	  	 	<ul class="pagination justify-content-center">
 	  	 		<c:if test="${page <= 1}">
@@ -250,15 +257,16 @@
 	  	 		</c:if>
 	  		 </ul>
 	 	 </div>
+	 	 </c:if>
 		</c:if>
 		
-		<button id="button" type="button"  class="write" style="float: right">글 쓰 기</button>
+		<button id="button" type="button"  class="write">글 쓰 기</button>
 		
 		<c:if test="${listcount == 0 && empty search_word}" >
-			<h1 style ="text-align:center">등록된 글이 없습니다.</h1>
+			<div><h1>등록된 글이 없습니다.</h1></div>
 		</c:if>
-  		<c:if test="${listcount == 0 && !empty search_word}">
-  			<h1 style ="text-align:center">검색 결과가 없습니다.</h1>
+  		<c:if test="${noticelist.size() ==0 && listcount == 0 && !empty search_word}">
+  			<div><h1>검색 결과가 없습니다.</h1></div>
   		</c:if>
 		
 	</div>

@@ -31,10 +31,6 @@ public class DeptBoardFrontController extends HttpServlet {
 		
 		switch(command) {
 		
-			case "/DeptMain.bod": // 아직 작성 안함 
-				action = new DeptMainAction();
-				break;
-				
 			case "/DeptList.bod":
 				action = new BoardDeptListAction();
 				break;
