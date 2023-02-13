@@ -52,6 +52,8 @@ public class CalDAO {
 			json.addProperty("title", rs.getString(1));
 			json.addProperty("start", rs.getString(2));
 			json.addProperty("end", rs.getString(3));
+			json.addProperty("num", rs.getInt(4));
+		
 			
 			
 			array.add(json);
@@ -93,13 +95,14 @@ public class CalDAO {
  
             con =  ds.getConnection();
             
-            String sql = "insert into calendar (title, start1, end1) " 
-            			+ "values(?, ?, ?)";
+            String sql = "insert into calendar (title, start1, end1, num ) " 
+            			+ "values(?, ?, ?, cal_seq.nextval)";
             pstmt = con.prepareStatement(sql);
  
             pstmt.setString(1, v.getTitle());
             pstmt.setString(2, v.getStart1());
             pstmt.setString(3, v.getEnd1());
+          
             
             result= pstmt.executeUpdate();
             
@@ -140,4 +143,46 @@ public class CalDAO {
 		
 	}
 
+	public int calDel(String num) {
+		Connection con = null;
+        PreparedStatement pstmt = null;
+        int result = 0;
+        
+        try {
+ 
+            con =  ds.getConnection();
+            
+            String sql = "delete  from calendar "
+            		+ " where num= ? ";
+            pstmt = con.prepareStatement(sql);
+ 
+            pstmt.setInt(1, Integer.parseInt(num));
+         
+         
+
+            //pstmt.setString(4, v.getPublicId());
+        
+            result= pstmt.executeUpdate();
+            
+            
+        }catch(Exception se) {
+			se.printStackTrace();
+		}finally {
+			try {
+				if(pstmt !=null)
+					pstmt.close();
+			} catch(SQLException e) {
+				System.out.println(e.getMessage());
+			}
+			try {
+				if(con!=null)
+					con.close();
+			} catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+		}
+		return result;
+	
+		
+	}
 }

@@ -10,13 +10,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import passtoss.calendar.db.CalDAO;
+import passtoss.calendar.db.CalVO;
+
 /*
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;*/
 
-import passtoss.calendar.db.CalDAO;
-import passtoss.calendar.db.CalVO;
+
 
 
 
@@ -29,7 +31,7 @@ public class CalAddAction implements Action {
 			throws ServletException, IOException {
 		
 		
- 		
+		String id=request.getParameter("id");
  		String data = request.getParameter("alldata");
  		System.out.println(data);
  		
@@ -50,19 +52,16 @@ String end= jo.get("end").toString().replaceAll("\"","").substring(0,10);
 System.out.println(title);
 System.out.println(start);
 System.out.println(end);
-
+System.out.println(id);
 
 vo.setTitle(title);
 vo.setStart1(start);
 vo.setEnd1(end);
-
 dao.calAdd(vo);
 
 return null;
-
-
 		
-	
+		
 		
 }
 }
