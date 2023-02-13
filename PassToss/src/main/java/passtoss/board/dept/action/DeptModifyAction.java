@@ -70,7 +70,7 @@ public class DeptModifyAction implements Action{
 			board.setBoard_num(Integer.parseInt(multi.getParameter("board_num")));
 			
 			String check = multi.getParameter("check");
-			System.out.println("check=" + check); // 체크값을 인식을 못함 
+			System.out.println("check=" + check); 
 			if(check != null) { //파일 첨부를 변경하지 않으면
 				board.setBoard_file(check);
 				

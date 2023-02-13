@@ -40,19 +40,6 @@
 	   font-weight : bold;
 	}
 	
-	td.name {
-	  width : 1px;
-	  
-	}
-	
-	td.date{
-	  width : 1px;
-	}
-	
-	td.readcount{
-	  width : 1px;
-	}
-	
 	tr.sharing {
 		text-align: right;
 	}
@@ -68,6 +55,11 @@
 	   border-color : White;
 	}
 	
+	#board_content{
+		border-color : White;
+		background-color: White;
+	}
+	
 	body>div>table>tbody tr:last-child {
 	  text-align : left;
 	}
@@ -75,6 +67,10 @@
 	td.file {
 	 border-color : White;
 	 border-bottom : solid 1px Silver;
+	}
+	
+	a:hover{
+	  color : black;
 	}
 </style>
 <script>
@@ -121,7 +117,10 @@
 	 	<td><a href="#comment-area">댓글 <sup class="count"></sup></a></td> <%-- 클릭하면 댓글로 이동 --%>
 	 </tr>
 	 <tr>
-	 	<td colspan="4" class ="content"><c:out value="${board.board_content}" escapeXml = "true"/></td>
+	 	<td colspan="4" class ="content">
+	 	 <textarea name="board_content" id="board_content" rows="10" readOnly
+    			   class="form-control" placeholder="내용을 입력하세요">${board.board_content}</textarea>
+	 	</td>
 	 </tr>
 	 <tr class="sharing">
 	 	<td colspan="4" id="sharing">
@@ -183,14 +182,15 @@
 	  		<a href="FreeDetailAction.bof?num=${bnum.board_prev_num}">
 	  		<button class="btn prev">이전글</button></a>
 	  	   </c:if> 
+	  	</c:forEach>
   	 
   		<a href="FreeList.bof"><button class="btn list">목록</button></a>
   		
-  	   <c:if test="${bnum.board_next_num != -1}"> 
-  		<a href="FreeDetailAction.bof?num=${bnum.board_next_num}">
-  		<button class="btn next">다음글</button></a>
-  	   </c:if>
-  	   
+  	   <c:forEach var = 'bnum' items="${board_num_next_prev}">
+  	    <c:if test="${bnum.board_next_num != -1}"> 
+  		 <a href="FreeDetailAction.bof?num=${bnum.board_next_num}">
+  		 <button class="btn next">다음글</button></a>
+  	    </c:if>
   	   </c:forEach>
   	</div>
   </div>

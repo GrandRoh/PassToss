@@ -1056,7 +1056,7 @@ public class FreeBoardDAO {
 		//select만 필요
 		ResultSet rs = null;
 			
-			String sql = "SELECT b.* FROM( "
+		 String sql = "SELECT b.* FROM( "
 					+ "SELECT "
 					+ "    Board_num, "
 					+ "    LAG(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_prev_num,"

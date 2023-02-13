@@ -305,7 +305,7 @@ public class DeptBoardDAO {
 			con = ds.getConnection();
 			
 			if(field.equals("all")) {
-				if(deptno != 0) {
+				if(deptno != 0) { 
 				sql = " select count(*) "
 					+ " from board_dept "
 					+ " where(board_subject like ? or board_name like ?) "
@@ -320,6 +320,7 @@ public class DeptBoardDAO {
 				 rs = pstmt.executeQuery();
 				 
 				} else if(deptno == 0) {
+					
 					sql = " select count(*) "
 							+ " from board_dept "
 							+ " where(board_subject like ? or board_name like ?) "
@@ -404,7 +405,6 @@ public class DeptBoardDAO {
 			con = ds.getConnection(); 
 			
 			if(field.equals("all")) {
-				
 				  sql = "select * "
 						+ "from(select rownum rnum, j.* "
 						+ "     from(SELECT BOARD_DEPT.*, NVL(CNT,0)CNT "
@@ -415,7 +415,7 @@ public class DeptBoardDAO {
 						+ " 	     ORDER BY BOARD_RE_REF DESC, "
 						+ "	         BOARD_RE_SEQ ASC) j "
 						+ "		where board_notice = 0"
-						+ " 	and(board_subject like ? or board_name like ?)"
+						+ " 	and(BOARD_SUBJECT like ? or BOARD_NAME like ?) "
 						+ "     and rownum <= 3) "
 						+ " where rnum >= 1 and rnum <= 3";
 					
@@ -423,7 +423,7 @@ public class DeptBoardDAO {
 					pstmt.setString(1, "%"+value+"%");
 					pstmt.setString(2, "%"+value+"%");
 					rs = pstmt.executeQuery();
-			  
+			    
 			} else if(!field.equals("all")){
 				   sql = "select * "
 					   + "from(select rownum rnum, j.* "
@@ -542,6 +542,7 @@ public class DeptBoardDAO {
 				pstmt.setInt(6, endrow);
 				rs = pstmt.executeQuery();
 				
+				
 			  } else if(deptno == 0 ) {
 				  sql = "select * "
 							+ "from(select rownum rnum, j.* "
@@ -632,6 +633,8 @@ public class DeptBoardDAO {
 				board.setCnt(rs.getInt("cnt"));
 				board.setBoard_deptno(rs.getInt("board_deptno"));
 				list.add(board); 
+				
+				System.out.println("list board = " + list.size());
 			}
 			
 		}catch(Exception e)
@@ -975,7 +978,7 @@ public class DeptBoardDAO {
 					+ "    Board_num, board_deptno,"
 					+ "    LAG(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_prev_num,"
 					+ "    LEAD(Board_num,1,-1) OVER(ORDER BY Board_num ASC) AS board_next_num "
-					+ "FROM BOARD_dept "
+					+ "FROM BOARD_dept where BOARD_NOTICE = 1 and BOARD_RE_LEV = 0"
 					+ ") b "
 					+ "WHERE b.Board_num = ? "
 					+ "and b.board_deptno = ?" ;
