@@ -2,7 +2,7 @@ function go(page) {
 	const limit = $("#viewcount").val();
 	const category = $("#category_val").val();
 	//const data = `limit=${limit}&state=ajax&page=${page}&category=${category}`;
-	const data = { limit: limit, state: ajax, page: page, category: category }
+	const data = { limit: limit, state: "ajax", page: page, category: category }
 	ajax(data, category);
 }
 
@@ -26,6 +26,7 @@ function setPaging(href, digit) {
 
 
 function ajax(sdata, category) {
+	console.log("ajax(sdata)");
 	console.log(sdata, category);
 
 	$.ajax({
@@ -65,7 +66,6 @@ function ajax(sdata, category) {
 						if (subject.length >= 20) {
 							subject = subject.substr(0, 20) + "...";
 						}
-						console.log("category = " + category);
 						if (category == 0) {
 							output += '<td><div><a class="board_view" href="FreeDetailAction.bof?num=' + item.board_num + '">'
 						} else if (category == 1) {
@@ -75,8 +75,11 @@ function ajax(sdata, category) {
 						output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 							+ '</a>[' + item.cnt + ']</div></td>'
 						output += '<td><div>' + item.board_name + '</td></div>'
+						if(category==1){
+							output += '<td><div>'+item.board_deptno+'</td></div>'
+						}
 						output += '<td><div>' + item.board_date + '</td></div>'
-						output += '<td><div>' + item.board_readcount + '</td></div></td>'
+						output += '<td><div>' + item.board_readcount + '</td></div>'
 
 					}//function(index,item)
 				); //each
@@ -111,6 +114,7 @@ function ajax(sdata, category) {
 				output += setPaging(href, digit);
 				$('.pagination').append(output);
 
+               console.log("3");
 
 			} //if(data.listcount > 0)
 

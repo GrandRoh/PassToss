@@ -58,8 +58,8 @@ public class AdminBoardListAction implements Action {
 			}
 		} else {
 			index = Integer.parseInt(request.getParameter("search_field"));
-			if (category_index == 0) {				
-				search_word = request.getParameter("search_word");
+			search_word = request.getParameter("search_word");
+			if (category_index == 0) {								
 				listcount = dao.getListCount(search_field[index], search_word, boardtable[category_index]);
 				boardlist = dao.getfreeBoardList(search_field[index], search_word, page, limit);
 			} else if (category_index == 1) {

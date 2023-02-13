@@ -11,62 +11,64 @@
 <body>
 	<input type="hidden" id="search_field" value="${search_field}">
 	<div class='container box_radius15 board_container'>
+	<input type="hidden" id="category_val" value="${category_index}">
 		<div class="category">
+			<div>CATEGORY</div>
 			<ul class="menu">
 				<li><a href="AdminMemberList.net?category=0"
-					class="authority-0">준회원 명단</a></li>
+					class="authority">준회원 명단</a></li>
 				<li><a href="AdminMemberList.net?category=1"
-					class="authority-1">정회원 명단</a></li>
+					class="authority">정회원 명단</a></li>
 			</ul>
 		</div>
 		<div class="content">
-			<c:if test="${listcount == 0 && !empty search_word}">
-			<table class="table">
-					<thead>
-						<tr>
-							<th><input type="checkbox" id="selectAll"></input></th>
-							<th>번호</th>
-							<th>id</th>
-							<th>이름</th>
-							<th>부서번호</th>
-							<th>가입일자</th>
-						</tr>
-					</thead>
-			</table>
-				<h3>검색결과가 없습니다.</h3>
-			</c:if>
-			<c:if test="${listcount == 0 && empty search_word}">
-			<table class="table">
-					<thead>
-						<tr>
-							<th><input type="checkbox" id="selectAll"></input></th>
-							<th>번호</th>
-							<th>id</th>
-							<th>이름</th>
-							<th>부서번호</th>
-							<th>가입일자</th>
-						</tr>
-					</thead>
-			</table>				
-				<h3>회원이 없습니다.</h3>
-			</c:if>
-			<c:if test="${listcount > 0}">
-				<div>${category}명단<span class="count">| 가입인원 :
-						${listcount}</span>
-				</div>
-				<div class="dropdown">
-					<img src="image/more.png" class="btn btn-sm dropdown-toggle more"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<ul class="dropdown-menu">
-						<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
-						<li><form action="AdminDelete.net" method="post" id="delete">
-								<input type="submit" class="dropdown-item delete" value="삭제">
-							</form></li>
-					</ul>
-				</div>
-
+			<c:if test="${listcount == 0}">
 				<table class="table">
 					<thead>
+						<tr>
+							<th colspan="6">${category}명단 <span class="count">|
+									가입인원 : ${listcount}</span></th>
+						</tr>
+						<tr>
+							<th><input type="checkbox" id="selectAll"></input></th>
+							<th>번호</th>
+							<th>id</th>
+							<th>이름</th>
+							<th>부서번호</th>
+							<th>가입일자</th>
+						</tr>
+					</thead>
+				</table>
+				<c:if test="${!empty search_word}">
+					<c:set var="result" value="검색결과가 없습니다."></c:set>
+				</c:if>
+				<c:if test="${empty search_word}">
+					<c:set var="result" value="회원이 없습니다."></c:set>
+				</c:if>
+				<h3 style="text-align:center">${result}</h3>
+			</c:if>
+			
+			<c:if test="${listcount > 0}">
+				<table class="table">
+					<thead>
+						<tr>
+							<th colspan="5">${category}명단 <span class="count">|
+									가입인원 : ${listcount}</span></th>
+							<th>
+								<div class="dropdown">
+									<img src="image/more.png"
+										class="btn btn-sm dropdown-toggle more" role="button"
+										data-bs-toggle="dropdown" aria-expanded="false">
+									<ul class="dropdown-menu">
+										<li><button type="button" class="dropdown-item authorize">권한수정</button></li>
+										<li><form action="AdminDelete.net" method="post"
+												id="delete">
+												<input type="submit" class="dropdown-item delete" value="삭제">
+											</form></li>
+									</ul>
+								</div>
+							</th>
+						</tr>
 						<tr>
 							<th><input type="checkbox" id="selectAll"></input></th>
 							<th>번호</th>
@@ -78,8 +80,8 @@
 					</thead>
 					<tbody>
 						<c:set var="num" value="${listcount-(page-1)*limit}" />
-						<c:forEach var="m" items="${joinlist}">
-							<tr>
+						<c:forEach var="m" items="${joinlist}">						
+							<tr class="line">
 								<td><input type="checkbox" class="select" value="${m.id}"></td>
 								<td><c:out value="${num}" /> <c:set var="num"
 										value="${num - 1}" /></td>
@@ -95,7 +97,7 @@
 				</table>
 
 				<form action="AdminMemberList.net?category=${category_index}"
-					method="post">
+					method="post" id="search">
 					<div class="input-group">
 						<select id="select_value" name="search_field">
 							<option value="0" selected>id</option>
@@ -103,7 +105,7 @@
 							<option value="2">부서번호</option>
 						</select> <input name="search_word" type="text" class="form-control"
 							placeholder="검색어를 입력하세요" value="${search_word}">
-						<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
+						<button class="btn btn-dark" type="submit" name="searchbutton">검색</button>
 					</div>
 				</form>
 

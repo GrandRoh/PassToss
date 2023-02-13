@@ -1,8 +1,9 @@
 function go(page) {
 	const limit = $("#viewcount").val();
+	const category = $("#category_val").val();
 	//const data = `limit=${limit}&state=ajax&page=${page}`;
-	const data = {limit:limit,state:ajax,page:page}
-	ajax(data);
+	const data = {limit:limit,state:"ajax",page:page, category:category}
+	ajax(data, category);
 }
 
 function setPaging(href, digit) {
@@ -24,8 +25,8 @@ function setPaging(href, digit) {
 }
 
 
-function ajax(sdata) {
-	console.log(sdata);
+function ajax(sdata, category) {
+	console.log(sdata, category);
 
 	$.ajax({
 		type: "POST",
@@ -35,7 +36,6 @@ function ajax(sdata) {
 		cache: false,
 		success: function(data) {
 			$("#viewcount").val(data.limit);
-
 			$("thead").find("span").text("글 개수 : " + data.listcount)
 
 			if (data.listcount > 0) {
@@ -49,29 +49,24 @@ function ajax(sdata) {
 						output += '<tr><td><input type="checkbox" class="select" value="'+ item.board_num +'"></td>'
 						output += '<td>' + (num--) + '</td>'
 
-						const blank_count = item.board_re_lev * 2 + 1;
-						let blank = "&nbsp;";
-						for (let i = 0; i < blank_count; i++) {
-							blank += '&nbsp;&nbsp;'
-						}
-
-						let img = "";
-						if (item.board_re_lev > 0) {
-							img = "<img src='image/reply.png' style='width: 30px; height: 30px'>";
-						}
-
 						let subject = item.board_subject;
 						if (subject.length >= 20) {
 							subject = subject.substr(0, 20) + "...";
 						}
-												
-						output += "<td><div>" + blank + img
-						output += ' <a href="BoardDetailAction.bo?num=' + item.board_num + '">'
+						if (category == 0) {
+							output += '<td><div><a class="board_view" href="FreeDetailAction.bof?num=' + item.board_num + '">'
+						} else if (category == 1) {
+							output += '<td><div><a class="board_view" href="DeptDetailAction.bof?num=' + item.board_num + '">'
+						}
+						
 						output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 							+ '</a>[' + item.cnt + ']</div></td>'
 						output += '<td><div>' + item.board_name + '</td></div>'
+						if(category==1){
+							output += '<td><div>'+item.board_deptno+'</td></div>'
+						}
 						output += '<td><div>' + item.board_date + '</td></div>'
-						output += '<td><div>' + item.board_readcount + '</td></div></td>'
+						output += '<td><div>' + item.board_readcount + '</td></div>'
 
 					}//function(index,item)
 				); //each

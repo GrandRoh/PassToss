@@ -8,6 +8,12 @@ $(function() {
 
 	console.log(selectedValue)
 
+	if ($("#category_val").val() == 0) {
+		$(".category li").eq(0).addClass('active');
+	} else if ($("#category_val").val() == 1) {
+		$(".category li").eq(1).addClass('active');
+	}
+
 	const message = ["아이디", "이름", "부서번호"];
 	$("input").attr("placeholder", message[selectedValue] + " 입력하세요");
 
@@ -38,10 +44,21 @@ $(function() {
 	}) //$("#viewcount").change
 
 	$("#selectAll").click(function() {//전체 체크
-		if ($(this).is(":checked"))
+		if ($(this).is(":checked")) {
 			$(".select").prop("checked", true);
-		else
+		} else {
 			$(".select").prop("checked", false);
+		}
+	})
+
+	$(".line").each(function() {
+		$(this).click(function() {
+			if (!$(this).find(".select").is(":checked")) {
+				$(this).find(".select").prop("checked", true);				
+			} else {
+				$(this).find(".select").prop("checked", false);
+			}
+		})
 	})
 
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사

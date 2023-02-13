@@ -23,13 +23,20 @@
 				<c:if test="${listcount == 0}">
 					<table class="table">
 						<thead>
+							<c:if test="${category_index == 0}">
+								<c:set var="col" value="7" />
+							</c:if>
+							<c:if test="${category_index == 1}">
+								<c:set var="col" value="8" />
+							</c:if>
 							<tr>
-								<th colspan="4">마이페이지 - ${category} <span class="count">|글
-										개수 : ${listcount}</span></th>
+								<th colspan="${col}">마이페이지 - ${category} <span
+									class="count">|글 개수 : ${listcount}</span></th>
 							</tr>
 							<tr>
 								<th><input type="checkbox" class="selectAll"></th>
 								<th><div>번호</div></th>
+								<th><div>말머리</div></th>
 								<th><div>제목</div></th>
 								<th><div>작성자</div></th>
 								<c:if test="${category_index == 1}">
@@ -47,35 +54,25 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th colspan="4">마이페이지 - ${category} <span class="count">|글
-									개수 : ${listcount}</span></th>
-
-							<c:choose>
-								<c:when test="${category_index == 0}">
-									<th colspan="2">
-										<div class="rows">
-											<select class="form-control" id="viewcount">
-												<option value="5">5개씩</option>
-												<option value="10" selected>10개씩</option>
-												<option value="15">15개씩</option>
-												<option value="20">20개씩</option>
-											</select>
-										</div>
-									</th>
-								</c:when>
-								<c:when test="${category_index == 1}">
-									<th colspan="3">
-										<div class="rows">
-											<select class="form-control" id="viewcount">
-												<option value="5">5개씩</option>
-												<option value="10" selected>10개씩</option>
-												<option value="15">15개씩</option>
-												<option value="20">20개씩</option>
-											</select>
-										</div>
-									</th>
-								</c:when>
-							</c:choose>
+							<c:if test="${category_index == 0}">
+								<c:set var="col" value="5" />
+							</c:if>
+							<c:if test="${category_index == 1}">
+								<c:set var="col" value="6" />
+							</c:if>
+							<th colspan="${col}">마이페이지 - ${category} <span class="count">|글
+										개수 : ${listcount}</span></th>
+							<th>
+								<div class="rows">
+									<select class="form-control" id="viewcount">
+										<option value="1">1개씩</option>
+										<option value="5">5개씩</option>
+										<option value="10" selected>10개씩</option>
+										<option value="15">15개씩</option>
+										<option value="20">20개씩</option>
+									</select>
+								</div>
+							</th>
 							<th>
 								<form class="delete" action="memberBoardDelete.net"
 									method="post">
@@ -87,7 +84,7 @@
 						<tr>
 							<th><input type="checkbox" class="selectAll"></th>
 							<th><div>번호</div></th>
-							<th>말머리</th>
+							<th><div>말머리</div></th>
 							<th><div>제목</div></th>
 							<th><div>작성자</div></th>
 							<c:if test="${category_index == 1}">
