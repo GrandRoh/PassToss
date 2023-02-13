@@ -34,7 +34,7 @@ public class MemberUpdateProcessAction implements Action {
 		//실제 저장 경로 지정
 		ServletContext sc = request.getServletContext();
 		realFolder = sc.getRealPath(saveFolder);
-		System.out.println("realFolder = " + realFolder);
+		//System.out.println("realFolder = " + realFolder);
 		try {
 			MultipartRequest multi = new MultipartRequest(
 					request, 

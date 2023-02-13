@@ -68,10 +68,10 @@
 	      <input type="text" value='' name="address" id="address">
      
      		<div class='form-group'>
-				<label >
+				<label for="board_file">
 					파일 첨부
-					<img src="image/attach.png" alt="파일첨부">
-					<input type="file" id="upfile" name="board_file">
+					<img src="image/attach.png" alt="파일첨부" >
+					<input type="file" id=board_file name="board_file" style='display:none'>
 				</label>
 				<span id="filevalue"></span>
 			
@@ -89,3 +89,33 @@
 
 </body>
 </html>
+
+<script>
+	
+	$('#board_file').change(function(e){
+	
+			const inputfile  = $(this).val().split('\\');
+			const filename = inputfile[inputfile.length - 1];
+			
+			const pattern = /(gif|jpg|jpeg|png)$/i ; 
+			
+			if(pattern.test(filename)){
+				$("#filename").text(filename);
+				const reader = new FileReader(); 
+				
+				reader.readAsDataURL(e.target.files[0]);
+				reader.onload=function(){ 
+					$("#filevalue").append("<img src='"+ this.result+"'>")
+		
+				}
+			
+			}else{
+				alert('이미지 파일이 아닌 경우 무시됩니다.')
+				$("#filename").text("");
+				$(this).val('');
+				
+			}
+	
+	})
+
+</script>
