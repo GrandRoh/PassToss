@@ -21,10 +21,9 @@
 	
 	#upfile{display:none}
 	
-	img{
+	img.fileimg{
 	  width:20px;
-	  left-margin : 10px;	
-	  margin: 10;
+	  margin-left : 10px;	
 	}
 	
 	#board_content{
@@ -41,13 +40,20 @@
 	
 	.cancel{
 	  padding: 0.275rem 0.75rem;
-	  border-color: black;
+	  border-color:#b6b2b2;
+      border-radius: 1;
+      margin: 5;
+	}
+	
+	.cancel:hover {
+	  padding: 0.275rem 0.75rem;
+	  border-color:#585a5c;
       border-radius: 1;
       margin: 5;
 	}
 	
 	.container {
-	width: 70%
+	 width: 70%
 	}
 	
 	textarea{
@@ -55,7 +61,17 @@
 	}
 	
 	h3{
-	  font-weight: lighter;
+	  font-weight: bold;
+	  padding : 10;
+	}
+	
+	div.form-group{
+		padding : 5;
+	}
+	
+	div.write-box{
+		border : solid 1px silver;
+		margin : 3px;
 	}
 </style>
 </head>
@@ -79,6 +95,7 @@
 			
     	</div>
     	
+    	<div class="write-box">
     	<div class="form-group">
     		<label for="board_subject"></label>
     		<input name="board_subject" id="board_subject" maxlength="100"
@@ -87,7 +104,7 @@
     	</div>
     	<div class="form-group">
     		<label>
-    		 	<img src = "image/file.png" alt="파일첨부">
+    		 	<img src ="image/file.png" alt="파일첨부" class="fileimg">
     			<input type="file" id="upfile" name="board_file">
     		</label>
     		<span id="filevalue"></span>
@@ -97,6 +114,7 @@
     		<textarea name="board_content" id="board_content" rows="10"
     			   class="form-control" placeholder="내용을 입력하세요"></textarea>
     	</div>
+       </div>
     	<div class="form-group">
     		<button type=submit class="btn btn-dark submit" style="float: right">등록</button>
     		<button type=reset class="btn btn-light cancel" onClick="history.go(-1)">취소</button>
