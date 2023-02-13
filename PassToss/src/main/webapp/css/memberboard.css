@@ -10,7 +10,7 @@ thead>tr>th:nth-child(1){
 	font-size:15px;
 }
 #viewcount {
-	width: 50px;
+	width:80px;
 	text-align: center;
 }
 
@@ -73,7 +73,4 @@ a {
 .rows{
 	float:right;
 	
-}
-#viewcount{
-	width:80px;
 }

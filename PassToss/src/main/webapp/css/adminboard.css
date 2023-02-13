@@ -1,21 +1,50 @@
+.content{
+	border:1px solid lightgray;
+	padding:10px;
+}
+
+thead>tr>th:nth-child(1){
+	font-size:30px;
+}
+.count{
+	font-size:15px;
+}
 #viewcount {
-	width: 50px;
+	width:80px;
 	text-align: center;
 }
 
-.title {
-	font-size: 50px;
+a {
+	text-decoration: none;
+}
+
+.category {
+	float: right;
+	margin-right:3rem;
+	border: 1px solid lightgray;
+	padding:50px 30px 50px 30px;
 }
 
 .category>a {
 	width: 200px;
 	height: 100px;
-	margin-bottom: 10px;
-	padding: 10px 20px 10px 20px;
-	background: #212529;
-	color: white;
-	text-decoration: none;
-	font-size: 30px;
+	font-size: 20px;
+}
+.menu{
+	list-style:none;
+	padding-left:0;
+}
+.menu > list{
+	text-align:start;
+}
+
+.board_view {
+	color: black;
+}
+
+.board_view:hover {
+	opacity: 0.7;
+	color: red;
 }
 
 .category>a:hover {
@@ -26,7 +55,21 @@
 	float: right;
 }
 
-.delete > input {
+.delete>input {
 	width: 40px;
 	height: 40px;
+}
+
+#search {
+	float: right;
+	width: 300px;
+	vertical-align: top;
+}
+
+.content {
+	display: inline-block;
+	width:80%;
+}
+.rows{
+	float:right;	
 }
