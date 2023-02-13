@@ -12,7 +12,7 @@
 <title>회원정보 변경</title>
 
 <style>
-	img {width:20px}
+	.form-group img {width:20px}
 	input:read-only {background-color: #eee;}  
 </style>
  <link rel='stylesheet' href="${pageContext.request.contextPath}/css/join.css">
@@ -33,7 +33,7 @@
 	
 	
 		      <b><label for="name">이름</label></b>
-		      <input type="text" name="name" placeholder ="enter name" value="${memberinfo.name }" required>
+		      <input type="text" name="name" placeholder ="enter name" value="${memberinfo.name}" required>
 		      
 		      
 		      
@@ -63,14 +63,31 @@
 			      <input type="text"  name="address" id="address" value="${memberinfo.address }">
 		     
 		     		<div class='form-group'>
-		     			<input type="hidden" name="check" value="${memberinfo.profileImg}">
-						<label >
-							파일 첨부
+						<label for="member_file">
 							<img src="image/attach.png" alt="파일첨부">
-							<input type="file" id="upfile" name="member_file">
+							프로필 사진
+							<span id="filename">${memberinfo.profileImg }</span>
+				     		
+				     		<span id="showImage">
+				     		
+				     			<c:if test="${empty memberinfo.profileImg }">
+				     				<c:set var ='src' value='image/delete.png'/>
+				     			</c:if>
+				     			
+				     			<c:if test="${!empty memberinfo.profileImg }">
+				     				<c:set var ='src' value='memberupload/${memberinfo.profileImg}'/>
+				     				<input type="hidden" name="check" value="${memberinfo.profileImg}">
+				     			</c:if>
+				     			<img src="${src}" width="20px" alt="profile">
+				     			
+				     		</span>
+							
+							<input type="file" id="member_file" name="member_file" style='display:none'>
 						</label>
-						<span id="filevalue"></span>
-						<img src="memberupload/${memberinfo.profileImg}">
+						
+						
+						
+				
 					
 					</div>
 		     
@@ -82,3 +99,42 @@
 		     	
 		  </form>
   	</div>
+  	
+  	<script>
+
+  			$('#member_file').change(function(e){
+
+  				const inputfile  = $(this).val().split('\\');
+  				const filename = inputfile[inputfile.length - 1];
+  				
+  				const pattern = /(gif|jpg|jpeg|png)$/i ; 
+  				
+  	
+  				const check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+  				console.log(filename);
+  				if(check.test(filename)){
+  					alert('한글파일명 금지')
+  					$("#filename").text("");
+  					$(this).val('');
+  					$('input[name=check]').val("");
+  					
+  				}else if(pattern.test(filename)){
+  					$("#filename").text(filename);
+  					const reader = new FileReader(); 
+  					
+  					reader.readAsDataURL(e.target.files[0]);
+  					reader.onload=function(){ 
+  						$("#showImage > img ").attr('src',this.result);
+  					}
+  				}else{
+  					alert('이미지 파일이 아닌 경우 무시됩니다.')
+  					$("#filename").text("");
+  					$("#showImage > img ").attr('src',"image/delete.png");
+  					$(this).val('');
+  					$('input[name=check]').val("");
+  					
+  				}
+  		
+  		})
+  
+  	</script>
