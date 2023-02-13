@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -70,7 +71,11 @@ public class MemberUpdateProcessAction implements Action {
 			
 			
 			int result = dao.updateMember(m);
-		
+			Member memberinfo = dao.memberinfo(id);
+			HttpSession session = request.getSession();
+			session.setAttribute("memberinfo", memberinfo);
+			
+			
 			if(result ==0) {
 				System.out.println("변경 실패");
 			
