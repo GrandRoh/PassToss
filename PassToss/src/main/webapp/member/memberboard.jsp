@@ -10,30 +10,53 @@
 </head>
 <body>
 	<div class='container box_radius15 board_container'>
-
-		<div class="header">
-			<span class="title">마이페이지 - ${category}</span> <span class="count">|
-				글 개수 : ${listcount}</span>
-		</div>
-		<br>
+		<div class="category">
+			<ul class="menu">
+				<li><a href="memberBoardList.net?category=0">사내게시판</a></li>
+				<li><a href="memberBoardList.net?category=1">부서게시판</a></li>
+			</ul>
+		</div>		
 		
-			<span class="category"><a
-				href="memberBoardList.net?category=0">사내게시판</a></span>
-			<span class="category"><a
-				href="memberBoardList.net?category=1">부서게시판</a></span>
-		
-		<form class="delete" action="memberBoardDelete.net" method="post">
-			<input type="hidden" name="category" value="${category_index}">
-			<input type="image" src="image/delete.png">			
-		</form>
-
-		<%-- 게시글이 있는 경우 --%>
-		<c:if test="${listcount > 0}">
-			<table class="table table-striped">
-				<thead class="bg-dark text-white thead-dark">
+		<div class="content">
+		<div>
+			<c:if test="${listcount == 0}">
+			<table class="table">
+				<thead>
+					<tr>
+						<th colspan="4">마이페이지 - ${category} <span class="count">|글 개수 : ${listcount}</span></th>
+					</tr>
 					<tr>
 						<th><input type="checkbox" class="selectAll"></th>
 						<th><div>번호</div></th>
+						<th><div>제목</div></th>
+						<th><div>작성자</div></th>
+						<c:if test="${category_index == 1}">
+							<th><div>부서번호</div></th>
+						</c:if>
+						<th><div>작성날짜</div></th>
+						<th><div>조회수</div></th>
+					</tr>
+				</thead>
+			</table>
+			<h3 style="text-align: center">등록된 글이 없습니다.</h3>
+			</c:if>
+		</div>	
+		<c:if test="${listcount > 0}">
+			<table class="table">
+				<thead>
+					<tr>
+						<th colspan="4">마이페이지 - ${category} <span class="count">|글 개수 : ${listcount}</span></th>
+						<th colspan="3">
+							<form class="delete" action="memberBoardDelete.net" method="post">
+								<input type="hidden" name="category" value="${category_index}">
+								<input type="image" src="image/delete.png">
+							</form>	
+						</th>
+					</tr>
+					<tr>
+						<th><input type="checkbox" class="selectAll"></th>
+						<th><div>번호</div></th>
+						<th>말머리</th>
 						<th><div>제목</div></th>
 						<th><div>작성자</div></th>
 						<c:if test="${category_index == 1}">
@@ -55,27 +78,17 @@
 									var="num" value="${num-1}" /> <%-- num = num-1; 의미 --%>
 							</td>
 							<td>
-								<%-- 제목 --%>
+								<c:choose>
+									<c:when test="${b.board_notice == 0}">[공지사항]</c:when>
+									<c:when test="${b.board_re_lev == 0}">[게시물]</c:when>
+									<c:when test="${b.board_re_lev == 1}">[답글]</c:when>
+									<c:when test="${b.board_re_lev == 2}">[답글의 답글]</c:when>
+								</c:choose>
+							</td>
+							<td>
 								<div>
-									<%-- 답변글 제목앞에 여백 처리 부분
-										board_re_lev,, board_num,
-										board_subject, board_name, board_date,
-										board_readcount : property 이름 --%>
-									<c:if test="${b.board_re_lev != 0}">
-										<%-- 답글인 경우 --%>
-										<c:forEach var="a" begin="0" end="${b.board_re_lev*2}"
-											step="1">
-										&nbsp;
-										</c:forEach>
-										<img src='image/reply.png' style="width: 30px; height: 30px">
-									</c:if>
-
-									<c:if test="${b.board_re_lev == 0}">
-										<%-- 원문인 경우 --%>
-										&nbsp;
-									</c:if>
 									<c:if test="${category_index == 0}">
-										<a href="FreeDetailAction.bof?num=${b.board_num}"> <c:if
+										<a class="board_view" href="FreeDetailAction.bof?num=${b.board_num}"> <c:if
 												test="${b.board_subject.length()>=20}">
 												<c:out value="${b.board_subject.substring(0,20)}..." />
 											</c:if> <c:if test="${b.board_subject.length()<20}">
@@ -83,13 +96,15 @@
 											</c:if>
 										</a>[${b.cnt}]</c:if>
 									<c:if test="${category_index == 1}">
-										<a href="DeptDetailAction.bof?num=${b.board_num}"> <c:if
-												test="${b.board_subject.length()>=20}">
+										<a class="board_view" href="DeptDetailAction.bof?num=${b.board_num}"> 
+											<c:if test="${b.board_subject.length()>=20}">
 												<c:out value="${b.board_subject.substring(0,20)}..." />
-											</c:if> <c:if test="${b.board_subject.length()<20}">
+											</c:if> 
+											<c:if test="${b.board_subject.length()<20}">
 												<c:out value="${b.board_subject}" />
 											</c:if>
-										</a>[${b.cnt}]</c:if>
+										</a>[${b.cnt}]
+									</c:if>
 								</div>
 							</td>
 							<td><div>${b.board_name}</div></td>
@@ -101,18 +116,8 @@
 						</tr>
 					</c:forEach>
 				</tbody>
-			</table>
-
-			<div class="rows">
-				<span>줄보기</span> <select class="form-control" id="viewcount">
-					<option value="1">1</option>
-					<option value="3">3</option>
-					<option value="5">5</option>
-					<option value="7">7</option>
-					<option value="10" selected>10</option>
-				</select>
-			</div>
-
+			</table>			
+			
 			<form action="memberBoardList.net?category=${category_index}"
 				method="post" id="search">
 				<div class="input-group">
@@ -121,6 +126,16 @@
 					<button class="btn btn-primary" type="submit" name="searchbutton">검색</button>
 				</div>
 			</form>
+						
+			<div class="rows">
+				<span>줄보기</span> <select class="form-control" id="viewcount">
+					<option value="1">1</option>
+					<option value="3">3</option>
+					<option value="5">5</option>
+					<option value="7">7</option>
+					<option value="10" selected>10</option>
+				</select>
+			</div>			
 
 			<div class="center-block">
 				<ul class="pagination justify-content-center">
@@ -156,27 +171,7 @@
 				</ul>
 			</div>
 		</c:if>
-		<%-- <c:if test="${listcount > 0}"> --%>
-
-		<%-- 게시글이 없는 경우 --%>
-		<c:if test="${listcount == 0}">
-			<table class="table table-striped">
-				<thead class="bg-dark text-white thead-dark">
-					<tr>
-						<th><input type="checkbox" class="selectAll"></th>
-						<th><div>번호</div></th>
-						<th><div>제목</div></th>
-						<th><div>작성자</div></th>
-						<c:if test="${category_index == 1}">
-							<td><div>부서번호</div></td>
-						</c:if>
-						<th><div>작성날짜</div></th>
-						<th><div>조회수</div></th>
-					</tr>
-				</thead>
-			</table>
-			<h3 style="text-align: center">등록된 글이 없습니다.</h3>
-		</c:if>
+		</div>		
 	</div>
 </body>
 </html>

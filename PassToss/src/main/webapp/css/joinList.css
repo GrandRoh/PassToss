@@ -1,17 +1,18 @@
-.title, .count {
-	display: inline-block;
+h3{text-align:center;}
+.content > .dropdown{
+	float:right;
 }
-
-.title {
-	font-size: 30px;
-	margin-left: 10px;
+.more{
+	width:40px;
+	height:30px;
+	
 }
-
-body {
-	background: #e2e2e2;
-	min-width: 1400;
+.more:hover{
+	opacity:0.7;
 }
-
+.category{
+	float:right;
+}
 select {
 	color: #495057;
 	background-color: #fff;
@@ -21,25 +22,6 @@ select {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	outline: none;
 }
-
-.dropdown {
-	display: inline-block;
-	margin-left: 700px;
-}
-
-.input-group {
-	margin-bottom: 2em;
-}
-
-h1 {
-	text-align: center;
-	display: block;
-}
-
-.header {
-	margin: 0 auto
-}
-
 .content {
 	width: 80%
 }

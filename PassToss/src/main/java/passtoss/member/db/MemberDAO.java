@@ -733,19 +733,11 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int x = 0;
-		String sql = "";
 		try {
 			conn = ds.getConnection();
 			
-			if (id.equals("admin")) {
-				sql = "select count(*) from " + table 
+			String sql = "select count(*) from " + table 
 					+ " where board_name = ?";
-				System.out.println("admin실행");
-			} else {
-				sql = "select count(*) from " + table 
-					+ " where board_name = ? and board_notice = 1";
-				System.out.println("else");
-			}
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -787,18 +779,11 @@ public class MemberDAO {
 		int x = 0;
 		try {
 			conn = ds.getConnection();
-			String sql ="";
 			
-			if(id.equals("admin")) {
-				sql = "select count(*) from " + table 
+			
+			String sql = "select count(*) from " + table 
 						+ " where " + field + " like ? "
-						+ "and board_name = ?";
-			}else {
-				sql = "select count(*) from " + table 
-						+ " where " + field + " like ? "
-						+ "and board_name = ? "
-						+ "and board_notice = 1";
-			}			 
+						+ "and board_name = ?";						 
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + word + "%");
@@ -869,6 +854,7 @@ public class MemberDAO {
 				Board board = new Board();
 				board.setBoard_num(rs.getInt("board_num"));
 				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_notice(rs.getInt("board_notice"));
 				board.setBoard_subject(rs.getString("board_subject"));
 				board.setBoard_re_ref(rs.getInt("board_re_ref"));
 				board.setBoard_re_lev(rs.getInt("board_re_lev"));
@@ -908,9 +894,8 @@ public class MemberDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql ="";
-		if(id.equals("admin")) {
-			sql = "select *"
+		
+		String sql = "select *"
 				+ "	from(select rownum rnum, j.*"
 				+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
 				+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
@@ -923,22 +908,6 @@ public class MemberDAO {
 				+ "		 and "+ field + " like ?"
 				+ "      and rownum <= ?)"
 				+ " where rnum between ? and ?";
-		}else {
-			sql = "select *"
-				+ "	from(select rownum rnum, j.*"
-				+ "      from(SELECT board_free.*, NVL(CNT,0)CNT"
-				+ "     	  FROM board_free LEFT OUTER JOIN (SELECT COMMENT_BOARD_NUM,COUNT(*)CNT"
-				+ "				 	           		       	   FROM comment_free"
-				+ "				 	          		       	   GROUP BY COMMENT_BOARD_NUM)"
-				+ "	      	  ON BOARD_NUM = COMMENT_BOARD_NUM"
-				+ " 	      ORDER BY BOARD_RE_REF DESC,"
-				+ "	      	  BOARD_RE_SEQ ASC) j"
-				+ "	 	 where board_notice = 1"
-				+ "	 	 and board_name = ?"
-				+ "		 and "+ field + " like ?"
-				+ "      and rownum <= ?)"
-				+ " where rnum between ? and ?";
-		}	
 
 		List<Board> list = new ArrayList<Board>();
 
@@ -958,6 +927,7 @@ public class MemberDAO {
 				Board board = new Board();
 				board.setBoard_num(rs.getInt("board_num"));
 				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_notice(rs.getInt("board_notice"));
 				board.setBoard_subject(rs.getString("board_subject"));
 				board.setBoard_re_ref(rs.getInt("board_re_ref"));
 				board.setBoard_re_lev(rs.getInt("board_re_lev"));
@@ -1027,6 +997,7 @@ public class MemberDAO {
 				Board board = new Board();
 				board.setBoard_num(rs.getInt("board_num"));
 				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_notice(rs.getInt("board_notice"));
 				board.setBoard_subject(rs.getString("board_subject"));
 				board.setBoard_re_ref(rs.getInt("board_re_ref"));
 				board.setBoard_re_lev(rs.getInt("board_re_lev"));
@@ -1100,6 +1071,7 @@ public class MemberDAO {
 				Board board = new Board();
 				board.setBoard_num(rs.getInt("board_num"));
 				board.setBoard_name(rs.getString("board_name"));
+				board.setBoard_notice(rs.getInt("board_notice"));
 				board.setBoard_subject(rs.getString("board_subject"));
 				board.setBoard_re_ref(rs.getInt("board_re_ref"));
 				board.setBoard_re_lev(rs.getInt("board_re_lev"));
