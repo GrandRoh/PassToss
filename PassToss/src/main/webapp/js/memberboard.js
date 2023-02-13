@@ -1,8 +1,9 @@
 function go(page) {
 	const limit = $("#viewcount").val();
-	const data = `limit=${limit}&state=ajax&page=${page}`;
-	//const data = {limit:limit,state:"ajax",page="page"}
-	ajax(data);
+	const category = $("#category_val").val();
+	//const data = `limit=${limit}&state=ajax&page=${page}&category=${category}`;
+	const data = { limit: limit, state: ajax, page: page, category: category }
+	ajax(data, category);
 }
 
 function setPaging(href, digit) {
@@ -24,8 +25,8 @@ function setPaging(href, digit) {
 }
 
 
-function ajax(sdata) {
-	console.log(sdata);
+function ajax(sdata, category) {
+	console.log(sdata, category);
 
 	$.ajax({
 		type: "POST",
@@ -35,7 +36,6 @@ function ajax(sdata) {
 		cache: false,
 		success: function(data) {
 			$("#viewcount").val(data.limit);
-
 			$("thead").find("span").text("글 개수 : " + data.listcount)
 
 			if (data.listcount > 0) {
@@ -45,28 +45,33 @@ function ajax(sdata) {
 				let output = "<tbody>";
 				$(data.boardlist).each(
 					function(index, item) {
-						
-						output += '<tr><td><input type="checkbox" class="select" value="'+ item.board_num +'"></td>'
+
+						output += '<tr><td><input type="checkbox" class="select" value="' + item.board_num + '"></td>'
 						output += '<td>' + (num--) + '</td>'
-
-						const blank_count = item.board_re_lev * 2 + 1;
-						let blank = "&nbsp;";
-						for (let i = 0; i < blank_count; i++) {
-							blank += '&nbsp;&nbsp;'
+						output += '<td>'
+						console.log('notice = ' + item.board_notice + ' re_lev = ' + item.board_re_lev);
+						if (item.board_notice == 0) {
+							output += '[공지사항]'
+						} else if (item.board_re_lev == 0) {
+							output += '[게시물]'
+						} else if (item.board_re_lev == 1) {
+							output += '[답글]'
+						} else if (item.board_re_lev == 2) {
+							output += '[답글]'
 						}
-
-						let img = "";
-						if (item.board_re_lev > 0) {
-							img = "<img src='image/reply.png' style='width: 30px; height: 30px'>";
-						}
+						output += '</td>'
 
 						let subject = item.board_subject;
 						if (subject.length >= 20) {
 							subject = subject.substr(0, 20) + "...";
 						}
-												
-						output += "<td><div>" + blank + img
-						output += ' <a href="BoardDetailAction.bo?num=' + item.board_num + '">'
+						console.log("category = " + category);
+						if (category == 0) {
+							output += '<td><div><a class="board_view" href="FreeDetailAction.bof?num=' + item.board_num + '">'
+						} else if (category == 1) {
+							output += '<td><div><a class="board_view" href="DeptDetailAction.bof?num=' + item.board_num + '">'
+						}
+
 						output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 							+ '</a>[' + item.cnt + ']</div></td>'
 						output += '<td><div>' + item.board_name + '</td></div>'
@@ -123,8 +128,8 @@ function ajax(sdata) {
 $(function() {
 
 	$("#viewcount").change(function() {
-		go(1); //보여줄 페이지를 1페이지로 설정
-
+		console.log("시작");
+		go(1);		
 	})
 
 	$("button[name=searchbutton]").click(function() {
@@ -135,7 +140,7 @@ $(function() {
 			return false;
 		}
 	})//button click
-	
+
 	$(".selectAll").click(function() {//전체 체크
 		if ($(this).is(":checked"))
 			$(".select").prop("checked", true);
