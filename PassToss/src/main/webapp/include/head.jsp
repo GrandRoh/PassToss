@@ -38,7 +38,13 @@
 			<img class='abo gnb_profile_close_btn'   src="image/error.png" width=30px>
 	
 			<div class="center" style='padding-bottom:20px'>
-		  		<img src="memberupload/${profileimg}" width=70px>
+		  		<c:if test="${empty profileimg}">
+				   <img src="image/delete.png" width=30px>
+				 </c:if>
+				
+				<c:if test="${!empty profileimg}">
+				   <img src="memberupload/${profileimg}" width=30px>
+				 </c:if>
 		  	</div>
 		  <div>
 		  	<b>아이디: </b> ${id}
