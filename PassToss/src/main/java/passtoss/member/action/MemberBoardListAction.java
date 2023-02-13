@@ -111,13 +111,15 @@ public class MemberBoardListAction implements Action {
 
 			// 위에서 request로 담았던 것을 JsonObject에 담습니다.
 			JsonObject object = new JsonObject();
+			object.addProperty("category", categorylist[category_index]);
+			object.addProperty("category_index", category_index);
 			object.addProperty("page", page);
 			object.addProperty("maxpage", maxpage);
 			object.addProperty("startpage", startpage);
 			object.addProperty("endpage", endpage);
 			object.addProperty("listcount", listcount);
+			object.addProperty("search_word", search_word);
 			object.addProperty("limit", limit);
-			object.addProperty("category_index", category_index);
 			object.addProperty("id", id);
 
 			// JsonObject에 List 형식을 담을 수 있는 addProperty()가 존재하지 않습니다.
