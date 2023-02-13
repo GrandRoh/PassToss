@@ -1,7 +1,7 @@
 function go(page) {
 	const limit = $("#viewcount").val();
-	const data = `limit=${limit}&state=ajax&page=${page}`;
-	//const data = {limit:limit,state:"ajax",page="page"}
+	//const data = `limit=${limit}&state=ajax&page=${page}`;
+	const data = {limit:limit,state:ajax,page:page}
 	ajax(data);
 }
 
@@ -29,7 +29,7 @@ function ajax(sdata) {
 
 	$.ajax({
 		type: "POST",
-		url: "memberBoardList.net",
+		url: "AdminboardList.net",
 		data: sdata,
 		dataType: "json",
 		cache: false,

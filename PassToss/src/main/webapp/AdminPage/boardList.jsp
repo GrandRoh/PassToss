@@ -37,7 +37,7 @@
 
 		<%-- 게시글이 있는 경우 --%>
 		<c:if test="${listcount > 0}">
-			<table class="table table-striped">
+			<table class="table">
 				<thead class="bg-dark text-white thead-dark">
 					<tr>
 						<th><input type="checkbox" class="selectAll"></th>

@@ -29,7 +29,7 @@ function ajax(sdata) {
 
 	$.ajax({
 		type: "POST",
-		url: "AdminboardList.net",
+		url: "memberBoardList.net",
 		data: sdata,
 		dataType: "json",
 		cache: false,

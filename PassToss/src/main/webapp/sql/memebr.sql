@@ -35,6 +35,7 @@ set authority = 2
 where id='admin'
 
 delete member
+where id='P1234'
 
 insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
 values('admin','1234','Y','560555-1234567',0,'admin@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',2,'',sysdate);
@@ -69,6 +70,8 @@ insert into member (id,password,name,jumin,deptno,email,phone,address,post,autho
 values('N1234','1234','n','560555-2234567',20,'n1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
 insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
 values('O1234','1234','o','560555-1234567',30,'o1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
+insert into member (id,password,name,jumin,deptno,email,phone,address,post,authority,profileImg,joindate) 
+values('P1234','1234','p','560555-1234567',40,'p1234@admin.com','010-0000-0000','경기도 고양시 일산서구','123456',0,'',sysdate);
 
 
 delete dept
