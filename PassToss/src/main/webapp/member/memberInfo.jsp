@@ -109,7 +109,16 @@
   				
   				const pattern = /(gif|jpg|jpeg|png)$/i ; 
   				
-  				if(pattern.test(filename)){
+  	
+  				const check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+  				console.log(filename);
+  				if(check.test(filename)){
+  					alert('한글파일명 금지')
+  					$("#filename").text("");
+  					$(this).val('');
+  					$('input[name=check]').val("");
+  					
+  				}else if(pattern.test(filename)){
   					$("#filename").text(filename);
   					const reader = new FileReader(); 
   					
@@ -117,7 +126,6 @@
   					reader.onload=function(){ 
   						$("#showImage > img ").attr('src',this.result);
   					}
-  				
   				}else{
   					alert('이미지 파일이 아닌 경우 무시됩니다.')
   					$("#filename").text("");

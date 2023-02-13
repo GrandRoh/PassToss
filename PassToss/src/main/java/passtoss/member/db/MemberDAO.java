@@ -648,6 +648,7 @@ public class MemberDAO {
 				m.setAddress(rs.getString("address"));
 				m.setPost(rs.getInt("post"));
 				m.setProfileImg(rs.getString("PROFILEIMG"));
+				System.out.println(rs.getString("PROFILEIMG"));
 				
 			}
 			

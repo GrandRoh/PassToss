@@ -98,8 +98,14 @@
 			const filename = inputfile[inputfile.length - 1];
 			
 			const pattern = /(gif|jpg|jpeg|png)$/i ; 
-			
-			if(pattern.test(filename)){
+			const check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+			if(check.test(filename)){
+					alert('한글파일명 금지')
+					$("#filename").text("");
+					$(this).val('');
+					$('input[name=check]').val("");
+					
+			}else if(pattern.test(filename)){
 				$("#filename").text(filename);
 				const reader = new FileReader(); 
 				
