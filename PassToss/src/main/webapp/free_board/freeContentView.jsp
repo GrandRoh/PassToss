@@ -47,6 +47,7 @@
 	td#sharing{
 		border-color : White;
 		border-bottom : solid 1px Silver;
+		text-align: right;
 	}
 	
 	td.content {
@@ -62,7 +63,7 @@
 	}
 	
 	#board_content:focus {
-  	  outline: none;
+  	   outline: none;
 	}
 	
 	body>div>table>tbody tr:last-child {
