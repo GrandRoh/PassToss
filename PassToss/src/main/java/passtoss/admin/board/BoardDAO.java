@@ -22,7 +22,7 @@ public class BoardDAO {
 			System.out.println("DB 연결 실패 : " + e);
 		}
 	}
-
+//수정 확인
 	public int getListCount(String table) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

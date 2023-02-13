@@ -46,17 +46,23 @@ String title = jo.get("title").toString().replaceAll("\"","");
 String start= jo.get("start").toString().replaceAll("\"","").substring(0,10);
  		
 String end= jo.get("end").toString().replaceAll("\"","").substring(0,10);
+
 System.out.println(title);
 System.out.println(start);
 System.out.println(end);
+
+
 vo.setTitle(title);
 vo.setStart1(start);
 vo.setEnd1(end);
+
 dao.calAdd(vo);
 
 return null;
+
+
 		
-		
+	
 		
 }
 }
