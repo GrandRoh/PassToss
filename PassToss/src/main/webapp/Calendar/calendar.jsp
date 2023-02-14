@@ -274,28 +274,28 @@ html, body {
 	<div id='external-events'
 		style="float: left; width: 15%; padding-right: 30px; padding-left: 20px; margin-top: 100px">
 		<p>
-			<strong>부서명</strong>
+			<strong>일정명</strong>
 		</p>
 
 		<div
 			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: red">Meeting</div>
+			<div class='fc-event-main' style="background-color: red">외부미팅</div>
 		</div>
 		<div
 			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: blue">Conference</div>
+			<div class='fc-event-main' style="background-color: blue">본부회의</div>
 		</div>
 		<div
 			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: green">Marketing</div>
+			<div class='fc-event-main' style="background-color: green">팀 주간회의</div>
 		</div>
 		<div
 			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main' style="background-color: black">Call</div>
+			<div class='fc-event-main' style="background-color: black">Zoom 회의</div>
 		</div>
 		<div
 			class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-			<div class='fc-event-main'>Zoom</div>
+			<div class='fc-event-main'>사내행사</div>
 		</div>
 
 		<p>
