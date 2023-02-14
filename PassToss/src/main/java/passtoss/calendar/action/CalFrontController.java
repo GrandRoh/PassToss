@@ -57,6 +57,10 @@ public class CalFrontController extends HttpServlet {
 			action = new CalDelAction();
 			break;
 			
+		case "/CalUpdate.cal":
+			action = new CalUpdateAction();
+			break;
+			
 		
 
 			

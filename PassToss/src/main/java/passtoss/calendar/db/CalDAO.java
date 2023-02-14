@@ -185,4 +185,67 @@ public class CalDAO {
 	
 		
 	}
+
+	public int calUpdate(CalVO v) {
+		System.out.println("num");
+		
+		Connection con = null;
+        PreparedStatement pstmt = null;
+        int result=0;
+        
+        try {
+ 
+            con =  ds.getConnection();
+            
+            String sql_sql = "update calendar  " 
+            			+ " set start1=?, end1=? "
+            			+ " where num = ? and title=? ";  //
+            pstmt = con.prepareStatement(sql_sql);
+ 
+            
+            pstmt.setString(1, v.getStart1());
+            pstmt.setString(2, v.getEnd1());
+            pstmt.setInt(3, v.getNum());
+         pstmt.setString(4, v.getTitle());
+          
+            
+            result= pstmt.executeUpdate();
+            
+            System.out.println(result);
+            
+            if(result == 1)
+	            System.out.println("수정 완료되었습니다.");
+	         
+	      }catch(Exception e)
+	      {
+	         e.printStackTrace();
+	         System.out.println("update 에러 : " + e);
+	      }
+	      finally
+	      {
+	         
+	         if(pstmt != null) {
+	            try
+	            {
+	               pstmt.close();
+	            }
+	            catch(SQLException e)
+	            {
+	               System.out.println(e.getMessage());
+	            }
+	         }
+	         if(con != null) {
+	            try
+	            {
+	               con.close();      
+	            }
+	            catch(Exception e)
+	            {
+	               System.out.println(e.getMessage());
+	            }
+	         }
+	      }
+	      return result;
+		
+	}
 }
