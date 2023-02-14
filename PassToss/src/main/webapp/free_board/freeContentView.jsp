@@ -184,8 +184,10 @@
   	</div>
   	
   	<div>
+  	   <c:if test="${board.board_re_lev < 2}">
   		<a href="FreeReplyView.bof?num=${board.board_num}">
   		<button class="btn reply">답글쓰기</button></a>
+  		</c:if>
   		
   	    <c:forEach var = 'bnum' items="${board_num_next_prev}">
 	  	 <c:if test="${bnum.board_prev_num != -1}"> 
