@@ -12,6 +12,7 @@
 	<div class='container box_radius15 board_container'>
 		<input type="hidden" id="category_val" value="${category_index}">
 		<div class="category">
+		<div>CATEGORY</div>
 			<ul class="menu">
 				<li><a href="memberBoardList.net?category=0">사내게시판</a></li>
 				<li><a href="memberBoardList.net?category=1">부서게시판</a></li>
@@ -60,8 +61,8 @@
 							<c:if test="${category_index == 1}">
 								<c:set var="col" value="6" />
 							</c:if>
-							<th colspan="${col}">마이페이지 - ${category} <span class="count">|글
-										개수 : ${listcount}</span></th>
+							<th colspan="${col}">${category} 작성글<span class="count">|작성한 글
+										 : ${listcount}개</span></th>
 							<th>
 								<div class="rows">
 									<select class="form-control" id="viewcount">

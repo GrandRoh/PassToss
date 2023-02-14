@@ -51,16 +51,6 @@ $(function() {
 		}
 	})
 
-	$(".line").each(function() {
-		$(this).click(function() {
-			if (!$(this).find(".select").is(":checked")) {
-				$(this).find(".select").prop("checked", true);				
-			} else {
-				$(this).find(".select").prop("checked", false);
-			}
-		})
-	})
-
 	$(".authorize").on("click", function() {//액션-권한수정 유효성검사
 		if (!$(".select").is(":checked")) {
 			alert('권한변경 할 회원을 선택하세요.');
@@ -99,7 +89,14 @@ $(function() {
 			type: 'post',
 			datatype: 'json',
 			success: function(rdata) {
-				$("#idInfoLabel").text(rdata.id + ' 회원정보');
+				let profileImg="";
+				if(rdata.profileImg == null){
+					profileImg = "image/profile.png";
+				}else{
+					profileImg = "memberupload/"+rdata.profileImg;
+				}					
+				
+				$("#idInfoLabel").html('<img src="'+profileImg+'" id="profileImg">&nbsp;'+rdata.id + ' 회원정보');
 
 				let output = "";
 				output += "<table class='table table-bordered'>"
@@ -127,8 +124,10 @@ $(function() {
 		console.log(hidden);
 		output = "";
 		output += "<form action='AdminAccess.net' method='post' id='authorize'>"
-			+ "<label><input type='radio' name='authority' value='0'>준회원</label>"
-			+ "<label><input type='radio' name='authority' value='1'>정회원</label><br>"
+			+ "<ul>"
+			+ "<li><label><input type='radio' name='authority' value='0'>&nbsp;준회원</label></li>"
+			+ "<li><label><input type='radio' name='authority' value='1'>&nbsp;정회원</label></li>"
+			+ "</ul>"
 			+ hidden
 			+ "<button type='submit' class='btn btn-primary' id='authorizebtn'>권한설정</button>"
 			+ '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>'

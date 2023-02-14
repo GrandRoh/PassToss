@@ -130,6 +130,11 @@ function ajax(sdata, category) {
 
 
 $(function() {
+	if ($("#category_val").val() == 0) {
+		$(".category li").eq(0).addClass('active');
+	} else if ($("#category_val").val() == 1) {
+		$(".category li").eq(1).addClass('active');
+	}
 
 	$("#viewcount").change(function() {
 		console.log("시작");

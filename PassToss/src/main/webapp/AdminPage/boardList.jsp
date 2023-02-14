@@ -13,6 +13,7 @@
 		<input type="hidden" id="category_val" value="${category_index}">
 		<input type="hidden" id="search_field" value="${search_field}">
 		<div class="category">
+			<div>CATEGORY</div>
 			<ul class="menu">
 				<li><a href="AdminboardList.net?category=0">사내게시판</a></li>
 				<li><a href="AdminboardList.net?category=1">부서게시판</a></li>
@@ -30,7 +31,7 @@
 							<c:if test="${category_index == 1}">
 								<c:set var="col" value="7" />
 							</c:if>
-							<th colspan="${col}">Admin - ${category} <span class="count">|글
+							<th colspan="${col}">${category} 글목록<span class="count">|글
 									개수 : ${listcount}</span></th>
 						</tr>
 
@@ -59,7 +60,7 @@
 							<c:if test="${category_index == 1}">
 								<c:set var="col" value="5" />
 							</c:if>
-							<th colspan="${col}">Admin - ${category} <span class="count">|글
+							<th colspan="${col}">${category} 글목록<span class="count">|글
 									개수 : ${listcount}</span></th>
 							<th>
 								<div class="rows">
@@ -122,7 +123,7 @@
 										&nbsp;
 									</c:if>
 										<c:if test="${category_index == 0}">
-											<a href="FreeDetailAction.bof?num=${b.board_num}"> <c:if
+											<a href="FreeDetailAction.bof?num=${b.board_num}" class="board_view"> <c:if
 													test="${b.board_subject.length()>=20}">
 													<c:out value="${b.board_subject.substring(0,20)}..." />
 												</c:if> <c:if test="${b.board_subject.length()<20}">
@@ -130,7 +131,7 @@
 												</c:if>
 											</a>[${b.cnt}]</c:if>
 										<c:if test="${category_index == 1}">
-											<a href="DeptDetailAction.bof?num=${b.board_num}"> <c:if
+											<a href="DeptDetailAction.bof?num=${b.board_num}" class="board_view"> <c:if
 													test="${b.board_subject.length()>=20}">
 													<c:out value="${b.board_subject.substring(0,20)}..." />
 												</c:if> <c:if test="${b.board_subject.length()<20}">
@@ -151,7 +152,7 @@
 				</table>
 
 				<form action="AdminboardList.net?category=${category_index}"
-					method="post">
+					method="post" id="search">
 					<div class="input-group">
 						<select id="select_value" name="search_field">
 							<option value="0" selected>제목</option>
