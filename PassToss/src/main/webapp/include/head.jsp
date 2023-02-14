@@ -28,7 +28,7 @@
 	
 </style>
 <div id="gnb_header " class='container' class='rel'>
-	<h2 id='gnb_title' style='font-weight:bold;padding-lefT:20px'>head부분입니다</h2>
+	<h2 id='gnb_title' style='font-weight:bold;padding-lefT:20px'><img src="image/logo.png" width="100px"></h2>
 
 	<div class='head_icon abo'>
 		
