@@ -2,7 +2,7 @@ function go(page) {
 	const limit = $("#viewcount").val();
 	const category = $("#category_val").val();
 	//const data = `limit=${limit}&state=ajax&page=${page}`;
-	const data = {limit:limit,state:"ajax",page:page, category:category}
+	const data = { limit: limit, state: "ajax", page: page, category: category }
 	ajax(data, category);
 }
 
@@ -45,25 +45,39 @@ function ajax(sdata, category) {
 				let output = "<tbody>";
 				$(data.boardlist).each(
 					function(index, item) {
-						
-						output += '<tr><td><input type="checkbox" class="select" value="'+ item.board_num +'"></td>'
+
+						output += '<tr><td><input type="checkbox" class="select" value="' + item.board_num + '"></td>'
 						output += '<td>' + (num--) + '</td>'
 
 						let subject = item.board_subject;
 						if (subject.length >= 20) {
 							subject = subject.substr(0, 20) + "...";
 						}
+
+						const blank_count = item.board_re_lev * 2 + 1;
+						let blank = "&nbsp;";
+						for (let i = 0; i < blank_count; i++) {
+							blank += '&nbsp;&nbsp;'
+						}
+
+						let img = "";
+						if (item.board_re_lev > 0) {
+							img = "<img src='image/reply.png' style='width:30px;height:30px'>";
+						}
+						
+						output += "<td><div>" + blank + img
+						
 						if (category == 0) {
-							output += '<td><div><a class="board_view" href="FreeDetailAction.bof?num=' + item.board_num + '">'
+							output += '<a class="board_view" href="FreeDetailAction.bof?num=' + item.board_num + '">'
 						} else if (category == 1) {
 							output += '<td><div><a class="board_view" href="DeptDetailAction.bof?num=' + item.board_num + '">'
 						}
-						
+
 						output += subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 							+ '</a>[' + item.cnt + ']</div></td>'
 						output += '<td><div>' + item.board_name + '</td></div>'
-						if(category==1){
-							output += '<td><div>'+item.board_deptno+'</td></div>'
+						if (category == 1) {
+							output += '<td><div>' + item.board_deptno + '</td></div>'
 						}
 						output += '<td><div>' + item.board_date + '</td></div>'
 						output += '<td><div>' + item.board_readcount + '</td></div>'
@@ -125,6 +139,12 @@ $(function() {
 
 	console.log(selectedValue)
 
+	if ($("#category_val").val() == 0) {
+		$(".category li").eq(0).addClass('active');
+	} else if ($("#category_val").val() == 1) {
+		$(".category li").eq(1).addClass('active');
+	}
+
 	$("#viewcount").change(function() {
 		go(1); //보여줄 페이지를 1페이지로 설정
 
@@ -147,7 +167,7 @@ $(function() {
 		$("input[name=search_word]").val('');
 		$("input[name=search_word]").attr("placeholder", message[selectedValue] + " 입력하세요");
 	})
-	
+
 	$(".selectAll").click(function() {//전체 체크
 		if ($(this).is(":checked"))
 			$(".select").prop("checked", true);
