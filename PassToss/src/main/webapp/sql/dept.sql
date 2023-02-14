@@ -33,6 +33,8 @@ create table comment_dept(
 	comment_re_seq		number, -- 원문이면 0, 1레벨이면 시퀀스 +1
 	comment_re_ref 		number 	--원문은 자신 글번호, 답글이면 원문 글번호
 	);
+	
+select * from comment_dept;	
 
 create sequence dcom_seq; -- 댓글 
 drop sequence dcom_seq;

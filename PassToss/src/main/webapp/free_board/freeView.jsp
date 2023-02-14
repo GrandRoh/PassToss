@@ -262,7 +262,7 @@
 		
 		<button id="button" type="button"  class="write">글 쓰 기</button>
 		
-		<c:if test="${listcount == 0 && empty search_word}" >
+		<c:if test="${noticelist.size() ==0 && listcount == 0 && empty search_word}" >
 			<div><h1>등록된 글이 없습니다.</h1></div>
 		</c:if>
   		<c:if test="${noticelist.size() ==0 && listcount == 0 && !empty search_word}">
