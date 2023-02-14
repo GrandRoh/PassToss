@@ -65,6 +65,8 @@ html, body {
 	src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.1/index.global.min.js'></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<jsp:include page="../AdminPage/leftMenu.jsp"/>
+<jsp:include page="../include/head.jsp"/>
 <script>
 	var list = []; //DB에서 오는 데이터가 배열이라 배열 생성
 	getlist(); //세미콜론 없어도 됨
@@ -173,7 +175,7 @@ html, body {
 					var obj = new Object();
 
 					obj.num = arg.event._def.extendedProps.num;
-					
+
 					console.log(obj.num)
 					// events.push(obj);
 
@@ -205,7 +207,6 @@ html, body {
 			},
 
 			events : list
-			
 		//결과값 캘린더에 구현
 
 		})
@@ -268,12 +269,12 @@ html, body {
 </head>
 <body>
 
-
+<div class='container box_radius15 board_container'>
 
 	<div id='external-events'
-		style="float: left; width: 10%; padding-right: 30px; padding-left: 20px; margin-top: 100px">
+		style="float: left; width: 15%; padding-right: 30px; padding-left: 20px; margin-top: 100px">
 		<p>
-			<strong>Draggable Events</strong>
+			<strong>부서명</strong>
 		</p>
 
 		<div
@@ -304,7 +305,7 @@ html, body {
 	</div>
 
 
-	<div style="float: left; width: 60%">
+	<div style="float: left; width: 70%">
 		<div
 			style="height: 30px; text-align: center; font-size: 35px; color: gray; margin-bottom: 30px; font-weight: bold">
 			<div style="width: 60%; float: left; text-align: right">
@@ -318,7 +319,7 @@ html, body {
 
 	</div>
 
-
+ </div>
 
 </body>
 
