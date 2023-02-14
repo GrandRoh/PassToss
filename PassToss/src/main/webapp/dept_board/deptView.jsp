@@ -80,6 +80,8 @@
 	<input type="hidden" id="loginid" value="${id}" name="loginid"> <%-- leftMenu에서 저장된 id값 --%>
 	<input type="hidden" id="search_field" value="${search_field}" name="search_field">
 	<input type="hidden" id= "deptno" value="${deptno}" name="deptno">
+	<input type="hidden" id = "authority" value="${authority}" name="authority">
+	<c:if test="${authority > 0}">
 	  <form action="DeptList.bod" method="post">
 			<div class="input-group">
 				<select id="viewcount" name="search_field">
@@ -269,7 +271,11 @@
   		<c:if test="${noticelist.size() ==0 && listcount == 0 && !empty search_word}">
   			<div><h1>검색 결과가 없습니다.</h1></div>
   		</c:if>
-		
+	  </c:if>
+	  
+	  <c:if test="${authority <= 0}">
+	     <div><h1>준회원은 접근할 수 없습니다.</h1></div>
+	  </c:if>
 	</div>
 </body>
 </html>
