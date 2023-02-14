@@ -63,6 +63,7 @@
 	h3{
 	  font-weight: bold;
 	  padding : 10;
+	  text-align : center;
 	}
 	
 	div.form-group{
@@ -73,6 +74,8 @@
 		border : solid 1px silver;
 		margin : 3px;
 	}
+	
+	
 </style>
 </head>
 <body>
@@ -102,7 +105,7 @@
     			   type="text" class="form-control subject"
     			   placeholder="제목을 입력하세요">
     	</div>
-    	<div class="form-group">
+    	<div class="form-group imageline">
     		<label>
     		 	<img src ="image/file.png" alt="파일첨부" class="fileimg">
     			<input type="file" id="upfile" name="board_file">

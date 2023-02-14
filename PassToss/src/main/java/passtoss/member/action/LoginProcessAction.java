@@ -46,6 +46,10 @@ public class LoginProcessAction implements Action {
 			
 			session.setAttribute("deptno", deptno);
 			
+			int authority = dao.getauthority(id);
+			
+			session.setAttribute("authority", authority);
+			
 			String IDstore = request.getParameter("remember");
 			Cookie cookie = new Cookie("id",id);
 		

@@ -63,6 +63,7 @@
 	h3{
 	  font-weight: bold;
 	  padding : 10;
+	  text-align : center;
 	}
 	
 	div.form-group{
