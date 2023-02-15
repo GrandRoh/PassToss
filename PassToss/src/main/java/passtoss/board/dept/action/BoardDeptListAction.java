@@ -54,7 +54,7 @@ public class BoardDeptListAction implements Action{
 		if(request.getParameter("search_word") == null 
 				|| request.getParameter("search_word").equals("")) {
 			listcount = dao.getListCount(deptno);
-			noticelist = dao.getBoardList();
+			noticelist = dao.getBoardList(deptno);
 			boardlist = dao.getBoardList(page, limit, deptno);
 			
 		} else {
@@ -62,7 +62,7 @@ public class BoardDeptListAction implements Action{
 			String[] search_field = new String[] {"all", "board_subject", "board_name"};
 			search_word = request.getParameter("search_word");
 			listcount = dao.getListCount(search_field[index], search_word, deptno);
-			noticelist = dao.getBoardList(search_field[index], search_word);
+			noticelist = dao.getBoardList(search_field[index], search_word, deptno);
 			boardlist = dao.getBoardList(search_field[index], search_word, page, limit, deptno);
 		}
 		

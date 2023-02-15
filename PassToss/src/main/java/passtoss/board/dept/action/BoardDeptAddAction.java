@@ -54,7 +54,12 @@ public class BoardDeptAddAction implements Action{
 			board.setBoard_subject(multi.getParameter("board_subject"));
 			board.setBoard_content(multi.getParameter("board_content"));
 			board.setBoard_name(id);
-			board.setBoard_deptno(deptno);
+			
+			if(!id.equals("admin")) {
+			 board.setBoard_deptno(deptno);
+			} else if(id.equals("admin")) {
+				board.setBoard_deptno(Integer.parseInt(multi.getParameter("board_deptno")));
+			}
 			
 			String filename = multi.getFilesystemName("board_file");
 			board.setBoard_file(filename);

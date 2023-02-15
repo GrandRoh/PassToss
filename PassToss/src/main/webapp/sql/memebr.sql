@@ -91,5 +91,4 @@ values(30, '3팀');
 insert into dept
 values(40, '4팀');
 
-
 select * from dept
