@@ -95,7 +95,15 @@
 				<option value="1" selected>게시물</option>
 			 </select>
 		   </c:if> 
-			
+    	</div>
+    	
+    	<div class="from-group">
+		   <c:if test="${id=='admin'}">
+		     <select id="board_deptno" name="board_deptno">
+				<option value="10">개발팀</option>
+				<option value="20">영업팀</option>
+			 </select>
+		   </c:if> 
     	</div>
     	
     	<div class="write-box">
